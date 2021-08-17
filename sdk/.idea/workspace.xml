@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SPLITTER_PROPORTION" value="0.76301473" />
+    <option name="GROUP_BY_SEVERITY" value="true" />
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7dedbf7c-955d-4e38-9501-653491452060" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../build.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/jcc_rpc_demo.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/src/main/java/Demo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/.~index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/allclasses-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/allclasses-noframe.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/JccJingtum.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/base/JCallback.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/base/class-use/JCallback.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/base/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/base/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/base/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/base/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/class-use/JccJingtum.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Account.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AccountData.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AccountInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AccountOffers.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AccountPropertyInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AccountRelations.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AccountTums.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AccountTx.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AffectedNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/AmountInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/BookOffer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/BookOffers.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/BookTakerPay.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/ErrorMessage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/FinalFields.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/JTAccountInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/JTLedger.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/JTLedgerClosed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/JTServerInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Ledger.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/LedgerClosed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/LedgerDetail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/LedgerInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Line.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Marker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Memo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Meta.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/ModifiedNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Offer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/OfferCancelInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/OfferCreateInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/OrderBook.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/PaymentInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/PreviousFields.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/RelationInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Request.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/ServerInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/TakerGet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/TakerPay.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/TransactionInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/Transactions.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/TxJson.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Account.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AccountData.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AccountInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AccountOffers.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AccountPropertyInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AccountRelations.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AccountTums.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AccountTx.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AffectedNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/AmountInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/BookOffer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/BookOffers.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/BookTakerPay.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/ErrorMessage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/FinalFields.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/JTAccountInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/JTLedger.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/JTLedgerClosed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/JTServerInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Ledger.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/LedgerClosed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/LedgerDetail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/LedgerInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Line.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Marker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Memo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Meta.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/ModifiedNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Offer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/OfferCancelInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/OfferCreateInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/OrderBook.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/PaymentInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/PreviousFields.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/RelationInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Request.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/ServerInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/TakerGet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/TakerPay.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/TransactionInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/Transactions.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/class-use/TxJson.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/client/bean/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/AServerNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/Config.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/RpcNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/class-use/AServerNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/class-use/Config.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/class-use/RpcNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/config/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/FileSTWriter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/STReader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/STWriter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/class-use/FileSTWriter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/class-use/STReader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/class-use/STWriter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/binary/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/SLECache.CacheEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/SLECache.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/class-use/SLECache.CacheEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/class-use/SLECache.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/cache/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/AccountID.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/AccountID.UnknownAlias.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/AccountID.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Amount.PrecisionError.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Amount.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Amount.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Blob.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Blob.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Currency.CurrencyTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Currency.Demurrage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Currency.Type.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Currency.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Flags.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Issue.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/IssuePair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/PathSet.Hop.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/PathSet.Path.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/PathSet.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/PathSet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Quality.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/RippleDate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STArray.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STArray.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STObject.FieldFilter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STObject.FieldsMap.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STObject.FormatException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STObject.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STObject.Translators.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STObject.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/STObjectFormatter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Vector256.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/Vector256.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/AccountID.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/AccountID.UnknownAlias.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/AccountID.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Amount.PrecisionError.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Amount.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Amount.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Blob.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Blob.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Currency.CurrencyTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Currency.Demurrage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Currency.Type.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Currency.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Flags.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Issue.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/IssuePair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/PathSet.Hop.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/PathSet.Path.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/PathSet.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/PathSet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Quality.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/RippleDate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STArray.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STArray.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STObject.FieldFilter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STObject.FieldsMap.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STObject.FormatException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STObject.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STObject.Translators.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STObject.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/STObjectFormatter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Vector256.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/class-use/Vector256.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/HalfSha512.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash.HashTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash128.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash128.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash160.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash160.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash256.Hash256Map.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash256.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Hash256.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/Index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/HalfSha512.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash.HashTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash128.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash128.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash160.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash160.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash256.Hash256Map.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash256.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Hash256.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/class-use/Index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/HashPrefix.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/LedgerSpace.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/Prefix.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/class-use/HashPrefix.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/class-use/LedgerSpace.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/class-use/Prefix.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/hash/prefixes/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/UInt.UINTTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/UInt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/UInt16.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/UInt32.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/UInt64.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/UInt8.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/class-use/UInt.UINTTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/class-use/UInt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/class-use/UInt16.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/class-use/UInt32.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/class-use/UInt64.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/class-use/UInt8.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/coretypes/uint/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/LedgerFlag.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/TransactionFlag.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/class-use/LedgerFlag.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/class-use/TransactionFlag.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/enums/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/AccountIDField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/AmountField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/BlobField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/HasField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/Hash128Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/Hash160Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/Hash256Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/PathSetField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/STArrayField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/STObjectField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/Type.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/UInt16Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/UInt32Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/UInt64Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/UInt8Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/Vector256Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/AccountIDField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/AmountField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/BlobField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/HasField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/Hash128Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/Hash160Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/Hash256Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/PathSetField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/STArrayField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/STObjectField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/Type.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/UInt16Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/UInt32Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/UInt64Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/UInt8Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/class-use/Vector256Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/fields/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/Format.Requirement.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/Format.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/LEFormat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/TxFormat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/class-use/Format.Requirement.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/class-use/Format.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/class-use/LEFormat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/class-use/TxFormat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/formats/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/runtime/Value.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/runtime/class-use/Value.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/runtime/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/runtime/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/runtime/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/runtime/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/BinaryParser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/BinarySerializer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/BytesList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/BytesSink.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/MultiSink.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/SerializedType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/StreamBinaryParser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/StreamSink.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/TypeTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/BinaryParser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/BinarySerializer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/BytesList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/BytesSink.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/MultiSink.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/SerializedType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/StreamBinaryParser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/StreamSink.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/class-use/TypeTranslator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/EngineResult.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/EngineResult.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/LedgerEntryType.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/LedgerEntryType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/TransactionType.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/TransactionType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/class-use/EngineResult.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/class-use/EngineResult.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/class-use/LedgerEntryType.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/class-use/LedgerEntryType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/class-use/TransactionType.Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/class-use/TransactionType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/enums/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/serialized/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/LedgerEntry.OnLedgerEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/LedgerEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/LedgerHashes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/ThreadedLedgerEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/class-use/LedgerEntry.OnLedgerEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/class-use/LedgerEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/class-use/LedgerHashes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/class-use/ThreadedLedgerEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/AccountRoot.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/DirectoryNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/Offer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/OfferDirectory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/RippleState.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/class-use/AccountRoot.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/class-use/DirectoryNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/class-use/Offer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/class-use/OfferDirectory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/class-use/RippleState.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/entries/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/sle/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/Transaction.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/class-use/Transaction.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/AffectedNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/TransactionMeta.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/TransactionResult.Source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/TransactionResult.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/class-use/AffectedNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/class-use/TransactionMeta.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/class-use/TransactionResult.Source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/class-use/TransactionResult.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/result/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/signed/SignedTransaction.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/signed/class-use/SignedTransaction.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/signed/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/signed/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/signed/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/signed/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/AccountSet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/OfferCancel.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/OfferCreate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/Payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/RelationSet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/TicketCancel.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/TicketCreate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/class-use/AccountSet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/class-use/OfferCancel.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/class-use/OfferCreate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/class-use/Payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/class-use/RelationSet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/class-use/TicketCancel.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/class-use/TicketCreate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/known/tx/txns/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/ledger/LedgerHeader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/ledger/class-use/LedgerHeader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/ledger/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/ledger/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/ledger/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/ledger/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/AccountState.QualityIterator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/AccountState.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/AccountStateBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/BytesItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/HashedTreeWalker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/LeafWalker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/LedgerEntryItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/LedgerEntryVisitor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/NodeStore.KeyValueBackend.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/NodeStore.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/PathToIndex.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/ShaMap.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/ShaMapDiff.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/ShaMapInner.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/ShaMapItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/ShaMapLeaf.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/ShaMapNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/TransactionResultItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/TransactionResultVisitor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/TransactionTree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/TreeWalker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/AccountState.QualityIterator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/AccountState.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/AccountStateBuilder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/BytesItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/HashedTreeWalker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/LeafWalker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/LedgerEntryItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/LedgerEntryVisitor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/NodeStore.KeyValueBackend.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/NodeStore.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/PathToIndex.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/ShaMap.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/ShaMapDiff.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/ShaMapInner.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/ShaMapItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/ShaMapLeaf.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/ShaMapNode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/TransactionResultItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/TransactionResultVisitor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/TransactionTree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/class-use/TreeWalker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/core/types/shamap/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/ECDSASignature.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/EDKeyPair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/IKeyPair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/K256KeyPair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/SECP256K1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/Seed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/class-use/ECDSASignature.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/class-use/EDKeyPair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/class-use/IKeyPair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/class-use/K256KeyPair.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/class-use/SECP256K1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/class-use/Seed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/ecdsa/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/sjcljson/JSEscape.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/sjcljson/class-use/JSEscape.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/sjcljson/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/sjcljson/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/sjcljson/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/crypto/sjcljson/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/Amount.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/BalanceData.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/class-use/Amount.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/class-use/BalanceData.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/data/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/B58IdentiferCodecs.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/B58.Decoded.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/B58.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/EncodingFormatException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/class-use/B58.Decoded.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/class-use/B58.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/class-use/EncodingFormatException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/base58/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/class-use/B58IdentiferCodecs.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/B16.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/B64.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/class-use/B16.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/class-use/B64.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/common/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/encoding/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/EncodingFormatException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/RemoteException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/SerializerException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/TransactionException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/class-use/EncodingFormatException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/class-use/RemoteException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/class-use/SerializerException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/class-use/TransactionException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/exceptions/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/http/OkhttpUtil.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/http/class-use/OkhttpUtil.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/http/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/http/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/http/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/http/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/pay/Payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/pay/class-use/Payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/pay/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/pay/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/pay/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/pay/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/BalanceResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/BaseResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/class-use/BalanceResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/class-use/BaseResponse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/res/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/BaseToken.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/TokenItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/class-use/BaseToken.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/class-use/TokenItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/token/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/CheckUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/HashUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/JsCoding.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/JsonUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/LocalSign.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/NameUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/Sha512.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/Utils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/CheckUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/HashUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/JsCoding.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/JsonUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/LocalSign.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/NameUtils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/Sha512.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/class-use/Utils.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/package-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/com/jccdex/rpc/utils/package-use.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/constant-values.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/deprecated-list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/help-doc.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-10.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-11.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-12.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-13.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-14.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-15.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-16.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-17.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-18.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-19.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-20.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-21.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-22.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-23.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-24.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-25.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-4.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-5.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-6.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-7.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-8.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index-files/index-9.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/javadoc.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/options" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/overview-frame.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/overview-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/overview-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/package-list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/packages" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/serialized-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../doc/stylesheet.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="JUnit3 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenRunner">
+    <option name="environmentProperties">
+      <map>
+        <entry key="JAVA_HOME" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectId" id="1puZlvFeDhFipsZ4KTEON437rDm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit3" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3" value="junit.framework.TestCase" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.46989375" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.jccdex.rpc.http" />
+      <recent name="com.jccdex.rpc.config" />
+      <recent name="com.jccdex.rpc.confg" />
+      <recent name="com.jccdex.rpc.explorer" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="junit.framework.TestCase" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.jccdex.rpc" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.jccdex.rpc.config" />
+      <recent name="com.jccdex.swtc.node" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Maven.rpc [package]">
+    <configuration name="CommUtilsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rpc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jccdex.rpc.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jccdex.rpc.api" />
+      <option name="MAIN_CLASS_NAME" value="com.jccdex.rpc.api.CommUtilsTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JccExploreTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rpc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jccdex.rpc.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jccdex.rpc.api" />
+      <option name="MAIN_CLASS_NAME" value="com.jccdex.rpc.api.JccExploreTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JccJingtumTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rpc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jccdex.rpc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jccdex.rpc" />
+      <option name="MAIN_CLASS_NAME" value="com.jccdex.rpc.JccJingtumTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JccdexInfoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rpc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jccdex.rpc.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jccdex.rpc.api" />
+      <option name="MAIN_CLASS_NAME" value="com.jccdex.rpc.api.JccdexInfoTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JccdexUrlTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rpc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jccdex.rpc.url.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.jccdex.rpc.url" />
+      <option name="MAIN_CLASS_NAME" value="com.jccdex.rpc.url.JccdexUrlTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rpc [install]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="rpc [package]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="package" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map>
+                <entry key="DskipTests" value="false" />
+              </map>
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.JccJingtumTest" />
+        <item itemvalue="JUnit.CommUtilsTest" />
+        <item itemvalue="JUnit.JccdexUrlTest" />
+        <item itemvalue="JUnit.JccExploreTest" />
+        <item itemvalue="JUnit.JccdexInfoTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7dedbf7c-955d-4e38-9501-653491452060" name="Default Changelist" comment="" />
+      <created>1616035092380</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616035092380</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/jccdex/rpc/core/fields/Field.java</url>
+          <line>204</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/jccdex/rpc/core/types/known/tx/Transaction.java</url>
+          <line>177</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="Config" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/sdk$JccRpcTest.ic" NAME="JccRpcTest Coverage Results" MODIFIED="1621419106337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.jccdex.rpc.*</FILTER>
+    </SUITE>
+  </component>
+</project>
