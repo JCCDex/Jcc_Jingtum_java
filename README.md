@@ -1,6 +1,7 @@
 # Jcc_Jingtum_java(1.0.0)
-
-## 引用依赖包
+## 介绍
+Jcc_Jingtum_java是java版本的井通联盟链开发包,支持公链和联盟链。
+## 如何引用
 ````java
 <dependency>
     <groupId>io.github.jccdex</groupId>
