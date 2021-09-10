@@ -21,7 +21,7 @@ public class JccJingtumTest extends TestCase {
         rpcNodes.add("http://1.13.2.21:5050");
         rpcNodes.add("http://117.78.44.90:5050");
 
-        jccJingtum = new JccJingtum(100,"SWT","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", rpcNodes);
+        jccJingtum = new JccJingtum(100,"SWT", rpcNodes);
 //        jccJingtum.setPlatform("");
     }
 //
@@ -57,7 +57,7 @@ public class JccJingtumTest extends TestCase {
         System.out.println("in testPayment");
         try {
             long st = System.currentTimeMillis();
-            String ret = jccJingtum.paymentWithCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","test");
+            String ret = jccJingtum.paymentWithCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
             System.out.println(ret);
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
@@ -73,7 +73,7 @@ public class JccJingtumTest extends TestCase {
         System.out.println("in testSafeCreateTx");
         try {
             long st = System.currentTimeMillis();
-            String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","CNY","1","test");
+            String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
             System.out.println(ret);
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
@@ -89,7 +89,7 @@ public class JccJingtumTest extends TestCase {
         System.out.println("in testFastPaymen");
         try {
             long st = System.currentTimeMillis();
-            String ret = jccJingtum.paymentNoCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","test");
+            String ret = jccJingtum.paymentNoCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
             System.out.println(ret);
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
@@ -103,7 +103,7 @@ public class JccJingtumTest extends TestCase {
         System.out.println("in testCreateTx");
         try {
             long st = System.currentTimeMillis();
-            String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","CNY","1","test");
+            String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
             System.out.println(ret);
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);

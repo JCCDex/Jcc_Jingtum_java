@@ -49,14 +49,12 @@ public class JccJingtum {
      * 井通公链、联盟链RPC服务构造函数
      * @param fee 每笔交易燃料费(燃料费计算公式=fee/1000000)
      * @param baseToken 交易燃料手续费通证,也是公链的本币
-     * @param issuer 银关地址
      * @param rpcNodes rpc节点服务器地址列表
      */
-    public JccJingtum(Integer fee, String baseToken, String issuer, ArrayList<String> rpcNodes) {
+    public JccJingtum(Integer fee, String baseToken, ArrayList<String> rpcNodes) {
         this(rpcNodes);
         Config.setFee(fee);
         Config.setCurrency(baseToken);
-        Config.setIssuer(issuer);
     }
 
 
@@ -65,11 +63,10 @@ public class JccJingtum {
      * @param alphabet 字母表，每一条联盟链都可以用不同的或者相同alphabet
      * @param fee 每笔交易燃料费(燃料费计算公式=fee/1000000)
      * @param baseToken 交易燃料手续费通证,也是公链的本币
-     * @param issuer 银关地址
      * @param rpcNodes rpc节点服务器地址列表
      */
-    public JccJingtum(String alphabet, Integer fee, String baseToken, String issuer, ArrayList<String> rpcNodes) {
-        this(fee,baseToken,issuer,rpcNodes);
+    public JccJingtum(String alphabet, Integer fee, String baseToken, ArrayList<String> rpcNodes) {
+        this(fee,baseToken,rpcNodes);
         Config.setAlphabet(alphabet);
     }
 
@@ -78,12 +75,11 @@ public class JccJingtum {
      * @param alphabet 字母表，每一条联盟链都可以用不同的或者相同alphabet
      * @param fee 交易手续费(燃料费计算公式=fee/1000000)
      * @param baseToken 交易燃料手续费通证,也是公链的本币
-     * @param issuer 银关地址
-     * @param platform 交易平台账号
+     * @param platform 交易的平台账号(与手续费有关)
      * @param rpcNodes rpc节点服务器地址列表
      */
-    public JccJingtum(String alphabet, Integer fee, String baseToken, String issuer, String platform, ArrayList<String> rpcNodes) {
-        this(alphabet,fee,baseToken,issuer,rpcNodes);
+    public JccJingtum(String alphabet, Integer fee, String baseToken, String platform, ArrayList<String> rpcNodes) {
+        this(alphabet,fee,baseToken,rpcNodes);
         Config.setPlatform(platform);
     }
 
@@ -134,6 +130,29 @@ public class JccJingtum {
     }
 
     /**
+     * 设置银关地址
+     * @param issuer 银关地址
+     */
+    public void setIssuer(String issuer) throws  Exception{
+        try {
+            if(!Wallet.isValidAddress(issuer)) {
+                throw new Exception("平台账号不合法");
+            }
+            Config.setIssuer(issuer);
+        } catch (Exception e) {
+            throw new Exception("设置交易平台账号异常");
+        }
+    }
+
+    /**
+     * 获取银关地址
+     * @return 银关地址
+     */
+    public String getIssuer() {
+        return Config.ISSUER;
+    }
+
+    /**
      * 创建钱包(账号)
      * @return 钱包字符串,json格式 ({"secret":****,"address":****})
      * @throws Exception 抛出异常
@@ -175,13 +194,14 @@ public class JccJingtum {
     public void setTryTimes(int tryTimes) {
         this.tryTimes = tryTimes;
     }
+
     /**
      * 获取sequence
      * @param address 钱包地址
      * @return sequence
      * @throws Exception 抛出异常
      */
-    private String getSequence(String address) throws Exception {
+    private String sequence(String address) throws Exception {
         try {
             if(!Wallet.isValidAddress(address)) {
                 throw new Exception("钱包地址不合法");
@@ -226,6 +246,23 @@ public class JccJingtum {
             throw new Exception("获取sequence失败");
         } else {
             return sequence;
+        }
+    }
+
+    /**
+     * 获取sequence
+     * @param address 钱包地址
+     * @return sequence
+     * @throws Exception 抛出异常
+     */
+    public String getSequence(String address) throws Exception {
+        try {
+            if(!Wallet.isValidAddress(address)) {
+                throw new Exception("钱包地址不合法");
+            }
+            return this.sequence(address);
+        } catch (Exception e) {
+            throw e;
         }
     }
 
@@ -314,11 +351,35 @@ public class JccJingtum {
      */
     public String paymentWithCheck(String secret, String receiver, String pToken, String pAmount, String memos) throws Exception {
         try {
+            return this.paymentWithCheck(secret, receiver, pToken, pAmount, Config.ISSUER, memos);
+        } catch (Exception e) {
+            throw new Exception("转账失败");
+        }
+    }
+
+    /**
+     *  转账并校验，每笔交易都会校验是否成功，适合普通转账，优点：每笔交易都进行确认，缺点：转账效率低下
+     * @param secret 发送者钱包密钥
+     * @param receiver 接收者钱包地址
+     * @param pToken 转账Token
+     * @param pAmount 转账数量
+     * @param pIssuer 银关地址
+     * @param memos  转账备注
+     * @return 交易详情 json格式
+     * @throws Exception 抛出异常
+     */
+    public String paymentWithCheck(String secret, String receiver, String pToken, String pAmount, String pIssuer,String memos) throws Exception {
+        try {
             if(!Wallet.isValidSecret(secret)) {
                 throw new Exception("钱包密钥不合法");
             }
+
             if(!Wallet.isValidAddress(receiver)) {
                 throw new Exception("钱包地址不合法");
+            }
+
+            if(!Wallet.isValidAddress(pIssuer)) {
+                throw new Exception("银关地址不合法");
             }
 
             if(pToken.isEmpty()) {
@@ -326,12 +387,12 @@ public class JccJingtum {
             }
 
             if(pAmount.isEmpty()) {
-                throw new Exception("token名称不合法");
+                throw new Exception("数量不合法");
             }
 
             Wallet wallet = Wallet.fromSecret(secret);
             String sender = wallet.getAddress();
-            String sequence = this.getSequence(sender);
+            String sequence = this.sequence(sender);
 
             ObjectMapper mapper = new ObjectMapper();
             String token = pToken.toUpperCase();
@@ -348,7 +409,7 @@ public class JccJingtum {
             if(Config.CURRENCY.equals(token)) {
                 amount = new Amount(bigDecimal);
             } else {
-                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(Config.ISSUER));
+                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
             }
 
 
@@ -383,23 +444,47 @@ public class JccJingtum {
      */
     public String paymentNoCheck(String secret, String receiver, String pToken, String pAmount, String memos) throws Exception {
         try {
+            return this.paymentNoCheck(secret, receiver, pToken, pAmount, Config.ISSUER, memos);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     *  快速转账，每笔交易不校验是否成功，适用于批量转账，优点：转账效率高，缺点：交易成功率无法保证，需要调用者自己进行校验
+     * @param secret 发送者钱包密钥
+     * @param receiver 接收者钱包地址
+     * @param pToken 转账Token
+     * @param pAmount 转账数量
+     * @param pIssuer 银关地址
+     * @param memos  转账备注
+     * @return 交易详情 json格式
+     * @throws Exception 抛出异常
+     */
+    public String paymentNoCheck(String secret, String receiver, String pToken, String pAmount, String pIssuer, String memos) throws Exception {
+        try {
             if(!Wallet.isValidSecret(secret)) {
                 throw new Exception("钱包密钥不合法");
             }
             if(!Wallet.isValidAddress(receiver)) {
                 throw new Exception("钱包地址不合法");
             }
+
+            if(!Wallet.isValidAddress(pIssuer)) {
+                throw new Exception("银关地址不合法");
+            }
+
             if(pToken.isEmpty()) {
                 throw new Exception("token名称不合法");
             }
 
             if(pAmount.isEmpty()) {
-                throw new Exception("token名称不合法");
+                throw new Exception("数量不合法");
             }
 
             Wallet wallet = Wallet.fromSecret(secret);
             String sender = wallet.getAddress();
-            String sequence = this.getSequence(sender);
+            String sequence = this.sequence(sender);
 
             ObjectMapper mapper = new ObjectMapper();
             String token = pToken.toUpperCase();
@@ -416,9 +501,8 @@ public class JccJingtum {
             if(Config.CURRENCY.equals(token)) {
                 amount = new Amount(bigDecimal);
             } else {
-                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(Config.ISSUER));
+                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
             }
-
 
             payment.as(Amount.Amount, amount);
             payment.as(Amount.Fee, String.valueOf(Config.FEE));
@@ -451,8 +535,35 @@ public class JccJingtum {
      */
     public String createOrderWithCheck(String secret, String pPayToke, String pPayAmount, String pGetToken, String pGetAmount, String memos) throws Exception{
         try {
+            return this.createOrderWithCheck(secret, pPayToke, pPayAmount, Config.ISSUER, pGetToken, pGetAmount, Config.ISSUER, memos);
+        } catch (Exception e) {
+            throw new Exception("挂单失败");
+        }
+    }
+
+    /**
+     * 挂单并校验，每笔挂单都会校验是否成功，适合普通调用，优点：每笔交易都进行确认，缺点：效率低下
+     * @param secret 挂单方钱包密钥
+     * @param pPayToke  挂单方支付的Token名称
+     * @param pPayAmount 挂单方支付的Token数量
+     * @param pPayIssuer 挂单方支付的Token的银关地址
+     * @param pGetToken  挂单方期望得到的Token名称
+     * @param pGetAmount 挂单方期望得到的Token数量
+     * @param pGetIssuer 挂单方期望得到的Token的银关地址
+     * @param memos 备注
+     * @return 交易详情 json格式
+     */
+    public String createOrderWithCheck(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer ,String memos) throws Exception{
+        try {
             if(!Wallet.isValidSecret(secret)) {
                 throw new Exception("钱包密钥不合法");
+            }
+
+            if(!Wallet.isValidAddress(pPayIssuer)) {
+                throw new Exception("银关地址不合法");
+            }
+            if(!Wallet.isValidAddress(pGetIssuer)) {
+                throw new Exception("银关地址不合法");
             }
 
             if(pPayToke.isEmpty() || pGetToken.isEmpty()) {
@@ -489,7 +600,7 @@ public class JccJingtum {
             if(Config.CURRENCY.equals(payToken)) {
                 payAmount = new Amount(payBigDecimal);
             } else {
-                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(Config.ISSUER));
+                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(pPayIssuer));
             }
 
             Amount getAmount;
@@ -497,14 +608,14 @@ public class JccJingtum {
             if(Config.CURRENCY.equals(getToken)) {
                 getAmount = new Amount(getBigDecimal);
             } else {
-                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(Config.ISSUER));
+                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(pGetIssuer));
             }
             offerCreate.as(Amount.TakerPays, getAmount);
             offerCreate.as(Amount.TakerGets, payAmount);
 
             offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
 
-            String sequence = this.getSequence(address);
+            String sequence = this.sequence(address);
             offerCreate.sequence(new UInt32(sequence));
 
             if (memos.length() > 0) {
@@ -533,8 +644,35 @@ public class JccJingtum {
      */
     public String createOrderNoCheck(String secret, String pPayToke, String pPayAmount, String pGetToken, String pGetAmount, String memos) throws Exception{
         try {
+            return this.createOrderNoCheck(secret, pPayToke, pPayAmount, Config.ISSUER, pGetToken, pGetAmount, Config.ISSUER, memos);
+        } catch (Exception e) {
+            throw new Exception("挂单失败");
+        }
+    }
+
+    /**
+     * 快速挂单，每笔交易不校验是否成功，适用于批量挂单，优点：挂单效率高，缺点：交易成功率无法保证，需要调用者自己进行校验
+     * @param secret 挂单方钱包密钥
+     * @param pPayToke  挂单方支付的Token名称
+     * @param pPayAmount 挂单方支付的Token数量
+     * @param pPayIssuer 挂单方支付的Token的银关地址
+     * @param pGetToken  挂单方期望得到的Token名称
+     * @param pGetAmount 挂单方期望得到的Token数量
+     * @param pGetIssuer 挂单方期望得到的Token的银关地址
+     * @param memos 备注
+     * @return 交易详情 json格式
+     */
+    public String createOrderNoCheck(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, String memos) throws Exception{
+        try {
             if(!Wallet.isValidSecret(secret)) {
                 throw new Exception("钱包密钥不合法");
+            }
+
+            if(!Wallet.isValidAddress(pPayIssuer)) {
+                throw new Exception("银关地址不合法");
+            }
+            if(!Wallet.isValidAddress(pGetIssuer)) {
+                throw new Exception("银关地址不合法");
             }
 
             if(pPayToke.isEmpty() || pGetToken.isEmpty()) {
@@ -570,7 +708,7 @@ public class JccJingtum {
             if(Config.CURRENCY.equals(payToken)) {
                 payAmount = new Amount(payBigDecimal);
             } else {
-                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(Config.ISSUER));
+                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(pPayIssuer));
             }
 
             Amount getAmount;
@@ -578,14 +716,14 @@ public class JccJingtum {
             if(Config.CURRENCY.equals(getToken)) {
                 getAmount = new Amount(getBigDecimal);
             } else {
-                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(Config.ISSUER));
+                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(pGetIssuer));
             }
             offerCreate.as(Amount.TakerPays, getAmount);
             offerCreate.as(Amount.TakerGets, payAmount);
 
             offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
 
-            String sequence = this.getSequence(address);
+            String sequence = this.sequence(address);
             offerCreate.sequence(new UInt32(sequence));
 
             if (memos.length() > 0) {
@@ -600,7 +738,6 @@ public class JccJingtum {
         } catch (Exception e) {
             throw new Exception("挂单失败");
         }
-
     }
 
     /**
@@ -629,7 +766,7 @@ public class JccJingtum {
             offerCancel.as(AccountID.Account, address);
             offerCancel.as(UInt32.OfferSequence, bigDecimal.longValue());
             offerCancel.as(Amount.Fee, String.valueOf(Config.FEE));
-            String sequence = this.getSequence(address);
+            String sequence = this.sequence(address);
             offerCancel.sequence(new UInt32(sequence));
 
             SignedTransaction tx = offerCancel.sign(secret);
