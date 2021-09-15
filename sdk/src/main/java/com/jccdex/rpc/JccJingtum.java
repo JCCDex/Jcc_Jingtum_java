@@ -11,6 +11,7 @@ import com.jccdex.rpc.core.coretypes.AccountID;
 import com.jccdex.rpc.core.coretypes.Amount;
 import com.jccdex.rpc.core.coretypes.Currency;
 import com.jccdex.rpc.core.coretypes.uint.UInt32;
+import com.jccdex.rpc.core.serialized.enums.EngineResult;
 import com.jccdex.rpc.core.types.known.tx.signed.SignedTransaction;
 import com.jccdex.rpc.core.types.known.tx.txns.OfferCancel;
 import com.jccdex.rpc.core.types.known.tx.txns.OfferCreate;
@@ -20,7 +21,9 @@ import com.jccdex.rpc.utils.Utils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 //
 /**
  * 井通公链、联盟链RPC开发接口
@@ -35,7 +38,8 @@ public class JccJingtum {
      */
     private int tryTimes;
     private final String SUCCESS_CODE = "success";
-    private final String TX_SUCCESS_CODE = "tesSUCCESS";
+
+    private Map<String, UInt32> seqList = new HashMap<>();
 
     /**
      * @param rpcNodes rpc节点服务器地址列表
@@ -47,7 +51,7 @@ public class JccJingtum {
 
     /**
      * 井通公链、联盟链RPC服务构造函数
-     * @param fee 每笔交易燃料费(燃料费计算公式=fee/1000000)
+     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
      * @param baseToken 交易燃料手续费通证,也是公链的本币
      * @param rpcNodes rpc节点服务器地址列表
      */
@@ -61,7 +65,7 @@ public class JccJingtum {
     /**
      * 井通公链、联盟链RPC服务构造函数
      * @param alphabet 字母表，每一条联盟链都可以用不同的或者相同alphabet
-     * @param fee 每笔交易燃料费(燃料费计算公式=fee/1000000)
+     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
      * @param baseToken 交易燃料手续费通证,也是公链的本币
      * @param rpcNodes rpc节点服务器地址列表
      */
@@ -73,7 +77,7 @@ public class JccJingtum {
     /**
      * 井通公链、联盟链RPC服务构造函数
      * @param alphabet 字母表，每一条联盟链都可以用不同的或者相同alphabet
-     * @param fee 交易手续费(燃料费计算公式=fee/1000000)
+     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
      * @param baseToken 交易燃料手续费通证,也是公链的本币
      * @param platform 交易的平台账号(与手续费有关)
      * @param rpcNodes rpc节点服务器地址列表
@@ -85,9 +89,9 @@ public class JccJingtum {
 
     /**
      * 设置每笔交易燃料费
-     * @param fee (燃料费计算公式=fee/1000000)
+     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
      */
-    public void setFee(Integer fee) throws  Exception{
+    public void setFee(Integer fee) throws  Exception {
         try {
             if(fee <=0) {
                 throw new Exception("燃料费不能小于等于0");
@@ -201,7 +205,7 @@ public class JccJingtum {
      * @return sequence
      * @throws Exception 抛出异常
      */
-    private String sequence(String address) throws Exception {
+    private UInt32 sequence(String address) throws Exception {
         try {
             if(!Wallet.isValidAddress(address)) {
                 throw new Exception("钱包地址不合法");
@@ -245,7 +249,7 @@ public class JccJingtum {
         if(sequence.isEmpty()) {
             throw new Exception("获取sequence失败");
         } else {
-            return sequence;
+            return new UInt32(sequence);
         }
     }
 
@@ -255,12 +259,40 @@ public class JccJingtum {
      * @return sequence
      * @throws Exception 抛出异常
      */
-    public String getSequence(String address) throws Exception {
+    public long getSequence(String address) throws Exception {
         try {
             if(!Wallet.isValidAddress(address)) {
                 throw new Exception("钱包地址不合法");
             }
-            return this.sequence(address);
+
+            UInt32 seq = seqList.get(address);
+            if(seq != null) {
+                return seq.value().longValue();
+            } else {
+                seq = this.sequence(address);
+                seqList.put(address, seq);
+                return seq.value().longValue();
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * 设置sequence
+     * @param address 钱包地址
+     * @param pSequence 交易序列号
+     * @return sequence
+     * @throws Exception 抛出异常
+     */
+    public void setSequence(String address, long pSequence) throws Exception {
+
+        try {
+            if(!Wallet.isValidAddress(address)) {
+                throw new Exception("钱包地址不合法");
+            }
+
+            seqList.put(address,new UInt32(pSequence));
         } catch (Exception e) {
             throw e;
         }
@@ -325,6 +357,7 @@ public class JccJingtum {
             return tx;
         }
     }
+
     /**
      * 16进制备注内容直接转换成为字符串(无需Unicode解码)
      * @param hexStrMemData 16进制备注内容
@@ -345,7 +378,7 @@ public class JccJingtum {
      * @param receiver 接收者钱包地址
      * @param pToken 转账Token
      * @param pAmount 转账数量
-     * @param memos  转账备注
+     * @param memos  交易备注(无就传"")
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
@@ -364,7 +397,7 @@ public class JccJingtum {
      * @param pToken 转账Token
      * @param pAmount 转账数量
      * @param pIssuer 银关地址
-     * @param memos  转账备注
+     * @param memos  交易备注(无就传"")
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
@@ -392,7 +425,7 @@ public class JccJingtum {
 
             Wallet wallet = Wallet.fromSecret(secret);
             String sender = wallet.getAddress();
-            String sequence = this.sequence(sender);
+            long sequence = this.getSequence(sender);
 
             ObjectMapper mapper = new ObjectMapper();
             String token = pToken.toUpperCase();
@@ -432,13 +465,14 @@ public class JccJingtum {
         }
     }
 
+
     /**
      *  快速转账，每笔交易不校验是否成功，适用于批量转账，优点：转账效率高，缺点：交易成功率无法保证，需要调用者自己进行校验
      * @param secret 发送者钱包密钥
      * @param receiver 接收者钱包地址
      * @param pToken 转账Token
      * @param pAmount 转账数量
-     * @param memos  转账备注
+     * @param memos  交易备注(无就传"")
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
@@ -457,7 +491,7 @@ public class JccJingtum {
      * @param pToken 转账Token
      * @param pAmount 转账数量
      * @param pIssuer 银关地址
-     * @param memos  转账备注
+     * @param memos  交易备注(无就传"")
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
@@ -484,7 +518,7 @@ public class JccJingtum {
 
             Wallet wallet = Wallet.fromSecret(secret);
             String sender = wallet.getAddress();
-            String sequence = this.sequence(sender);
+            long sequence = this.getSequence(sender);
 
             ObjectMapper mapper = new ObjectMapper();
             String token = pToken.toUpperCase();
@@ -530,7 +564,7 @@ public class JccJingtum {
      * @param pPayAmount 挂单方支付的Token数量
      * @param pGetToken  挂单方期望得到的Token名称
      * @param pGetAmount 挂单方期望得到的Token数量
-     * @param memos 备注
+     * @param memos 交易备注(无就传"")
      * @return 交易详情 json格式
      */
     public String createOrderWithCheck(String secret, String pPayToke, String pPayAmount, String pGetToken, String pGetAmount, String memos) throws Exception{
@@ -550,7 +584,7 @@ public class JccJingtum {
      * @param pGetToken  挂单方期望得到的Token名称
      * @param pGetAmount 挂单方期望得到的Token数量
      * @param pGetIssuer 挂单方期望得到的Token的银关地址
-     * @param memos 备注
+     * @param memos 交易备注(无就传"")
      * @return 交易详情 json格式
      */
     public String createOrderWithCheck(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer ,String memos) throws Exception{
@@ -615,7 +649,7 @@ public class JccJingtum {
 
             offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
 
-            String sequence = this.sequence(address);
+            long sequence = this.getSequence(address);
             offerCreate.sequence(new UInt32(sequence));
 
             if (memos.length() > 0) {
@@ -639,7 +673,7 @@ public class JccJingtum {
      * @param pPayAmount 挂单方支付的Token数量
      * @param pGetToken  挂单方期望得到的Token名称
      * @param pGetAmount 挂单方期望得到的Token数量
-     * @param memos 备注
+     * @param memos 交易备注(无就传"")
      * @return 交易详情 json格式
      */
     public String createOrderNoCheck(String secret, String pPayToke, String pPayAmount, String pGetToken, String pGetAmount, String memos) throws Exception{
@@ -659,7 +693,7 @@ public class JccJingtum {
      * @param pGetToken  挂单方期望得到的Token名称
      * @param pGetAmount 挂单方期望得到的Token数量
      * @param pGetIssuer 挂单方期望得到的Token的银关地址
-     * @param memos 备注
+     * @param memos 交易备注(无就传"")
      * @return 交易详情 json格式
      */
     public String createOrderNoCheck(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, String memos) throws Exception{
@@ -723,7 +757,7 @@ public class JccJingtum {
 
             offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
 
-            String sequence = this.sequence(address);
+            long sequence = this.getSequence(address);
             offerCreate.sequence(new UInt32(sequence));
 
             if (memos.length() > 0) {
@@ -766,7 +800,7 @@ public class JccJingtum {
             offerCancel.as(AccountID.Account, address);
             offerCancel.as(UInt32.OfferSequence, bigDecimal.longValue());
             offerCancel.as(Amount.Fee, String.valueOf(Config.FEE));
-            String sequence = this.sequence(address);
+            long sequence = this.getSequence(address);
             offerCancel.sequence(new UInt32(sequence));
 
             SignedTransaction tx = offerCancel.sign(secret);
@@ -805,11 +839,30 @@ public class JccJingtum {
                 try {
                     String url = rpcNode.randomUrl();
                     result = OkhttpUtil.post(url, data.toString());
-                    Thread.sleep(5000);
+                    String sender = JSONObject.parseObject(result).getJSONObject("result").getJSONObject("tx_json").getString("Account");
+                    int engine_result_code = JSONObject.parseObject(result).getJSONObject("result").getIntValue("engine_result_code");
+                    EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+
+                    if(EngineResult.isPastSeq(engineResult)) {
+                        seqList.remove(sender);
+                        break;
+                    }
+
+                    if(!EngineResult.isRetry(engineResult)) {
+                        break;
+                    }
+
+                    if(EngineResult.isSuccess(engineResult)) {
+                        long sequence = JSONObject.parseObject(result).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
+                        this.setSequence(sender,++sequence);
+                    }
+
+                    Thread.sleep(1000);
                     resTx = this.requestTx(hash);
                     if(!resTx.isEmpty()) {
                         break;
                     }
+
                 }catch (Exception e) {
                     continue;
                 }
@@ -822,6 +875,7 @@ public class JccJingtum {
             } else {
                 return resTx;
             }
+
         } catch (Exception e) {
             throw e;
         }
@@ -836,7 +890,7 @@ public class JccJingtum {
     public String submit(String txBlob) throws Exception {
         try {
             int times = this.tryTimes;
-            String res = "";
+            String result = "";
 
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode data = mapper.createObjectNode();
@@ -853,21 +907,36 @@ public class JccJingtum {
                 times--;
                 try {
                     String url = rpcNode.randomUrl();
-                    res = OkhttpUtil.post(url, data.toString());
-                    String status = JSONObject.parseObject(res).getJSONObject("result").getString("engine_result");
-                    if(TX_SUCCESS_CODE.equals(status)) {
+                    result = OkhttpUtil.post(url, data.toString());
+                    String sender = JSONObject.parseObject(result).getJSONObject("result").getJSONObject("tx_json").getString("Account");
+                    int engine_result_code = JSONObject.parseObject(result).getJSONObject("result").getIntValue("engine_result_code");
+                    EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+
+                    if(EngineResult.isSuccess(engineResult)) {
+                        long sequence = JSONObject.parseObject(result).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
+                        this.setSequence(sender,++sequence);
                         break;
                     }
+
+                    if(EngineResult.isPastSeq(engineResult)) {
+                        seqList.remove(sender);
+                        break;
+                    }
+
+                    if(!EngineResult.isRetry(engineResult)) {
+                        break;
+                    }
+
                 }catch (Exception e) {
                     continue;
                 }
                 Thread.sleep(1000);
             }while(times > 0);
 
-            return res;
+            return result;
 
         } catch (Exception e) {
-            throw new Exception("挂单失败");
+            throw e;
         }
     }
 

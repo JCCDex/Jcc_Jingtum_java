@@ -13,7 +13,7 @@ public enum EngineResult implements SerializedType {
 	telLOCAL_ERROR(-399, "Local failure."), telBAD_DOMAIN(-398, "Domain too long."), telBAD_PATH_COUNT(-397,
 	        "Malformed: Too many paths."), telBAD_PUBLIC_KEY(-396, "Public key too long."), telFAILED_PROCESSING(-395,
 	                "Failed to correctly process transaction."), telINSUF_FEE_P(-394, "Fee insufficient."), telNO_DST_PARTIAL(-393,
-	                        "Partial payment to create account not allowed."), temMALFORMED(-299, "Malformed transaction."), temBAD_AMOUNT(
+	                        "Partial payment to create account not allowed."),telINSUF_FUND(-391,"Fund insufficient.") ,temMALFORMED(-299, "Malformed transaction."), temBAD_AMOUNT(
 	                                -298, "Can only send positive amounts."), temBAD_AUTH_MASTER(-297,
 	                                        "Auth for unclaimed account needs correct master key."), temBAD_CURRENCY(-296,
 	                                                "Malformed: Bad currency."), temBAD_EXPIRATION(-295,
@@ -78,11 +78,9 @@ public enum EngineResult implements SerializedType {
 	                                                                                                                                                                                                                                                                                                                        -192,
 	                                                                                                                                                                                                                                                                                                                        "Unexpected program state."), tefINTERNAL(
 	                                                                                                                                                                                                                                                                                                                                -191,
-	                                                                                                                                                                                                                                                                                                                                "Internal error."), tefNO_AUTH_REQUIRED(
+	                                                                                                                                                                                                                                                                                                                                "Internal error."), tefPAST_SEQ(
 	                                                                                                                                                                                                                                                                                                                                        -190,
-	                                                                                                                                                                                                                                                                                                                                        "Auth is not required."), tefPAST_SEQ(
-	                                                                                                                                                                                                                                                                                                                                                -189,
-	                                                                                                                                                                                                                                                                                                                                                "This sequence number has already past."), tefWRONG_PRIOR(
+	                                                                                                                                                                                                                                                                                                                                        "This sequence number has already past."), tefWRONG_PRIOR(
 	                                                                                                                                                                                                                                                                                                                                                        -188,
 	                                                                                                                                                                                                                                                                                                                                                        "tefWRONG_PRIOR"), tefMASTER_DISABLED(
 	                                                                                                                                                                                                                                                                                                                                                                -187,
@@ -130,9 +128,9 @@ public enum EngineResult implements SerializedType {
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        123,
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "Insufficient reserve to create offer."), tecNO_DST(
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                124,
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                "Destination does not exist. Send XRP to create it."), tecNO_DST_INSUF_XRP(
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                "Destination does not exist. Send SWT to create it."), tecNO_DST_INSUF_SWT(
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        125,
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "Destination does not exist. Too little XRP sent to create it."), tecNO_LINE_INSUF_RESERVE(
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "Destination does not exist. Too little SWT sent to create it."), tecNO_LINE_INSUF_RESERVE(
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                126,
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                "No such line. Too little reserve to create it."), tecNO_LINE_REDUNDANT(
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        127,
@@ -261,6 +259,32 @@ public enum EngineResult implements SerializedType {
 			return tesSUCCESS;
 		}
 		return tecCLAIM;
+	}
+
+	public static Boolean isRetry(EngineResult result) {
+		switch ( result) {
+			case tecNO_DST://⽬标地址未激活
+			case tecINSUFF_FEE://余额不⾜以⽀付gas费⽤
+			case telINSUF_FUND://余额不⾜
+			case tecINSUF_RESERVE_OFFER://SWT不⾜，创建订单失败
+			case tecNO_DST_INSUF_SWT://⽤来激活⽬标地址⽽发送的SWT不够
+			case tecNO_LINE_INSUF_RESERVE://SWT太少，不能创建信任
+			case tecNO_TARGET://SWTC太少，不能创建信任
+			case tefPAST_SEQ://序列号⾮法
+			case temDST_IS_SRC://⽬标地址不能与源地址相同
+			case telINSUF_FEE_P://gas费用太小
+				return false;
+			default:
+				return true;
+		}
+	}
+
+	public static Boolean isSuccess(EngineResult result) {
+		return (result == tesSUCCESS);
+	}
+
+	public static Boolean isPastSeq(EngineResult result) {
+		return (result == tefPAST_SEQ);
 	}
 	
 	public EngineResult resultClass() {

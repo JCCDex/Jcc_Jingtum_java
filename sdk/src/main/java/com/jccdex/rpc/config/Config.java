@@ -21,7 +21,7 @@ public class Config {
     public static String CURRENCY;
     public static String ACCOUNT_ZERO = "jjjjjjjjjjjjjjjjjjjjjhoLvTp";
     public static String ACCOUNT_ONE = "jjjjjjjjjjjjjjjjjjjjBZbvri";
-    public static Integer FEE = 100;
+    public static Integer FEE = 10;
     public static String ISSUER;
     public static String PLATFORM;
 
