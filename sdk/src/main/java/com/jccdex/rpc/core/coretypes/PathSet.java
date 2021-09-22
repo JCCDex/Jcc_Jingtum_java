@@ -68,18 +68,30 @@ public class PathSet extends ArrayList<PathSet.Path> implements SerializedType {
         public void synthesizeType() {
             type = 0;
 
-            if (hasAccount()) type |= TYPE_ACCOUNT;
-            if (hasCurrency()) type |= TYPE_CURRENCY;
-            if (hasIssuer()) type |= TYPE_ISSUER;
+            if (hasAccount()) {
+                type |= TYPE_ACCOUNT;
+            }
+            if (hasCurrency()) {
+                type |= TYPE_CURRENCY;
+            }
+            if (hasIssuer()) {
+                type |= TYPE_ISSUER;
+            }
         }
 
         public JSONObject toJSONObject() {
             JSONObject object = new JSONObject();
             object.put("type", getType());
 
-            if (hasAccount()) object.put("account", account.toJSON());
-            if (hasIssuer()) object.put("issuer", issuer.toJSON());
-            if (hasCurrency()) object.put("currency", currency.toJSON());
+            if (hasAccount()) {
+                object.put("account", account.toJSON());
+            }
+            if (hasIssuer()) {
+                object.put("issuer", issuer.toJSON());
+            }
+            if (hasCurrency()) {
+                object.put("currency", currency.toJSON());
+            }
             return object;
         }
     }

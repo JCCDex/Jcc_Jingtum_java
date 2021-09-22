@@ -13,6 +13,10 @@ public class Payment extends Transaction {
 	public Payment() {
 		super(TransactionType.Payment);
 	}
+
+	public Payment(Boolean guomi) {
+		super(TransactionType.Payment, guomi);
+	}
 	
 	
 	public UInt32 destinationTag() {

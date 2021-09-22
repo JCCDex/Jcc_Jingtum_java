@@ -2,6 +2,7 @@ package com.jccdex.rpc.core.types.known.tx;
 
 import java.util.List;
 
+import com.jccdex.core.crypto.ecdsa.IKeyPair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,22 +22,28 @@ import com.jccdex.rpc.core.formats.TxFormat;
 import com.jccdex.rpc.core.serialized.BytesList;
 import com.jccdex.rpc.core.serialized.enums.TransactionType;
 import com.jccdex.rpc.core.types.known.tx.signed.SignedTransaction;
-import com.jccdex.rpc.crypto.ecdsa.IKeyPair;
 import com.jccdex.rpc.utils.HashUtils;
 import com.jccdex.rpc.utils.Utils;
 
 public class Transaction extends STObject {
 	public static final boolean CANONICAL_FLAG_DEPLOYED = true;
 	public static final UInt32 CANONICAL_SIGNATURE = new UInt32(TransactionFlag.FullyCanonicalSig);
-	
+	private Boolean guomi = false;
+
 	public Transaction(TransactionType type) {
+		setFormat(TxFormat.formats.get(type));
+		put(Field.TransactionType, type);
+	}
+
+	public Transaction(TransactionType type, Boolean guomi) {
+		this.guomi = guomi;
 		setFormat(TxFormat.formats.get(type));
 		put(Field.TransactionType, type);
 	}
 	
 	public SignedTransaction sign(String secret) {
 		SignedTransaction signed = SignedTransaction.fromTx(this);
-		signed.sign(secret);
+		signed.sign(secret, this.guomi);
 		return signed;
 	}
 	

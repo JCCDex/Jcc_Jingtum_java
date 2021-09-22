@@ -22,12 +22,8 @@ com.jccdex.rpc.core.types.known.tx.signed
 com.jccdex.rpc.core.types.known.tx.txns
 com.jccdex.rpc.core.types.ledger
 com.jccdex.rpc.core.types.shamap
-com.jccdex.rpc.crypto.ecdsa
 com.jccdex.rpc.crypto.sjcljson
 com.jccdex.rpc.data
-com.jccdex.rpc.encoding
-com.jccdex.rpc.encoding.base58
-com.jccdex.rpc.encoding.common
 com.jccdex.rpc.exceptions
 com.jccdex.rpc.http
 com.jccdex.rpc.pay

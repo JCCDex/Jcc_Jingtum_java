@@ -3,6 +3,7 @@ package com.jccdex.rpc.core.types.known.tx.result;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.jccdex.core.encoding.common.B16;
 import org.json.JSONObject;
 
 import com.jccdex.rpc.core.coretypes.AccountID;
@@ -16,7 +17,6 @@ import com.jccdex.rpc.core.serialized.enums.EngineResult;
 import com.jccdex.rpc.core.serialized.enums.LedgerEntryType;
 import com.jccdex.rpc.core.serialized.enums.TransactionType;
 import com.jccdex.rpc.core.types.known.tx.Transaction;
-import com.jccdex.rpc.encoding.common.B16;
 
 public class TransactionResult implements Comparable<TransactionResult> {
 	// The json formatting of transaction results is a MESS

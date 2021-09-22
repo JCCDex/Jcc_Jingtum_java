@@ -2,11 +2,11 @@ package com.jccdex.rpc.core.coretypes.uint;
 
 import java.math.BigInteger;
 
+import com.jccdex.core.encoding.common.B16;
 import com.jccdex.rpc.core.serialized.BinaryParser;
 import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
-import com.jccdex.rpc.encoding.common.B16;
 
 abstract public class UInt<Subclass extends UInt> extends Number implements SerializedType, Comparable<UInt> {
 	private BigInteger value;

@@ -7,4 +7,8 @@ public class TicketCreate extends Transaction {
     public TicketCreate() {
         super(TransactionType.TicketCreate);
     }
+
+    public TicketCreate(Boolean guomi) {
+        super(TransactionType.TicketCreate, guomi);
+    }
 }

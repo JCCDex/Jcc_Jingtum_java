@@ -1,6 +1,7 @@
 package com.jccdex.rpc;
 
 import com.jccdex.core.client.Wallet;
+import com.jccdex.core.client.WalletSM;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -9,75 +10,37 @@ import java.util.ArrayList;
 public class JccJingtumTest extends TestCase {
 
     JccJingtum jccJingtum;
-    Wallet wallet1 = Wallet.fromSecret("ssVvAZrAUj7dxFfLdaVvoVH2VTij2");
-    Wallet wallet2 = Wallet.fromSecret("ssEEef7JHubPGTCLwTLkuu4oqKtD6");
+//    Wallet wallet1 = Wallet.fromSecret("ssEEef7JHubPGTCLwTLkuu4oqKtD6");
+//    Wallet wallet2 = Wallet.fromSecret("ssPFdoM4pZF1HSyrZ8ymnyxYzoE7h");
+//    Wallet wallet3 = Wallet.fromSecret("ssVvAZrAUj7dxFfLdaVvoVH2VTij2");
+
+    WalletSM wallet1 = WalletSM.fromSecret("snHu1pSHRksTQQMJGa2gZH6gTSukK");//jpSojXsu7mfwStH7ig72yCg86ViKH5dHWN
+    WalletSM wallet2 = WalletSM.fromSecret("snwsVxeKqgKqckhomX6xvguwj5Jci");//j35gQsGrcsTPSmmRmxgVRwtetkp6NGvN4Z
+    WalletSM wallet3 = WalletSM.fromSecret("snH36VVwTHDEkuHfgAsfKg1UCYhcJ");//jG7NeW8QYQbm1xZvxhH1fEMFtYCP1MHqRY
+
+
     public void setUp() throws Exception {
         super.setUp();
         ArrayList<String> rpcNodes = new ArrayList<String>();
-        rpcNodes.add("http://39.98.243.77:50333");
-        rpcNodes.add("http://58.243.201.56:50333");
-        rpcNodes.add("http://59.175.148.101:50333");
-        rpcNodes.add("http://65.95.56.49:5050");
-        rpcNodes.add("http://1.13.2.21:5050");
-        rpcNodes.add("http://117.78.44.90:5050");
+//        rpcNodes.add("http://39.98.243.77:50333");
+//        rpcNodes.add("http://58.243.201.56:50333");
+//        rpcNodes.add("http://59.175.148.101:50333");
+//        rpcNodes.add("http://65.95.56.49:5050");
+//        rpcNodes.add("http://1.13.2.21:5050");
+//        rpcNodes.add("https://stestswtcrpc.jccdex.cn");
+        rpcNodes.add("http://139.198.19.157:4950");
 
-        jccJingtum = new JccJingtum(100,"SWT", rpcNodes);
+        jccJingtum = new JccJingtum(rpcNodes,true);
+//        System.out.println(jccJingtum.getAddress("ssPFdoM4pZF1HSyrZ8ymnyxYzoE7h"));
 //        jccJingtum.setPlatform("");
     }
-//
-//    @Test
-//    public void testCreateWallet() {
-//
-//        System.out.println("in testCreateWallet");
-//        try {
-//            String _wallet = jccJingtum.createWallet();
-//            System.out.println(_wallet);
-//
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
-//    }
-
-//    @Test
-//    public void testSequence() {
-//
-//        System.out.println("in testSequence");
-//        try {
-//            String sequence = jccJingtum.sequence("jGRevGoFSnKf9tzvGMt8C6BeYYcBURJ8KX");
-//            System.out.println(sequence);
-//
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
-//    }
-//
-    @Test
-    public void testSafePayment() {
-
-        System.out.println("in testPayment");
-        try {
-            long st = System.currentTimeMillis();
-            String ret = jccJingtum.paymentWithCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
-            System.out.println(ret);
-            long t = System.currentTimeMillis()-st;
-            System.out.println("耗时："+t);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
-    }
 
     @Test
-    public void testSafeCreateTx() {
-
-        System.out.println("in testSafeCreateTx");
+    public void testCreateWallet() {
+        System.out.println("in testCreateWallet");
         try {
-            long st = System.currentTimeMillis();
-            String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
-            System.out.println(ret);
-            long t = System.currentTimeMillis()-st;
-            System.out.println("耗时："+t);
-
+            String _wallet = jccJingtum.createWallet();
+            System.out.println(_wallet);
 
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -85,12 +48,25 @@ public class JccJingtumTest extends TestCase {
     }
 
     @Test
-    public void testFastPaymen() {
-        System.out.println("in testFastPaymen");
+    public void testSequence() {
+        System.out.println("in testSequence");
+        try {
+            long sequence = jccJingtum.getSequence(wallet1.getAddress());
+            System.out.println(sequence);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    @Test
+    public void testPaymentNoCheck() {
+        System.out.println("in testPaymentNoCheck");
         try {
             long st = System.currentTimeMillis();
-            String ret = jccJingtum.paymentNoCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
-            System.out.println(ret);
+            for(int i=0; i<1; i++) {
+                String ret = jccJingtum.paymentNoCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
+                System.out.println(ret);
+            }
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
         } catch (Exception e) {
@@ -99,11 +75,45 @@ public class JccJingtumTest extends TestCase {
     }
 
     @Test
-    public void testFastCreateTx() {
-        System.out.println("in testCreateTx");
+    public void testPaymentWithCheck() {
+
+        System.out.println("in paymentWithCheck");
         try {
             long st = System.currentTimeMillis();
-            String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
+            for(int i=0; i<1; i++) {
+                String ret = jccJingtum.paymentWithCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
+                System.out.println(ret);
+            }
+            long t = System.currentTimeMillis()-st;
+            System.out.println("耗时："+t);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    @Test
+    public void testCreateOrderWithCheck() {
+
+        System.out.println("in createOrderWithCheck");
+        try {
+            long st = System.currentTimeMillis();
+            String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
+            System.out.println(ret);
+            long t = System.currentTimeMillis()-st;
+            System.out.println("耗时："+t);
+
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    @Test
+    public void testCreateOrderNoCheck() {
+        System.out.println("in createOrderNoCheck");
+        try {
+            long st = System.currentTimeMillis();
+            String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
             System.out.println(ret);
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
@@ -118,8 +128,10 @@ public class JccJingtumTest extends TestCase {
         System.out.println("in testCancleOrder");
         try {
             long st = System.currentTimeMillis();
-            String ret = jccJingtum.cancleOrder(wallet1.getSecret(),"2345");
-            System.out.println(ret);
+            String ret1 = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","100","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
+            long sequence = jccJingtum.getSequence(wallet1.getAddress());
+            String ret2 = jccJingtum.cancleOrder(wallet1.getSecret(), sequence-1);
+            System.out.println(ret2);
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
         } catch (Exception e) {

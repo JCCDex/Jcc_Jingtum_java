@@ -2,10 +2,10 @@ package com.jccdex.rpc.config;
 
 import java.security.Security;
 
+import com.jccdex.core.encoding.B58IdentiferCodecs;
+import com.jccdex.core.encoding.base58.B58;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import com.jccdex.rpc.encoding.B58IdentiferCodecs;
-import com.jccdex.rpc.encoding.base58.B58;
 
 // Somewhat of a global registry, dependency injection ala guice would be nicer, but trying to KISS
 public class Config {
@@ -24,9 +24,11 @@ public class Config {
     public static Integer FEE = 10;
     public static String ISSUER;
     public static String PLATFORM;
+    public static String Alphabet = DEFAULT_ALPHABET;
 
     public static void setAlphabet(String alphabet) {
-        b58 = new B58(alphabet);
+        Alphabet = alphabet;
+        b58 = new B58(alphabet,false);
         b58IdentiferCodecs = new B58IdentiferCodecs(b58);
     }
 

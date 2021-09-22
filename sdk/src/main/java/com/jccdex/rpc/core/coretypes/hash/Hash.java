@@ -3,11 +3,11 @@ package com.jccdex.rpc.core.coretypes.hash;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import com.jccdex.core.encoding.common.B16;
 import com.jccdex.rpc.core.serialized.BinaryParser;
 import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
-import com.jccdex.rpc.encoding.common.B16;
 
 abstract public class Hash<Subclass extends Hash> implements SerializedType, Comparable<Subclass> {
 	protected final byte[] hash;

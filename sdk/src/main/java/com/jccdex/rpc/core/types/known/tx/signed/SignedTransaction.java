@@ -2,6 +2,9 @@ package com.jccdex.rpc.core.types.known.tx.signed;
 
 import java.util.Arrays;
 
+import com.jccdex.core.crypto.ecdsa.IKeyPair;
+import com.jccdex.core.crypto.ecdsa.Seed;
+import com.jccdex.core.crypto.ecdsa.SeedSM;
 import com.jccdex.rpc.core.coretypes.Amount;
 import com.jccdex.rpc.core.coretypes.Blob;
 import com.jccdex.rpc.core.coretypes.STObject;
@@ -13,9 +16,7 @@ import com.jccdex.rpc.core.serialized.BytesList;
 import com.jccdex.rpc.core.serialized.MultiSink;
 import com.jccdex.rpc.core.serialized.enums.TransactionType;
 import com.jccdex.rpc.core.types.known.tx.Transaction;
-import com.jccdex.rpc.crypto.ecdsa.IKeyPair;
-import com.jccdex.rpc.crypto.ecdsa.Seed;
-import com.jccdex.rpc.utils.JsonUtils;
+
 
 public class SignedTransaction {
     private SignedTransaction(Transaction of) {
@@ -34,8 +35,13 @@ public class SignedTransaction {
     public byte[] previousSigningData;
     public String tx_blob;
 
-    public void sign(String base58Secret) {
-        sign(Seed.fromBase58(base58Secret).keyPair());
+    public void sign(String base58Secret, Boolean guomi) {
+        if(guomi) {
+            sign(SeedSM.fromBase58(base58Secret).keyPair());
+        } else {
+            sign(Seed.fromBase58(base58Secret).keyPair());
+        }
+
     }
 
     public static SignedTransaction fromTx(Transaction tx) {
