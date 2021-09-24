@@ -179,8 +179,8 @@ public enum EngineResult implements SerializedType {
 	public Type type() {
 		return Type.UInt8;
 	}
-	
-	int ord;
+
+	public int ord;
 	public String human;
 	EngineResult class_ = null;
 	
@@ -284,7 +284,7 @@ public enum EngineResult implements SerializedType {
 	}
 
 	public static Boolean isPastSeq(EngineResult result) {
-		return (result == tefPAST_SEQ);
+		return ((result == tefPAST_SEQ) || (result == terPRE_SEQ));
 	}
 	
 	public EngineResult resultClass() {

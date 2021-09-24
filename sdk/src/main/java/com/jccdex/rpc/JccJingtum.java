@@ -38,9 +38,11 @@ public class JccJingtum {
     private int tryTimes;
     private final String SUCCESS_CODE = "success";
 
-    private Map<String, UInt32> seqList = new HashMap<>();
+    private final Map<String, UInt32> seqList = new HashMap<>();
 
-    private Boolean guomi = false;
+    private Boolean guomi;
+
+    private final Map<String, Integer> engineResultCodeList = new HashMap<>();
 
     /**
      * @param rpcNodes rpc节点服务器地址列表
@@ -48,7 +50,7 @@ public class JccJingtum {
      */
     public JccJingtum(ArrayList<String> rpcNodes, Boolean guomi) {
         this.guomi = guomi;
-        this.tryTimes = rpcNodes.size();
+        this.tryTimes = rpcNodes.size() > 5 ? rpcNodes.size(): 5;
         rpcNode = new RpcNode(rpcNodes);
     }
 
@@ -98,14 +100,10 @@ public class JccJingtum {
      * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
      */
     public void setFee(Integer fee) throws  Exception {
-        try {
-            if(fee <=0) {
-                throw new Exception("燃料费不能小于等于0");
-            }
-            Config.setFee(fee);
-        } catch (Exception e) {
-            throw new Exception("设置燃料费异常");
+        if(fee < 10) {
+            throw new Exception("燃料费不能小于等于0");
         }
+        Config.setFee(fee);
     }
 
     /**
@@ -121,14 +119,10 @@ public class JccJingtum {
      * @param platform 交易平台账号
      */
     public void setPlatform(String platform) throws  Exception{
-        try {
-            if(!this.isValidAddress(platform)) {
-                throw new Exception("平台账号不合法");
-            }
-            Config.setPlatform(platform);
-        } catch (Exception e) {
-            throw new Exception("设置交易平台账号异常");
+        if(!this.isValidAddress(platform)) {
+            throw new Exception("平台账号不合法");
         }
+        Config.setPlatform(platform);
     }
 
     /**
@@ -144,14 +138,10 @@ public class JccJingtum {
      * @param issuer 银关地址
      */
     public void setIssuer(String issuer) throws  Exception{
-        try {
-            if(!this.isValidAddress(issuer)) {
-                throw new Exception("平台账号不合法");
-            }
-            Config.setIssuer(issuer);
-        } catch (Exception e) {
-            throw new Exception("设置交易平台账号异常");
+        if(!this.isValidAddress(issuer)) {
+            throw new Exception("平台账号不合法");
         }
+        Config.setIssuer(issuer);
     }
 
     /**
@@ -213,7 +203,7 @@ public class JccJingtum {
                 return wallet.getAddress();
             }
         } catch (Exception e) {
-            throw new Exception("钱包密钥异常");
+            throw new Exception("获取钱包地址异常");
         }
     }
 
@@ -231,52 +221,28 @@ public class JccJingtum {
      * @return sequence
      * @throws Exception 抛出异常
      */
-    private UInt32 sequence(String address) throws Exception {
+    private UInt32 getSequence(String address, String rpcNode) throws Exception {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode data = mapper.createObjectNode();
+            ObjectNode object = mapper.createObjectNode();
+            object.put("account", address);
+            ArrayList<ObjectNode> params = new ArrayList<>();
+            params.add(object);
+            ArrayNode array = mapper.valueToTree(params);
+            data.put("method", "account_info");
+            data.set("params", array);
 
-            if(!this.isValidAddress(address)) {
-                throw new Exception("钱包地址不合法");
+            String res = OkhttpUtil.post(rpcNode, data.toString());
+            String code = JSONObject.parseObject(res).getJSONObject("result").getString("status");
+            if(SUCCESS_CODE.equals(code)) {
+                String sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("account_data").getString("Sequence");
+                return new UInt32(sequence);
+            } else {
+                throw new Exception(res);
             }
         } catch (Exception e) {
             throw e;
-        }
-
-        String sequence = "";
-        int times = this.tryTimes;
-        do {
-            try {
-                times--;
-                ObjectMapper mapper = new ObjectMapper();
-                ObjectNode data = mapper.createObjectNode();
-                ObjectNode object = mapper.createObjectNode();
-                object.put("account", address);
-                ArrayList<ObjectNode> params = new ArrayList<>();
-                params.add(object);
-                ArrayNode array = mapper.valueToTree(params);
-                data.put("method", "account_info");
-                data.set("params", array);
-
-                String url = rpcNode.randomUrl();
-                String res = OkhttpUtil.post(url, data.toString());
-                String code = JSONObject.parseObject(res).getJSONObject("result").getString("status");
-                if(SUCCESS_CODE.equals(code)) {
-                    sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("account_data").getString("Sequence");
-                }
-
-                if(!sequence.isEmpty()) {
-                    break;
-                }
-
-                //延时500毫秒
-                Thread.sleep(500);
-            } catch (Exception ignored) {
-            }
-        } while(times > 0);
-
-        if(sequence.isEmpty()) {
-            throw new Exception("获取sequence失败");
-        } else {
-            return new UInt32(sequence);
         }
     }
 
@@ -296,7 +262,17 @@ public class JccJingtum {
             if(seq != null) {
                 return seq.value().longValue();
             } else {
-                seq = this.sequence(address);
+                try {
+                    ArrayList<String> list = rpcNode.getUrls();
+                    Iterator it = list.iterator();
+                    while(it.hasNext()) {
+                        String url = (String) it.next();
+                        seq = this.getSequence(address,url);
+                        break;
+                    }
+                }catch (Exception e) {
+                    throw e;
+                }
                 seqList.put(address, seq);
                 return seq.value().longValue();
             }
@@ -313,10 +289,13 @@ public class JccJingtum {
      * @throws Exception 抛出异常
      */
     public void setSequence(String address, long pSequence) throws Exception {
-
         try {
             if(!this.isValidAddress(address)) {
                 throw new Exception("钱包地址不合法");
+            }
+
+            if(pSequence < 0) {
+                throw new Exception("sequence不合法,sequence不能小于0");
             }
 
             seqList.put(address,new UInt32(pSequence));
@@ -330,9 +309,9 @@ public class JccJingtum {
      * @param hash 交易hash
      * @param rpcNode rpc节点服务器
      * @return 交易详情 json格式
+     * @throws Exception 抛出异常
      */
-    private String requestTx(String hash, String rpcNode) {
-        String tx = "";
+    private String requestTx(String hash, String rpcNode)  throws Exception {
         try {
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode data = mapper.createObjectNode();
@@ -348,11 +327,12 @@ public class JccJingtum {
             String status = JSONObject.parseObject(res).getJSONObject("result").getString("status");
             Boolean validated = JSONObject.parseObject(res).getJSONObject("result").getBoolean("validated");
             if (SUCCESS_CODE.equals(status) && validated) {
-                tx = res;
+                return res;
+            } else {
+                throw new Exception(res);
             }
-            return tx;
         }catch (Exception e) {
-            return tx;
+            throw e;
         }
     }
 
@@ -375,14 +355,9 @@ public class JccJingtum {
                 }
             }
         }catch (Exception e) {
-            throw new Exception("获取交易信息失败");
+            throw e;
         }
-
-        if(tx.isEmpty()) {
-            throw new Exception("获取交易信息失败");
-        } else {
-            return tx;
-        }
+        return tx;
     }
 
     /**
@@ -395,7 +370,7 @@ public class JccJingtum {
         try {
             return Utils.hexStrToStr(hexStrMemData);
         } catch (Exception e) {
-            throw new Exception("获取备注内容失败");
+            throw new Exception("内容转换失败");
         }
     }
 
@@ -413,7 +388,7 @@ public class JccJingtum {
         try {
             return this.paymentWithCheck(secret, receiver, pToken, pAmount, Config.ISSUER, memos);
         } catch (Exception e) {
-            throw new Exception("转账失败");
+            throw e;
         }
     }
 
@@ -484,10 +459,10 @@ public class JccJingtum {
             }
 
             SignedTransaction tx = payment.sign(secret);
-            String res = this.submit(tx.tx_blob, tx.hash.toHex());
+            String res = this.submitWithCheck(tx.tx_blob, tx.hash.toHex());
             return res;
         } catch (Exception e) {
-            throw new Exception("转账失败");
+            throw e;
         }
     }
 
@@ -575,7 +550,7 @@ public class JccJingtum {
             }
 
             SignedTransaction tx = payment.sign(secret);
-            String res = this.submit(tx.tx_blob);
+            String res = this.submitNoCheck(tx.tx_blob);
             return res;
         } catch (Exception e) {
             throw e;
@@ -682,7 +657,7 @@ public class JccJingtum {
             }
 
             SignedTransaction tx = offerCreate.sign(secret);
-            String res = this.submit(tx.tx_blob, tx.hash.toHex());
+            String res = this.submitWithCheck(tx.tx_blob, tx.hash.toHex());
             return res;
         } catch (Exception e) {
             throw new Exception("挂单失败");
@@ -789,7 +764,7 @@ public class JccJingtum {
             }
 
             SignedTransaction tx = offerCreate.sign(secret);
-            String res = this.submit(tx.tx_blob);
+            String res = this.submitNoCheck(tx.tx_blob);
             return res;
         } catch (Exception e) {
             throw new Exception("挂单失败");
@@ -822,7 +797,7 @@ public class JccJingtum {
             offerCancel.sequence(new UInt32(sequence));
 
             SignedTransaction tx = offerCancel.sign(secret);
-            String res = this.submit(tx.tx_blob);
+            String res = this.submitNoCheck(tx.tx_blob);
             return res;
         } catch (Exception e) {
             throw new Exception("撤单失败");
@@ -896,7 +871,7 @@ public class JccJingtum {
             }
 
             SignedTransaction tx = payment.sign(secret);
-            String res = this.submit(tx.tx_blob, tx.hash.toHex());
+            String res = this.submitWithCheck(tx.tx_blob, tx.hash.toHex());
             return res;
         } catch (Exception e) {
             throw new Exception("转账失败");
@@ -910,11 +885,13 @@ public class JccJingtum {
      * @return 交易信息
      * @throws Exception 抛出异常
      */
-    public String submit(String txBlob, String hash) throws Exception {
+    public String submitWithCheck(String txBlob, String hash) throws Exception {
         try {
+            System.out.println(hash);
             int times = this.tryTimes;
             String resTx = "";
-            String result = "";
+            String res = "";
+            String successRes = "";
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode data = mapper.createObjectNode();
             ObjectNode object = mapper.createObjectNode();
@@ -930,9 +907,9 @@ public class JccJingtum {
                 times--;
                 try {
                     String url = rpcNode.randomUrl();
-                    result = OkhttpUtil.post(url, data.toString());
-                    String sender = JSONObject.parseObject(result).getJSONObject("result").getJSONObject("tx_json").getString("Account");
-                    int engine_result_code = JSONObject.parseObject(result).getJSONObject("result").getIntValue("engine_result_code");
+                    res = OkhttpUtil.post(url, data.toString());
+                    String sender = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getString("Account");
+                    int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
                     EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
 
                     if(EngineResult.isPastSeq(engineResult)) {
@@ -945,16 +922,14 @@ public class JccJingtum {
                     }
 
                     if(EngineResult.isSuccess(engineResult)) {
-                        long sequence = JSONObject.parseObject(result).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
+                        successRes = res;
+                        System.out.println(successRes);
+                        long sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
                         this.setSequence(sender,++sequence);
                     }
 
+                    //延时1000毫秒
                     Thread.sleep(1000);
-                    resTx = this.requestTx(hash);
-                    if(!resTx.isEmpty()) {
-                        break;
-                    }
-
                 }catch (Exception e) {
                     continue;
                 }
@@ -962,12 +937,12 @@ public class JccJingtum {
                 Thread.sleep(1000);
             }while(times > 0);
 
-            if(resTx.isEmpty()) {
-                return  result;
+            resTx = this.requestTx(hash);
+            if(!resTx.isEmpty()) {
+                return successRes;
             } else {
-                return resTx;
+                throw  new Exception(res);
             }
-
         } catch (Exception e) {
             throw e;
         }
@@ -979,7 +954,7 @@ public class JccJingtum {
      * @return 交易信息
      * @throws Exception 抛出异常
      */
-    public String submit(String txBlob) throws Exception {
+    public String submitNoCheck(String txBlob) throws Exception {
         try {
             int times = this.tryTimes;
             String result = "";
@@ -1002,6 +977,8 @@ public class JccJingtum {
                     result = OkhttpUtil.post(url, data.toString());
                     String sender = JSONObject.parseObject(result).getJSONObject("result").getJSONObject("tx_json").getString("Account");
                     int engine_result_code = JSONObject.parseObject(result).getJSONObject("result").getIntValue("engine_result_code");
+                    engineResultCodeList.put(sender,engine_result_code);
+
                     EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
 
                     if(EngineResult.isSuccess(engineResult)) {
