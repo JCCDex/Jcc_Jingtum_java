@@ -3,7 +3,7 @@ package com.jccdex.rpc.core.types.known.tx;
 import java.util.List;
 
 import com.jccdex.core.crypto.ecdsa.IKeyPair;
-import com.jccdex.core.serialized.BytesList;
+import com.jccdex.rpc.core.serialized.BytesList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

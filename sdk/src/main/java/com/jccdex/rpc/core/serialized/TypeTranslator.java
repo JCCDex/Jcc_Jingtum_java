@@ -1,7 +1,6 @@
 package com.jccdex.rpc.core.serialized;
 
 import com.jccdex.core.encoding.common.B16;
-import com.jccdex.core.serialized.BytesList;
 import com.jccdex.core.serialized.BytesSink;
 import org.json.JSONArray;
 import org.json.JSONObject;
