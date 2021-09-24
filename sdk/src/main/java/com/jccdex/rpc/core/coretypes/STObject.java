@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import com.jccdex.core.serialized.BytesSink;
 import org.json.JSONObject;
 
 import com.jccdex.rpc.core.coretypes.hash.Hash128;
@@ -35,7 +36,6 @@ import com.jccdex.rpc.core.formats.LEFormat;
 import com.jccdex.rpc.core.formats.TxFormat;
 import com.jccdex.rpc.core.serialized.BinaryParser;
 import com.jccdex.rpc.core.serialized.BinarySerializer;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
 import com.jccdex.rpc.core.serialized.enums.EngineResult;

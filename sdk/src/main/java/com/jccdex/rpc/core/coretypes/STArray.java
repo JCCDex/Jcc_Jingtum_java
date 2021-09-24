@@ -2,6 +2,7 @@ package com.jccdex.rpc.core.coretypes;
 
 import java.util.ArrayList;
 
+import com.jccdex.core.serialized.BytesSink;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,7 +10,6 @@ import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.STArrayField;
 import com.jccdex.rpc.core.fields.Type;
 import com.jccdex.rpc.core.serialized.BinaryParser;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
 

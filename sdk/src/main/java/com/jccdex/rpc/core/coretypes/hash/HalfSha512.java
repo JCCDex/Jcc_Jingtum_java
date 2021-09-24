@@ -2,8 +2,8 @@ package com.jccdex.rpc.core.coretypes.hash;
 
 import java.security.MessageDigest;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.Prefix;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 
 public class HalfSha512 implements BytesSink {

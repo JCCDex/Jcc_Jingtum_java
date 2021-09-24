@@ -1,9 +1,9 @@
 package com.jccdex.rpc.core.types.shamap;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.STObject;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.HashPrefix;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.Prefix;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.types.known.sle.LedgerEntry;
 
 public class LedgerEntryItem extends ShaMapItem<LedgerEntry> {

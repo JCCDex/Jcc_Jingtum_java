@@ -43,7 +43,7 @@ public class JccJingtumTest extends TestCase {
             System.out.println(_wallet);
 
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -51,26 +51,27 @@ public class JccJingtumTest extends TestCase {
     public void testSequence() {
         System.out.println("in testSequence");
         try {
-            long sequence = jccJingtum.getSequence(wallet1.getAddress());
+            long sequence = jccJingtum.getSequence(wallet3.getAddress());
             System.out.println(sequence);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 
     @Test
     public void testPaymentNoCheck() {
         System.out.println("in testPaymentNoCheck");
+        long st = System.currentTimeMillis();
         try {
-            long st = System.currentTimeMillis();
             for(int i=0; i<1; i++) {
                 String ret = jccJingtum.paymentNoCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
                 System.out.println(ret);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
-        } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
 
@@ -78,16 +79,17 @@ public class JccJingtumTest extends TestCase {
     public void testPaymentWithCheck() {
 
         System.out.println("in paymentWithCheck");
+        long st = System.currentTimeMillis();
         try {
-            long st = System.currentTimeMillis();
             for(int i=0; i<1; i++) {
-                String ret = jccJingtum.paymentWithCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
+                String ret = jccJingtum.paymentWithCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1.5","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
                 System.out.println(ret);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
-        } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
 
@@ -95,30 +97,31 @@ public class JccJingtumTest extends TestCase {
     public void testCreateOrderWithCheck() {
 
         System.out.println("in createOrderWithCheck");
+        long st = System.currentTimeMillis();
         try {
-            long st = System.currentTimeMillis();
             String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
             System.out.println(ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
-
-
-        } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
 
     @Test
     public void testCreateOrderNoCheck() {
         System.out.println("in createOrderNoCheck");
+        long st = System.currentTimeMillis();
         try {
-            long st = System.currentTimeMillis();
             String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
             System.out.println(ret);
             long t = System.currentTimeMillis()-st;
-            System.out.println("耗时："+t);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
+        }finally {
+            long t = System.currentTimeMillis()-st;
+            System.out.println("耗时："+t);
         }
     }
 
@@ -126,44 +129,45 @@ public class JccJingtumTest extends TestCase {
     public void testCancleOrder() {
 
         System.out.println("in testCancleOrder");
+        long st = System.currentTimeMillis();
         try {
-            long st = System.currentTimeMillis();
             String ret1 = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","100","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
             long sequence = jccJingtum.getSequence(wallet1.getAddress());
             String ret2 = jccJingtum.cancleOrder(wallet1.getSecret(), sequence-1);
             System.out.println(ret2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             long t = System.currentTimeMillis()-st;
             System.out.println("耗时："+t);
-        } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
+//
+    @Test
+    public void testRequestTX() {
 
-//    @Test
-//    public void testRequestTX() {
-//
-//        System.out.println("in testRequestTX");
-//        try {
-//            String res = jccJingtum.requestTx("819B51F9B6B72BB2D7FBC6FBEDC2F3518B03F228B952AD8000F3588E9F905B46");
-//            System.out.println(res);
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
+        System.out.println("in testRequestTX");
+        try {
+            String res = jccJingtum.requestTx("819B51F9B6B72BB2D7FBC6FBEDC2F3518B03F228B952AD8000F3588E9F905B46");
+            System.out.println(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-//    @Test
-//    public void testGetMemoData() {
-//
-//        System.out.println("in testGetMemoData");
-//        try {
-//            String memo = jccJingtum.getMemoData("7B22656E645F74696D65223A312E36323134313138394531322C22706C616E223A2241222C22746F74616C5F616D6F756E74223A2230222C2273746172745F74696D65223A313632313431313032373435352C22757365725F77616C6C65745F61646472657373223A226A4D674B34427A36774E6E626638537775687A52326451454C324A6A7A38574D6233227D");
-//            System.out.println(memo);
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
+    }
+
+    @Test
+    public void testGetMemoData() {
+
+        System.out.println("in testGetMemoData");
+        try {
+            String memo = jccJingtum.getMemoData("7B22656E645F74696D65223A312E36323134313138394531322C22706C616E223A2241222C22746F74616C5F616D6F756E74223A2230222C2273746172745F74696D65223A313632313431313032373435352C22757365725F77616C6C65745F61646472657373223A226A4D674B34427A36774E6E626638537775687A52326451454C324A6A7A38574D6233227D");
+            System.out.println(memo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void tearDown() throws Exception {
     }

@@ -1,10 +1,10 @@
 package com.jccdex.rpc.core.coretypes;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.PathSetField;
 import com.jccdex.rpc.core.fields.Type;
 import com.jccdex.rpc.core.serialized.BinaryParser;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
 import org.json.JSONArray;

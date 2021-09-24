@@ -3,6 +3,7 @@ package com.jccdex.rpc.core.types.known.tx;
 import java.util.List;
 
 import com.jccdex.core.crypto.ecdsa.IKeyPair;
+import com.jccdex.core.serialized.BytesList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,7 +20,6 @@ import com.jccdex.rpc.core.coretypes.uint.UInt32;
 import com.jccdex.rpc.core.enums.TransactionFlag;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.formats.TxFormat;
-import com.jccdex.rpc.core.serialized.BytesList;
 import com.jccdex.rpc.core.serialized.enums.TransactionType;
 import com.jccdex.rpc.core.types.known.tx.signed.SignedTransaction;
 import com.jccdex.rpc.utils.HashUtils;
@@ -43,7 +43,7 @@ public class Transaction extends STObject {
 	
 	public SignedTransaction sign(String secret) {
 		SignedTransaction signed = SignedTransaction.fromTx(this);
-		signed.sign(secret, this.guomi);
+		signed.sign(secret);
 		return signed;
 	}
 	
@@ -79,6 +79,11 @@ public class Transaction extends STObject {
 		});
 		return bl.bytes();
 	}
+
+	public Boolean getGuomi() {
+		return this.guomi;
+	}
+
 	
 	public void setCanonicalSignatureFlag() {
 		UInt32 flags = get(UInt32.Flags);

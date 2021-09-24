@@ -1,5 +1,6 @@
 package com.jccdex.rpc.core.serialized;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Type;
 
 public interface SerializedType {

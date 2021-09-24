@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import com.jccdex.core.serialized.BytesSink;
 import org.json.JSONObject;
 
 import com.jccdex.rpc.core.coretypes.uint.UInt64;
@@ -12,7 +13,6 @@ import com.jccdex.rpc.core.fields.AmountField;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.Type;
 import com.jccdex.rpc.core.serialized.BinaryParser;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
 

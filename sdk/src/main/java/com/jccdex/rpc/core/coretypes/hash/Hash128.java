@@ -1,9 +1,9 @@
 package com.jccdex.rpc.core.coretypes.hash;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.Hash128Field;
 import com.jccdex.rpc.core.fields.Type;
-import com.jccdex.rpc.core.serialized.BytesSink;
 
 public class Hash128 extends Hash<Hash128> {
     public Hash128(byte[] bytes) {

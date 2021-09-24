@@ -1,9 +1,9 @@
 package com.jccdex.rpc.core.coretypes.uint;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.Type;
 import com.jccdex.rpc.core.fields.UInt32Field;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
 
 import java.math.BigInteger;

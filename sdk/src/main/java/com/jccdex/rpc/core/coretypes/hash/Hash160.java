@@ -1,10 +1,10 @@
 package com.jccdex.rpc.core.coretypes.hash;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.AccountID;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.Hash160Field;
 import com.jccdex.rpc.core.fields.Type;
-import com.jccdex.rpc.core.serialized.BytesSink;
 
 public class Hash160 extends Hash<Hash160> {
     public Hash160(byte[] bytes) {

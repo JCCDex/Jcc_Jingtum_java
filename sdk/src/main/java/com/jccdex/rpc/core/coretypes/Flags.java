@@ -1,7 +1,7 @@
 package com.jccdex.rpc.core.coretypes;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Type;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 
 import java.util.BitSet;

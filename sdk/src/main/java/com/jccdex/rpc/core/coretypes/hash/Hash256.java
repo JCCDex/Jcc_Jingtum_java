@@ -1,11 +1,11 @@
 package com.jccdex.rpc.core.coretypes.hash;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.HashPrefix;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.Prefix;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.Hash256Field;
 import com.jccdex.rpc.core.fields.Type;
-import com.jccdex.rpc.core.serialized.BytesSink;
 
 import java.math.BigInteger;
 import java.util.TreeMap;
