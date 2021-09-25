@@ -42,13 +42,11 @@ public class JccJingtum {
 
     private Boolean guomi;
 
-    private final Map<String, Integer> engineResultCodeList = new HashMap<>();
-
     /**
      * @param rpcNodes rpc节点服务器地址列表
      * @param guomi    是否国密链
      */
-    public JccJingtum(ArrayList<String> rpcNodes, Boolean guomi) {
+    public JccJingtum(Boolean guomi, ArrayList<String> rpcNodes) {
         this.guomi = guomi;
         this.tryTimes = rpcNodes.size() > 5 ? rpcNodes.size(): 5;
         rpcNode = new RpcNode(rpcNodes);
@@ -62,7 +60,7 @@ public class JccJingtum {
      * @param rpcNodes rpc节点服务器地址列表
      */
     public JccJingtum(Integer fee, String baseToken, Boolean guomi, ArrayList<String> rpcNodes) {
-        this(rpcNodes, guomi);
+        this(guomi, rpcNodes);
         Config.setFee(fee);
         Config.setCurrency(baseToken);
     }

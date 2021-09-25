@@ -273,6 +273,7 @@ public enum EngineResult implements SerializedType {
 			case tefPAST_SEQ://序列号⾮法
 			case temDST_IS_SRC://⽬标地址不能与源地址相同
 			case telINSUF_FEE_P://gas费用太小
+			case tecNO_ISSUER://issuer不正确
 				return false;
 			default:
 				return true;

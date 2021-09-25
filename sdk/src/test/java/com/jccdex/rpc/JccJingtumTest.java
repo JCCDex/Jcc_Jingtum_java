@@ -30,7 +30,7 @@ public class JccJingtumTest extends TestCase {
 //        rpcNodes.add("https://stestswtcrpc.jccdex.cn");
         rpcNodes.add("http://139.198.19.157:4950");
 
-        jccJingtum = new JccJingtum(rpcNodes,true);
+        jccJingtum = new JccJingtum(true, rpcNodes);
 //        System.out.println(jccJingtum.getAddress("ssPFdoM4pZF1HSyrZ8ymnyxYzoE7h"));
 //        jccJingtum.setPlatform("");
     }
@@ -116,7 +116,6 @@ public class JccJingtumTest extends TestCase {
         try {
             String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
             System.out.println(ret);
-            long t = System.currentTimeMillis()-st;
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
