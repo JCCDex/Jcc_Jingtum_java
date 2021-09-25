@@ -18,7 +18,7 @@ public class DemoSWTGuomi {
         try {
             ArrayList<String> rpcNodes = new ArrayList<String>();
             rpcNodes.add("http://139.198.19.157:4950");
-            jccJingtum = new JccJingtum(rpcNodes,true);
+            jccJingtum = new JccJingtum(true, rpcNodes);
         } catch (Exception e) {
             e.printStackTrace();
         }

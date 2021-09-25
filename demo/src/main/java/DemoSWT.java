@@ -1,24 +1,20 @@
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jccdex.core.client.Wallet;
 import com.jccdex.core.client.WalletSM;
 import com.jccdex.rpc.JccJingtum;
-import com.jccdex.rpc.http.OkhttpUtil;
 
 import java.util.ArrayList;
 
-public class DemoGuomi {
+public class DemoSWT {
     public static void main(String[] args) {
         JccJingtum jccJingtum = null;
-
-        WalletSM wallet1 = WalletSM.fromSecret("snHu1pSHRksTQQMJGa2gZH6gTSukK");//jpSojXsu7mfwStH7ig72yCg86ViKH5dHWN
-        WalletSM wallet2 = WalletSM.fromSecret("snwsVxeKqgKqckhomX6xvguwj5Jci");//j35gQsGrcsTPSmmRmxgVRwtetkp6NGvN4Z
-        WalletSM wallet3 = WalletSM.fromSecret("snH36VVwTHDEkuHfgAsfKg1UCYhcJ");//jG7NeW8QYQbm1xZvxhH1fEMFtYCP1MHqRY
+        Wallet wallet1 = Wallet.fromSecret("snJzg27EHUxJj6fiHU1t7nJea5Y3Q");//jsXw3znEHPYDB78w1f21T6Ya3hUVVUwT6H
+        Wallet wallet2 = Wallet.fromSecret("snLpjnCcbG3QEEiGdvZAg6yBvMKHp");//jsys77BYKczqePgUA2S5oinctLtpd48qVP
+        Wallet wallet3 = Wallet.fromSecret("ssjPGEtUY5pJdjLmESmzUHPXJxXbV");//jKmF8eJUm78mugQ2waBBrbS4SXu43F4JYL
         //初始化JccJingtum Lib
         try {
             ArrayList<String> rpcNodes = new ArrayList<String>();
-            rpcNodes.add("http://139.198.19.157:4950");
-            jccJingtum = new JccJingtum(rpcNodes,true);
+            rpcNodes.add("https://stestswtcrpc.jccdex.cn");
+            jccJingtum = new JccJingtum(false, rpcNodes);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,7 +58,7 @@ public class DemoGuomi {
         System.out.println("挂单(不校验)-------------------------------------------------------");
         st = System.currentTimeMillis();
         try {
-            String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
+            String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jpdP4YhqXxvGroMs26WM8YBcov9bdFeygc","test");
             System.out.println(ret);
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,7 +71,7 @@ public class DemoGuomi {
         System.out.println("挂单(校验)-------------------------------------------------------");
         st = System.currentTimeMillis();
         try {
-            String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
+            String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jpdP4YhqXxvGroMs26WM8YBcov9bdFeygc","test");
             System.out.println(ret);
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +84,7 @@ public class DemoGuomi {
         System.out.println("撤单-------------------------------------------------------");
         st = System.currentTimeMillis();
         try {
-            String ret1 = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","100","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
+            String ret1 = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","100","jpdP4YhqXxvGroMs26WM8YBcov9bdFeygc","test");
             long sequence = jccJingtum.getSequence(wallet1.getAddress());
             String ret2 = jccJingtum.cancleOrder(wallet1.getSecret(), sequence-1);
             System.out.println(ret2);
@@ -102,7 +98,7 @@ public class DemoGuomi {
         //获取交易详情
         System.out.println("获取交易详情-------------------------------------------------------");
         try {
-            String res = jccJingtum.requestTx("9EBFB6A0B5A98B8A9E617EE57F4045B44A0D2A8BFA5946C6F0D5925BE9B99D4C");
+            String res = jccJingtum.requestTx("FB6C0A537C0D71092DF0066533F2BD1F5BE88279C450A4FAFDAB139AFC504AF4");
             System.out.println(res);
         } catch (Exception e) {
             e.printStackTrace();
