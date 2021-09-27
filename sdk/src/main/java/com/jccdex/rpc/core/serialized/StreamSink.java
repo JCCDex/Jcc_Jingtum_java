@@ -1,5 +1,7 @@
 package com.jccdex.rpc.core.serialized;
 
+import com.jccdex.core.serialized.BytesSink;
+
 import java.io.IOException;
 import java.io.OutputStream;
 

@@ -1,7 +1,7 @@
 package com.jccdex.rpc.core.types.shamap;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.Prefix;
-import com.jccdex.rpc.core.serialized.BytesSink;
 
 public class BytesItem extends ShaMapItem<byte[]> {
     private byte[] item;

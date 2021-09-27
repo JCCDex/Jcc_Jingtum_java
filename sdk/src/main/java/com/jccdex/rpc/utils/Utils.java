@@ -5,10 +5,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jccdex.core.encoding.common.B16;
 import org.apache.commons.lang3.StringUtils;
 
 import com.jccdex.rpc.client.bean.AmountInfo;
-import com.jccdex.rpc.encoding.common.B16;
 
 public class Utils {
 	public static void main(String[] args) {

@@ -1,9 +1,9 @@
 package com.jccdex.rpc.core.coretypes.uint;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.Type;
 import com.jccdex.rpc.core.fields.UInt32Field;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
 
 import java.math.BigInteger;
@@ -96,6 +96,7 @@ public class UInt32 extends UInt<UInt32> {
     static public UInt32Field SetFlag = int32Field(Field.SetFlag);
     static public UInt32Field ClearFlag = int32Field(Field.ClearFlag);
     static public UInt32Field SignerQuorum = int32Field(Field.SignerQuorum);
+    static public UInt32Field TokenSize = int32Field(Field.TokenSize);
 
     @Override
     public Object toJSON() {

@@ -1,8 +1,8 @@
 package com.jccdex.rpc.core.binary;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.hash.Hash256;
 import com.jccdex.rpc.core.serialized.BinarySerializer;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.types.known.sle.LedgerEntry;
 import com.jccdex.rpc.core.types.known.tx.result.TransactionResult;

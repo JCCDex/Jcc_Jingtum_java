@@ -6,12 +6,12 @@ import java.math.MathContext;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import com.jccdex.core.encoding.common.B16;
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.config.Config;
 import com.jccdex.rpc.core.coretypes.hash.Hash160;
 import com.jccdex.rpc.core.coretypes.uint.UInt64;
 import com.jccdex.rpc.core.serialized.BinaryParser;
-import com.jccdex.rpc.core.serialized.BytesSink;
-import com.jccdex.rpc.encoding.common.B16;
 
 /**
  * Funnily enough, yes, in rippled a currency is represented by a Hash160 type.

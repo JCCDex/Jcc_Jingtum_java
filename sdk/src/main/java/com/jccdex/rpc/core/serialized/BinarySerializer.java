@@ -2,6 +2,8 @@ package com.jccdex.rpc.core.serialized;
 
 import java.util.Arrays;
 
+import com.jccdex.rpc.core.serialized.BytesList;
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Field;
 import com.jccdex.rpc.core.fields.Type;
 

@@ -1,7 +1,7 @@
 package com.jccdex.rpc.core.serialized;
 
+import com.jccdex.core.encoding.common.B16;
 import com.jccdex.rpc.core.fields.Field;
-import com.jccdex.rpc.encoding.common.B16;
 
 public class BinaryParser {
 	protected final int size;

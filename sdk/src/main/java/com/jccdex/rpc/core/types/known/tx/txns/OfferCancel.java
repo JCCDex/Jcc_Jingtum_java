@@ -6,8 +6,13 @@ import com.jccdex.rpc.core.serialized.enums.TransactionType;
 import com.jccdex.rpc.core.types.known.tx.Transaction;
 
 public class OfferCancel extends Transaction {
+
     public OfferCancel() {
         super(TransactionType.OfferCancel);
+    }
+
+    public OfferCancel(Boolean guomi) {
+        super(TransactionType.OfferCancel, guomi);
     }
     
     public UInt32 offerSequence() {return get(UInt32.OfferSequence);}

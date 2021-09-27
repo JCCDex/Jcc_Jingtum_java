@@ -36,7 +36,7 @@ public enum Field {
 	                Type.UInt32), SignerQuorum(35, Type.UInt32), CancelAfter(36, Type.UInt32), FinishAfter(37, Type.UInt32), SignerListID(
 	                        38, Type.UInt32), IndexNext(1, Type.UInt64), IndexPrevious(2, Type.UInt64), BookNode(3, Type.UInt64), OwnerNode(
 	                                4, Type.UInt64), BaseFee(5, Type.UInt64), ExchangeRate(6, Type.UInt64), LowNode(7,
-	                                        Type.UInt64), HighNode(8, Type.UInt64), EmailHash(1, Type.Hash128), LedgerHash(1,
+	                                        Type.UInt64), HighNode(8, Type.UInt64), OfferFeeRateNum(9, Type.UInt64),OfferFeeRateDen(10, Type.UInt64),TokenSize(13, Type.UInt64),TokenIssued(14, Type.UInt64),EmailHash(1, Type.Hash128), LedgerHash(1,
 	                                                Type.Hash256), ParentHash(2, Type.Hash256), TransactionHash(3,
 	                                                        Type.Hash256), AccountHash(4, Type.Hash256), PreviousTxnID(5,
 	                                                                Type.Hash256), LedgerIndex(6, Type.Hash256), WalletLocator(7,

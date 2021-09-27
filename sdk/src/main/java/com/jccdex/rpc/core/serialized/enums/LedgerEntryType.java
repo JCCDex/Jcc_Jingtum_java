@@ -2,12 +2,12 @@ package com.jccdex.rpc.core.serialized.enums;
 
 import java.util.TreeMap;
 
+import com.jccdex.core.encoding.common.B16;
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.fields.Type;
 import com.jccdex.rpc.core.serialized.BinaryParser;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import com.jccdex.rpc.core.serialized.SerializedType;
 import com.jccdex.rpc.core.serialized.TypeTranslator;
-import com.jccdex.rpc.encoding.common.B16;
 
 public enum LedgerEntryType implements SerializedType {
 	Invalid(-1), AccountRoot('a'), DirectoryNode('d'), GeneratorMap('g'), RippleState('r'), SuspendedPayment('u'),

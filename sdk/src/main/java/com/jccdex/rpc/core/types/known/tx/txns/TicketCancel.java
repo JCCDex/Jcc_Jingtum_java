@@ -8,6 +8,11 @@ public class TicketCancel extends Transaction {
     public TicketCancel() {
         super(TransactionType.TicketCancel);
     }
+
+    public TicketCancel(Boolean guomi) {
+        super(TransactionType.TicketCancel, guomi);
+    }
+
     public Hash256 ticketID() {
         return get(Hash256.TicketID);
     }

@@ -1,10 +1,11 @@
 package com.jccdex.rpc.core.serialized;
 
+import com.jccdex.core.encoding.common.B16;
+import com.jccdex.core.serialized.BytesSink;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.jccdex.rpc.core.runtime.Value;
-import com.jccdex.rpc.encoding.common.B16;
 
 /**
  * @param <T> The SerializedType class

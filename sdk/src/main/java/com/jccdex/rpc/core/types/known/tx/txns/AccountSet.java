@@ -9,9 +9,15 @@ import com.jccdex.rpc.core.serialized.enums.TransactionType;
 import com.jccdex.rpc.core.types.known.tx.Transaction;
 
 public class AccountSet extends Transaction{
+
     public AccountSet() {
         super(TransactionType.AccountSet);
     }
+
+    public AccountSet(Boolean guomi) {
+        super(TransactionType.AccountSet, guomi);
+    }
+
     public UInt32 transferRate() {return get(UInt32.TransferRate);}
     public UInt32 walletSize() {return get(UInt32.WalletSize);}
     public UInt32 setFlag() {return get(UInt32.SetFlag);}

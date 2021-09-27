@@ -1,5 +1,7 @@
 package com.jccdex.rpc.core.serialized;
 
+import com.jccdex.core.serialized.BytesSink;
+
 import java.security.MessageDigest;
 import java.util.ArrayList;
 

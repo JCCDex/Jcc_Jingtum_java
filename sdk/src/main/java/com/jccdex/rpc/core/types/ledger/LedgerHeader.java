@@ -1,5 +1,6 @@
 package com.jccdex.rpc.core.types.ledger;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.binary.STReader;
 import com.jccdex.rpc.core.coretypes.RippleDate;
 import com.jccdex.rpc.core.coretypes.hash.HalfSha512;
@@ -9,7 +10,6 @@ import com.jccdex.rpc.core.coretypes.uint.UInt32;
 import com.jccdex.rpc.core.coretypes.uint.UInt64;
 import com.jccdex.rpc.core.coretypes.uint.UInt8;
 import com.jccdex.rpc.core.serialized.BinaryParser;
-import com.jccdex.rpc.core.serialized.BytesSink;
 import org.json.JSONWriter;
 
 import java.util.Date;

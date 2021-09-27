@@ -1,9 +1,9 @@
 package com.jccdex.rpc.core.types.shamap;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.hash.Hash256;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.HashPrefix;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.Prefix;
-import com.jccdex.rpc.core.serialized.BytesSink;
 
 import java.util.Iterator;
 

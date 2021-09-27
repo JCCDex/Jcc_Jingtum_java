@@ -1,8 +1,8 @@
 package com.jccdex.rpc.core.types.shamap;
 
+import com.jccdex.core.serialized.BytesSink;
 import com.jccdex.rpc.core.coretypes.hash.Hash256;
 import com.jccdex.rpc.core.coretypes.hash.prefixes.Prefix;
-import com.jccdex.rpc.core.serialized.BytesSink;
 
 public class ShaMapLeaf extends ShaMapNode {
     public Hash256 index;
