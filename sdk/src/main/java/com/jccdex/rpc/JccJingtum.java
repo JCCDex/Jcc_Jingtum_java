@@ -230,15 +230,7 @@ public class JccJingtum {
             ArrayNode array = mapper.valueToTree(params);
             data.put("method", "account_info");
             data.set("params", array);
-
-            String res = OkhttpUtil.post(rpcNode, data.toString());
-            String code = JSONObject.parseObject(res).getJSONObject("result").getString("status");
-            if(SUCCESS_CODE.equals(code)) {
-                String sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("account_data").getString("Sequence");
-                return sequence;
-            } else {
-                throw  new Exception(res);
-            }
+            return OkhttpUtil.post(rpcNode, data.toString());
         } catch (Exception e) {
             throw e;
         }
@@ -252,26 +244,41 @@ public class JccJingtum {
      */
     public long getSequence(String address) throws Exception {
         try {
+            int times = this.tryTimes;
+            Boolean success = false;
+
             if(!this.isValidAddress(address)) {
                 throw new Exception("钱包地址不合法");
             }
 
             UInt32 seq = seqList.get(address);
+            String res = "";
             if(seq != null) {
                 return seq.value().longValue();
             } else {
-                ArrayList<String> list = rpcNode.getUrls();
-                Iterator it = list.iterator();
-                while(it.hasNext()) {
-                    String url = (String) it.next();
-                    String sequence = this.getSequence(address,url);
-                    if (!sequence.isEmpty()) {
-                        seq = new UInt32(sequence);
-                        break;
+                do {
+                    times--;
+                    String url = rpcNode.randomUrl();
+                    res = this.getSequence(address, url);
+                    String sequence = "";
+                    try {
+                        String code = JSONObject.parseObject(res).getJSONObject("result").getString("status");
+                        if(SUCCESS_CODE.equals(code)) {
+                            sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("account_data").getString("Sequence");
+                            seq = new UInt32(sequence);
+                            success = true;
+                            break;
+                        }
+                    } catch(Exception e) {
+                        continue;
                     }
+                } while(times > 0);
+                if(success) {
+                    seqList.put(address, seq);
+                    return seq.value().longValue();
+                } else {
+                    throw new Exception(res);
                 }
-                seqList.put(address, seq);
-                return seq.value().longValue();
             }
         } catch (Exception e) {
             throw e;
@@ -321,13 +328,7 @@ public class JccJingtum {
             data.put("method", "tx");
             data.set("params", array);
             String res = OkhttpUtil.post(rpcNode, data.toString());
-            String status = JSONObject.parseObject(res).getJSONObject("result").getString("status");
-            Boolean validated = JSONObject.parseObject(res).getJSONObject("result").getBoolean("validated");
-            if (SUCCESS_CODE.equals(status) && validated) {
-                return res;
-            } else {
-                throw new Exception(res);
-            }
+            return res;
         }catch (Exception e) {
             throw e;
         }
@@ -340,21 +341,36 @@ public class JccJingtum {
      * @throws Exception 抛出异常
      */
     public String requestTx(String hash) throws Exception {
-        String tx = "";
+        int times = this.tryTimes;
+
+        String res = "";
+        Boolean success = false;
         try {
             ArrayList<String> list = rpcNode.getUrls();
             Iterator it = list.iterator();
-            while(it.hasNext()) {
-                String url = (String) it.next();
-                tx = this.requestTx(hash,url);
-                if (!tx.isEmpty()) {
-                    break;
+            do {
+                times--;
+                String url = rpcNode.randomUrl();
+                res = this.requestTx(hash,url);
+                try {
+                    String status = JSONObject.parseObject(res).getJSONObject("result").getString("status");
+                    Boolean validated = JSONObject.parseObject(res).getJSONObject("result").getBoolean("validated");
+                    if (SUCCESS_CODE.equals(status) && validated) {
+                        success = true;
+                        break;
+                    }
+                } catch (Exception e) {
+                    continue;
                 }
+            } while(times > 0);
+            if(success) {
+                return res;
+            } else {
+                throw new Exception(res);
             }
         }catch (Exception e) {
             throw e;
         }
-        return tx;
     }
 
     /**
