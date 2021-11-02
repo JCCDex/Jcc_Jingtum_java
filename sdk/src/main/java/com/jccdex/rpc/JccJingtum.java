@@ -388,6 +388,15 @@ public class JccJingtum {
     }
 
     /**
+     * 时间戳转换，区块链账本上的时间戳是相对于2000-01-01 08:00:00的偏移时间，换算成当前时间需要转换
+     * @param blockTime  区块链账本上的时间戳
+     * @return 标准时间戳(秒)
+     */
+    public long transferTime(Long blockTime) {
+        return (blockTime + 946684800);
+    }
+
+    /**
      *  转账并校验，每笔交易都会校验是否成功，适合普通转账，优点：每笔交易都进行确认，缺点：转账效率低下
      * @param secret 发送者钱包密钥
      * @param receiver 接收者钱包地址
@@ -441,37 +450,7 @@ public class JccJingtum {
             String sender = this.getAddress(secret);
             long sequence = this.getSequence(sender);
 
-            ObjectMapper mapper = new ObjectMapper();
-            String token = pToken.toUpperCase();
-            Amount amount;
-            Payment payment = new Payment(this.guomi);
-            payment.as(AccountID.Account, sender);
-            payment.as(AccountID.Destination, receiver);
-
-            BigDecimal bigDecimal = new BigDecimal(pAmount);
-            if(bigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(Config.CURRENCY.equals(token)) {
-                amount = new Amount(bigDecimal);
-            } else {
-                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
-            }
-
-
-            payment.as(Amount.Amount, amount);
-            payment.as(Amount.Fee, String.valueOf(Config.FEE));
-            payment.sequence(new UInt32(sequence));
-            payment.flags(new UInt32(0));
-
-            if (memos.length() > 0) {
-                ArrayList<String> memoList = new ArrayList<>(1);
-                memoList.add(memos);
-                payment.addMemo(memoList);
-            }
-
-            SignedTransaction tx = payment.sign(secret);
+            SignedTransaction tx = this.signWthPayment(secret, receiver, pToken, pAmount, pIssuer, sequence, memos);
             String res = this.submitWithCheck(tx.tx_blob, tx.hash.toHex());
             return res;
         } catch (Exception e) {
@@ -533,36 +512,7 @@ public class JccJingtum {
             String sender = this.getAddress(secret);
             long sequence = this.getSequence(sender);
 
-            ObjectMapper mapper = new ObjectMapper();
-            String token = pToken.toUpperCase();
-            Amount amount;
-            Payment payment = new Payment(this.guomi);
-            payment.as(AccountID.Account, sender);
-            payment.as(AccountID.Destination, receiver);
-
-            BigDecimal bigDecimal = new BigDecimal(pAmount);
-            if(bigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(Config.CURRENCY.equals(token)) {
-                amount = new Amount(bigDecimal);
-            } else {
-                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
-            }
-
-            payment.as(Amount.Amount, amount);
-            payment.as(Amount.Fee, String.valueOf(Config.FEE));
-            payment.sequence(new UInt32(sequence));
-            payment.flags(new UInt32(0));
-
-            if (memos.length() > 0) {
-                ArrayList<String> memoList = new ArrayList<>(1);
-                memoList.add(memos);
-                payment.addMemo(memoList);
-            }
-
-            SignedTransaction tx = payment.sign(secret);
+            SignedTransaction tx = this.signWthPayment(secret, receiver, pToken, pAmount, pIssuer, sequence, memos);
             String res = this.submitNoCheck(tx.tx_blob);
             return res;
         } catch (Exception e) {
@@ -622,54 +572,9 @@ public class JccJingtum {
             }
 
             String address = this.getAddress(secret);
-
-            String payToken = pPayToke.toUpperCase();
-            String getToken = pGetToken.toUpperCase();
-
-            OfferCreate offerCreate = new OfferCreate(this.guomi);
-            offerCreate.as(AccountID.Account, address);
-            offerCreate.as(AccountID.Platform, Config.PLATFORM);
-
-            Amount payAmount;
-            BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
-            BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
-
-            if(payBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(getBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(Config.CURRENCY.equals(payToken)) {
-                payAmount = new Amount(payBigDecimal);
-            } else {
-                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(pPayIssuer));
-            }
-
-            Amount getAmount;
-
-            if(Config.CURRENCY.equals(getToken)) {
-                getAmount = new Amount(getBigDecimal);
-            } else {
-                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(pGetIssuer));
-            }
-            offerCreate.as(Amount.TakerPays, getAmount);
-            offerCreate.as(Amount.TakerGets, payAmount);
-
-            offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
-
             long sequence = this.getSequence(address);
-            offerCreate.sequence(new UInt32(sequence));
 
-            if (memos.length() > 0) {
-                ArrayList<String> memoList = new ArrayList<>(1);
-                memoList.add(memos);
-                offerCreate.addMemo(memoList);
-            }
-
-            SignedTransaction tx = offerCreate.sign(secret);
+            SignedTransaction tx = this.signWithCreateOrder(secret, pPayToke, pPayAmount, pPayIssuer, pGetToken, pGetAmount, pGetIssuer, sequence, memos);
             String res = this.submitWithCheck(tx.tx_blob, tx.hash.toHex());
             return res;
         } catch (Exception e) {
@@ -729,54 +634,9 @@ public class JccJingtum {
             }
 
             String address = this.getAddress(secret);;
-
-            String payToken = pPayToke.toUpperCase();
-            String getToken = pGetToken.toUpperCase();
-
-            OfferCreate offerCreate = new OfferCreate(this.guomi);
-            offerCreate.as(AccountID.Account, address);
-            offerCreate.as(AccountID.Platform, Config.PLATFORM);
-
-            Amount payAmount;
-            BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
-            BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
-
-            if(payBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(getBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(Config.CURRENCY.equals(payToken)) {
-                payAmount = new Amount(payBigDecimal);
-            } else {
-                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(pPayIssuer));
-            }
-
-            Amount getAmount;
-
-            if(Config.CURRENCY.equals(getToken)) {
-                getAmount = new Amount(getBigDecimal);
-            } else {
-                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(pGetIssuer));
-            }
-            offerCreate.as(Amount.TakerPays, getAmount);
-            offerCreate.as(Amount.TakerGets, payAmount);
-
-            offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
-
             long sequence = this.getSequence(address);
-            offerCreate.sequence(new UInt32(sequence));
 
-            if (memos.length() > 0) {
-                ArrayList<String> memoList = new ArrayList<>(1);
-                memoList.add(memos);
-                offerCreate.addMemo(memoList);
-            }
-
-            SignedTransaction tx = offerCreate.sign(secret);
+            SignedTransaction tx = this.signWithCreateOrder(secret, pPayToke, pPayAmount, pPayIssuer, pGetToken, pGetAmount, pGetIssuer, sequence, memos);;
             String res = this.submitNoCheck(tx.tx_blob);
             return res;
         } catch (Exception e) {
@@ -785,12 +645,12 @@ public class JccJingtum {
     }
 
     /**
-     * 取消挂单
+     * 快速撤单
      * @param secret 钱包密钥
      * @param pSequence 挂单序列号
      * @return 交易详情 json格式
      */
-    public String cancleOrder(String secret, long pSequence) throws Exception{
+    public String cancleOrderNoCheck(String secret, long pSequence) throws Exception {
         try {
             if(!this.isValidSecret(secret)) {
                 throw new Exception("钱包密钥不合法");
@@ -801,16 +661,37 @@ public class JccJingtum {
             }
 
             String address = this.getAddress(secret);
-
-            OfferCancel offerCancel = new OfferCancel(this.guomi);
-            offerCancel.as(AccountID.Account, address);
-            offerCancel.as(UInt32.OfferSequence, pSequence);
-            offerCancel.as(Amount.Fee, String.valueOf(Config.FEE));
             long sequence = this.getSequence(address);
-            offerCancel.sequence(new UInt32(sequence));
 
-            SignedTransaction tx = offerCancel.sign(secret);
+            SignedTransaction tx = this.signWithCancleOrder(secret, pSequence, sequence);
             String res = this.submitNoCheck(tx.tx_blob);
+            return res;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * 快速撤单并确认
+     * @param secret 钱包密钥
+     * @param pSequence 挂单序列号
+     * @return 交易详情 json格式
+     */
+    public String cancleOrderWithCheck(String secret, long pSequence) throws Exception {
+        try {
+            if(!this.isValidSecret(secret)) {
+                throw new Exception("钱包密钥不合法");
+            }
+
+            if(pSequence < 1) {
+                throw new Exception("sequence不能小于等于0");
+            }
+
+            String address = this.getAddress(secret);
+            long sequence = this.getSequence(address);
+
+            SignedTransaction tx = this.signWithCancleOrder(secret, pSequence, sequence);
+            String res = this.submitWithCheck(tx.tx_blob, tx.hash.toHex());
             return res;
         } catch (Exception e) {
             throw e;
@@ -952,7 +833,7 @@ public class JccJingtum {
             if(!resTx.isEmpty()) {
                 return successRes;
             } else {
-                throw  new Exception(res);
+                return res;
             }
         } catch (Exception e) {
             throw e;
@@ -966,6 +847,20 @@ public class JccJingtum {
      * @throws Exception 抛出异常
      */
     public String submitNoCheck(String txBlob) throws Exception {
+        try {
+            return submitBlob(txBlob);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * 向节点发送交易请求，并且根据签名得到的hash进行交易确认
+     * @param txBlob 交易信息
+     * @return 交易信息
+     * @throws Exception 抛出异常
+     */
+    public String submitBlob(String txBlob) throws Exception {
         try {
             int times = this.tryTimes;
             String resTx = "";
@@ -1001,7 +896,6 @@ public class JccJingtum {
                     }
 
                     if(EngineResult.isSuccess(engineResult)) {
-                        successRes = res;
                         long sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
                         this.setSequence(sender,++sequence);
                         break;
@@ -1016,11 +910,7 @@ public class JccJingtum {
                 Thread.sleep(2000);
             }while(times > 0);
 
-            if(!successRes.isEmpty()) {
-                return successRes;
-            } else {
-                throw  new Exception(res);
-            }
+            return res;
         } catch (Exception e) {
             throw e;
         }
@@ -1057,6 +947,205 @@ public class JccJingtum {
             }
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    /**
+     *  转账交易签名
+     * @param secret 发送者钱包密钥
+     * @param receiver 接收者钱包地址
+     * @param pToken 转账Token
+     * @param pAmount 转账数量
+     * @param pIssuer 银关地址
+     * @param sequence  交易序列号
+     * @param memos  交易备注(无就传"")
+     * @return 交易详情 json格式
+     * @throws Exception 抛出异常
+     */
+    public SignedTransaction signWthPayment(String secret, String receiver, String pToken, String pAmount, String pIssuer, long sequence, String memos) throws Exception {
+        try {
+            if(!this.isValidSecret(secret)) {
+                throw new Exception("钱包密钥不合法");
+            }
+            if(!this.isValidAddress(receiver)) {
+                throw new Exception("钱包地址不合法");
+            }
+
+            if(!this.isValidAddress(pIssuer)) {
+                throw new Exception("银关地址不合法");
+            }
+
+            if(pToken.isEmpty()) {
+                throw new Exception("token名称不合法");
+            }
+
+            if(pAmount.isEmpty()) {
+                throw new Exception("数量不合法");
+            }
+
+            String sender = this.getAddress(secret);
+
+            //删除本地队列sequence,从节点重新获取
+            seqList.remove(sender);
+
+            ObjectMapper mapper = new ObjectMapper();
+            String token = pToken.toUpperCase();
+            Amount amount;
+            Payment payment = new Payment(this.guomi);
+            payment.as(AccountID.Account, sender);
+            payment.as(AccountID.Destination, receiver);
+
+            BigDecimal bigDecimal = new BigDecimal(pAmount);
+            if(bigDecimal.compareTo(new BigDecimal(0)) < 1){
+                throw new Exception("token数量不能小于等于0");
+            }
+
+            if(Config.CURRENCY.equals(token)) {
+                amount = new Amount(bigDecimal);
+            } else {
+                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
+            }
+
+            payment.as(Amount.Amount, amount);
+            payment.as(Amount.Fee, String.valueOf(Config.FEE));
+            payment.sequence(new UInt32(sequence));
+            payment.flags(new UInt32(0));
+
+            if (memos.length() > 0) {
+                ArrayList<String> memoList = new ArrayList<>(1);
+                memoList.add(memos);
+                payment.addMemo(memoList);
+            }
+
+            SignedTransaction tx = payment.sign(secret);
+            return tx;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * 挂单签名
+     * @param secret 挂单方钱包密钥
+     * @param pPayToke  挂单方支付的Token名称
+     * @param pPayAmount 挂单方支付的Token数量
+     * @param pPayIssuer 挂单方支付的Token的银关地址
+     * @param pGetToken  挂单方期望得到的Token名称
+     * @param pGetAmount 挂单方期望得到的Token数量
+     * @param pGetIssuer 挂单方期望得到的Token的银关地址
+     * @param sequence 交易序列号
+     * @param memos 交易备注(无就传"")
+     * @return 交易详情 json格式
+     */
+    public SignedTransaction signWithCreateOrder(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, long sequence, String memos) throws Exception {
+        try {
+            if(!this.isValidSecret(secret)) {
+                throw new Exception("钱包密钥不合法");
+            }
+
+            if(!this.isValidAddress(pPayIssuer)) {
+                throw new Exception("银关地址不合法");
+            }
+            if(!this.isValidAddress(pGetIssuer)) {
+                throw new Exception("银关地址不合法");
+            }
+
+            if(pPayToke.isEmpty() || pGetToken.isEmpty()) {
+                throw new Exception("token名称不合法");
+            }
+
+            if(pPayAmount.isEmpty() || pGetAmount.isEmpty()) {
+                throw new Exception("token数量不合法");
+            }
+
+            String address = this.getAddress(secret);
+            //删除本地队列sequence,从节点重新获取
+            seqList.remove(address);
+
+            String payToken = pPayToke.toUpperCase();
+            String getToken = pGetToken.toUpperCase();
+
+            OfferCreate offerCreate = new OfferCreate(this.guomi);
+            offerCreate.as(AccountID.Account, address);
+            offerCreate.as(AccountID.Platform, Config.PLATFORM);
+
+            Amount payAmount;
+            BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
+            BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
+
+            if(payBigDecimal.compareTo(new BigDecimal(0)) < 1){
+                throw new Exception("token数量不能小于等于0");
+            }
+
+            if(getBigDecimal.compareTo(new BigDecimal(0)) < 1){
+                throw new Exception("token数量不能小于等于0");
+            }
+
+            if(Config.CURRENCY.equals(payToken)) {
+                payAmount = new Amount(payBigDecimal);
+            } else {
+                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(pPayIssuer));
+            }
+
+            Amount getAmount;
+
+            if(Config.CURRENCY.equals(getToken)) {
+                getAmount = new Amount(getBigDecimal);
+            } else {
+                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(pGetIssuer));
+            }
+            offerCreate.as(Amount.TakerPays, getAmount);
+            offerCreate.as(Amount.TakerGets, payAmount);
+
+            offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
+
+            offerCreate.sequence(new UInt32(sequence));
+
+            if (memos.length() > 0) {
+                ArrayList<String> memoList = new ArrayList<>(1);
+                memoList.add(memos);
+                offerCreate.addMemo(memoList);
+            }
+
+            SignedTransaction tx = offerCreate.sign(secret);
+            return tx;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     *  撤单签名
+     * @param secret 钱包密钥
+     * @param pSequence 挂单序列号
+     * @param sequence 交易序列号
+     * @return 交易详情 json格式
+     */
+    public SignedTransaction signWithCancleOrder(String secret, long pSequence, long sequence) throws Exception {
+        try {
+            if(!this.isValidSecret(secret)) {
+                throw new Exception("钱包密钥不合法");
+            }
+
+            if(pSequence < 1) {
+                throw new Exception("sequence不能小于等于0");
+            }
+
+            String address = this.getAddress(secret);
+            //删除本地队列sequence,从节点重新获取
+            seqList.remove(address);
+
+            OfferCancel offerCancel = new OfferCancel(this.guomi);
+            offerCancel.as(AccountID.Account, address);
+            offerCancel.as(UInt32.OfferSequence, pSequence);
+            offerCancel.as(Amount.Fee, String.valueOf(Config.FEE));
+
+            offerCancel.sequence(new UInt32(sequence));
+
+            SignedTransaction tx = offerCancel.sign(secret);
+            return tx;
+        } catch (Exception e) {
+            throw e;
         }
     }
 

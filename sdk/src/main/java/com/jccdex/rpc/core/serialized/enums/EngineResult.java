@@ -285,7 +285,11 @@ public enum EngineResult implements SerializedType {
 	}
 
 	public static Boolean isPastSeq(EngineResult result) {
-		return ((result == tefPAST_SEQ) || (result == terPRE_SEQ));
+		return (result == tefPAST_SEQ);
+	}
+
+	public static Boolean isPreSeq(EngineResult result) {
+		return (result == terPRE_SEQ);
 	}
 	
 	public EngineResult resultClass() {
