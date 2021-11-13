@@ -281,7 +281,7 @@ public enum EngineResult implements SerializedType {
 	}
 
 	public static Boolean isSuccess(EngineResult result) {
-		return (result == tesSUCCESS);
+		return (result == tesSUCCESS) || (result == tefALREADY);
 	}
 
 	public static Boolean isPastSeq(EngineResult result) {
