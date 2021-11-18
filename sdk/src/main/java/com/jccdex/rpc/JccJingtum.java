@@ -18,6 +18,7 @@ import com.jccdex.rpc.core.types.known.tx.txns.OfferCancel;
 import com.jccdex.rpc.core.types.known.tx.txns.OfferCreate;
 import com.jccdex.rpc.core.types.known.tx.txns.Payment;
 import com.jccdex.rpc.http.OkhttpUtil;
+import com.jccdex.rpc.res.ServerInfo;
 import com.jccdex.rpc.utils.Utils;
 
 import java.math.BigDecimal;
@@ -1036,6 +1037,44 @@ public class JccJingtum {
             }while(times > 0);
 
             return res;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * 获取节点状态
+     * @return 节点列表和状态
+     * @throws Exception
+     */
+    public ArrayList<ServerInfo> getServerState()  throws Exception {
+        try {
+            String res = "";
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode data = mapper.createObjectNode();
+
+            data.put("method", "ledger");
+            ArrayList<String> hostList = rpcNode.getUrls();
+            ArrayList<ServerInfo> serverList = new ArrayList<>();;;
+            for(int i=0; i< hostList.size(); i++)
+            {
+                try {
+                    ServerInfo serverInfo = new ServerInfo();
+                    String url = hostList.get(i);
+                    res = OkhttpUtil.post(url, data.toString());
+                    if("success".equals(JSONObject.parseObject(res).getJSONObject("result").getString("status"))) {
+                        serverInfo.host = url;
+                        serverInfo.lastLedgerHash = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("ledger_hash");
+                        serverInfo.height = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("seqNum");
+                        String closeTime = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("close_time");
+                        serverInfo.lastLedgerTime = this.convertTime(Long.valueOf(closeTime));
+                        serverList.add(serverInfo);
+                    }
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+            return serverList;
         } catch (Exception e) {
             throw e;
         }
