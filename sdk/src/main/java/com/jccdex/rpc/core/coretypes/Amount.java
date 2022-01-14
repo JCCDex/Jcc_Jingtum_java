@@ -650,7 +650,7 @@ public class Amount extends Number implements SerializedType, Comparable<Amount>
 	}
 	
 	private static PrecisionError getOutOfBoundsError(BigDecimal abs, String sized, BigDecimal bound) {
-		return new PrecisionError(abs.toPlainString() + " absolute XRP is " + sized + bound);
+		return new PrecisionError(abs.toPlainString() + " absolute SWT is " + sized + bound);
 	}
 	
 	public void checkXRPBounds() {
