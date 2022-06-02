@@ -21,109 +21,171 @@ import com.jccdex.rpc.http.OkhttpUtil;
 import com.jccdex.rpc.res.ServerInfo;
 import com.jccdex.rpc.utils.Utils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * 井通公链、联盟链RPC开发接口
- * @author xdjiang, shuonimei
+ * @author xdjiang
  */
 public class JccJingtum {
-    private final RpcNode rpcNode;
+
+    /**
+     * 字母表，每一条联盟链都可以用不同的或者相同alphabet
+     */
+    private final String alphabet;
+
+    /**
+     * 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
+     */
+    private final Integer fee;
+
+    /**
+     * 链基础通证
+     */
+    private final String baseToken;
+
+    /**
+     * 平台手续费账号
+     */
+    private final String platform;
+
+    /**
+     * rpc节点
+     */
+    private final ArrayList<String> rpcNodes;
     /**
      * 重复请求次数
      */
-    private int tryTimes;
+    private final int tryTimes;
+
+    /**
+     * 是否支持国密
+     */
+    private final Boolean isGuomi;
+
+    /**
+     * 是否启动sequence缓存
+     */
+    private final Boolean enableSequenceCach;
+
+    /**
+     * 是否本地签名
+     */
+    private final Boolean isLocalSign;
+
+
+    /**
+     * 交易燃料手续费通证,也是公链的本币
+     */
+    private RpcNode rpcNode = null;
+
     private final String SUCCESS_CODE = "success";
 
-    private final Map<String, UInt32> seqList = new HashMap<>();
-
-    private Boolean guomi;
-
-    /**
-     * @param rpcNodes rpc节点服务器地址列表
-     * @param guomi    是否国密链
-     */
-    public JccJingtum(Boolean guomi, ArrayList<String> rpcNodes) {
-        this.guomi = guomi;
-        this.tryTimes = rpcNodes.size() > 5 ? rpcNodes.size(): 5;
-        rpcNode = new RpcNode(rpcNodes);
-    }
-
-    /**
-     * 井通公链、联盟链RPC服务构造函数
-     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
-     * @param baseToken 交易燃料手续费通证,也是公链的本币
-     * @param guomi    是否国密链
-     * @param rpcNodes rpc节点服务器地址列表
-     */
-    public JccJingtum(Integer fee, String baseToken, Boolean guomi, ArrayList<String> rpcNodes) {
-        this(guomi, rpcNodes);
-        Config.setFee(fee);
-        Config.setCurrency(baseToken);
-    }
+    private Map<String, UInt32> seqList = null;
 
 
-    /**
-     * 井通公链、联盟链RPC服务构造函数
-     * @param alphabet 字母表，每一条联盟链都可以用不同的或者相同alphabet
-     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
-     * @param baseToken 交易燃料手续费通证,也是公链的本币
-     * @param guomi    是否国密链
-     * @param rpcNodes rpc节点服务器地址列表
-     */
-    public JccJingtum(String alphabet, Integer fee, String baseToken, Boolean guomi, ArrayList<String> rpcNodes) {
-        this(fee, baseToken, guomi, rpcNodes);
-        Config.setAlphabet(alphabet);
-    }
+    private JccJingtum(Builder builder) {
+        this.isGuomi = builder.isGuomi;
+        this.isLocalSign = builder.isLocalSign;
+        this.enableSequenceCach = builder.enableSequenceCach;
 
-    /**
-     * 井通公链、联盟链RPC服务构造函数
-     * @param alphabet 字母表，每一条联盟链都可以用不同的或者相同alphabet
-     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
-     * @param baseToken 交易燃料手续费通证,也是公链的本币
-     * @param platform 交易的平台账号(与手续费有关)
-     * @param guomi    是否国密链
-     * @param rpcNodes rpc节点服务器地址列表
-     */
-    public JccJingtum(String alphabet, Integer fee, String baseToken, String platform, Boolean guomi, ArrayList<String> rpcNodes) {
-        this(alphabet, fee, baseToken, guomi, rpcNodes);
-        Config.setPlatform(platform);
-    }
+        this.alphabet = builder.alphabet;
+        this.fee = builder.fee;
+        this.baseToken = builder.baseToken;
+        this.platform = builder.platform;
 
-    /**
-     * 设置每笔交易燃料费
-     * @param fee 每笔交易燃料费(fee取值范围为10-1000000000的整数,燃料费计算公式=fee/1000000,)
-     * @throws Exception 抛出异常
-     */
-    public void setFee(Integer fee) throws  Exception {
-        if(fee < 10) {
-            throw new Exception("燃料费不能小于等于0");
+        this.rpcNodes = builder.rpcNodes;
+
+        Config.setAlphabet(this.alphabet);
+        Config.setFee(this.fee);
+        Config.setCurrency(this.baseToken);
+        Config.setPlatform(this.platform);
+
+        if(this.rpcNodes != null && this.rpcNodes.size() > 0) {
+            this.rpcNode = new RpcNode(this.rpcNodes);
+            this.tryTimes = rpcNodes.size();
+        } else {
+            tryTimes = 5;
         }
-        Config.setFee(fee);
+
+        if(this.enableSequenceCach) {
+            seqList = new HashMap<>();
+        }
     }
+
+    public static class Builder {
+        private final Boolean isGuomi;
+        private final Boolean isLocalSign;
+        private final Boolean enableSequenceCach;
+
+
+        private String alphabet = Config.DEFAULT_ALPHABET;
+        private Integer fee = Config.FEE;
+        private String baseToken = Config.DEFAULT_CURRENCY;
+        private String platform = Config.DEFAULT_PLATFORM;
+        private ArrayList<String> rpcNodes = null;
+
+        public Builder(Boolean isGuomi, Boolean isLocalSign, Boolean enableSequenceCach) {
+            this.isGuomi = isGuomi;
+            this.isLocalSign = isLocalSign;
+            this.enableSequenceCach = enableSequenceCach;
+        }
+
+        public Builder setAlphabet(String alphabet) {
+            this.alphabet = alphabet;
+            return this;
+        }
+
+        public Builder setFee(Integer fee) {
+            this.fee = fee;
+            return this;
+        }
+
+        public Builder setBaseToken(String baseToken) {
+            this.baseToken = baseToken;
+            return this;
+        }
+
+        public Builder setPlatform(String platform) {
+            this.platform = platform;
+            return this;
+        }
+
+        public Builder setRpcNodes(ArrayList<String> rpcNodes) {
+            this.rpcNodes = rpcNodes;
+            return this;
+        }
+
+        public JccJingtum build() {
+            return new JccJingtum(this);
+        }
+
+    }
+
+    /**
+     * 获取钱包字母表
+     * @return 钱包字母表
+     */
+    public String getAlphabet() { return  this.alphabet; }
 
     /**
      * 获取每笔交易燃料费
      * @return 每笔交易燃料费
      */
     public Integer getFee() {
-        return Config.FEE;
+        return this.fee;
     }
 
     /**
-     * 设置交易平台账号
-     * @param platform 交易平台账号
-     * @throws Exception 抛出异常
+     * 获取链基础通证
+     * @return 链基础通证
      */
-    public void setPlatform(String platform) throws  Exception{
-        if(!this.isValidAddress(platform)) {
-            throw new Exception("平台账号不合法");
-        }
-        Config.setPlatform(platform);
+    public String getBaseToken() {
+        return this.baseToken;
     }
 
     /**
@@ -131,34 +193,24 @@ public class JccJingtum {
      * @return 交易平台账号
      */
     public String getPlatform() {
-        return Config.PLATFORM;
+        return this.platform;
     }
 
     /**
-     * 设置银关地址
-     * @param issuer 银关地址
-     * @throws Exception 抛出异常
+     * 获取异常重试次数
+     * @return 异常重试次数
      */
-    public void setIssuer(String issuer) throws  Exception{
-        if(!this.isValidAddress(issuer)) {
-            throw new Exception("平台账号不合法");
-        }
-        Config.setIssuer(issuer);
+    public int getTryTimes() {
+        return  this.tryTimes ;
     }
 
     /**
-     * 获取银关地址
-     * @return 银关地址
+     * 获取rpc节点列表
+     * @return rpc节点列表
      */
-    public String getIssuer() {
-        return Config.ISSUER;
+    public ArrayList<String> getRpcNodes() {
+        return this.rpcNodes;
     }
-
-    /**
-     * 获取钱包字母表
-     * @return 钱包字母表
-     */
-    public String getAlphabet() {return  Config.Alphabet; }
 
     /**
      * 创建钱包(账号)
@@ -168,7 +220,7 @@ public class JccJingtum {
     public String createWallet()  throws Exception {
         try {
             ObjectNode data = new ObjectMapper().createObjectNode();
-            if(this.guomi) {
+            if(this.isGuomi) {
                 WalletSM walletSM = WalletSM.generate(Config.Alphabet);
                 data.put("secret",walletSM.getSecret());
                 data.put("address",walletSM.getAddress());
@@ -197,7 +249,7 @@ public class JccJingtum {
                 throw new Exception("钱包密钥不合法");
             }
 
-            if(this.guomi) {
+            if(this.isGuomi) {
                 WalletSM walletSM = WalletSM.fromSecret(secret);
                 return walletSM.getAddress();
             } else {
@@ -209,12 +261,25 @@ public class JccJingtum {
         }
     }
 
+
     /**
-     * 设置出错尝试次数
-     * @param tryTimes 次数
+     * 获取sequence
+     * @param address 钱包地址
+     * @param rpcHost rpc节点服务器
+     * @return sequence
+     * @throws IOException 抛出异常
      */
-    public void setTryTimes(int tryTimes) {
-        this.tryTimes = tryTimes;
+    private String requectSequence(String address, String rpcHost) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode data = mapper.createObjectNode();
+        ObjectNode object = mapper.createObjectNode();
+        object.put("account", address);
+        ArrayList<ObjectNode> params = new ArrayList<>();
+        params.add(object);
+        ArrayNode array = mapper.valueToTree(params);
+        data.put("method", "account_info");
+        data.set("params", array);
+        return OkhttpUtil.post(rpcHost, data.toString());
     }
 
     /**
@@ -223,118 +288,138 @@ public class JccJingtum {
      * @return sequence
      * @throws Exception 抛出异常
      */
-    private String getSequence(String address, String rpcNode) throws Exception {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectNode data = mapper.createObjectNode();
-            ObjectNode object = mapper.createObjectNode();
-            object.put("account", address);
-            ArrayList<ObjectNode> params = new ArrayList<>();
-            params.add(object);
-            ArrayNode array = mapper.valueToTree(params);
-            data.put("method", "account_info");
-            data.set("params", array);
-            return OkhttpUtil.post(rpcNode, data.toString());
-        } catch (Exception e) {
-            throw e;
+    public UInt32 getSequence(String address) throws Exception {
+        if(this.rpcNode == null) {
+            throw new Exception("RPC节点为空，请初始化时指定RPC节点");
         }
-    }
 
-    /**
-     * 获取sequence
-     * @param address 钱包地址
-     * @return sequence
-     * @throws Exception 抛出异常
-     */
-    public long getSequence(String address) throws Exception {
-        try {
-            int times = this.tryTimes;
-            Boolean success = false;
+        int times = this.tryTimes;
+        UInt32 seq = null;
+        do {
+            try {
+                times--;
+                String rpcHost = rpcNode.randomUrl();
 
-            if(!this.isValidAddress(address)) {
-                throw new Exception("钱包地址不合法");
-            }
-
-            UInt32 seq = seqList.get(address);
-            String res = "";
-            if(seq != null) {
-                return seq.value().longValue();
-            } else {
-                do {
-                    times--;
-                    String url = rpcNode.randomUrl();
-                    res = this.getSequence(address, url);
-                    String sequence = "";
-                    try {
-                        String code = JSONObject.parseObject(res).getJSONObject("result").getString("status");
-                        if(SUCCESS_CODE.equals(code)) {
-                            sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("account_data").getString("Sequence");
-                            seq = new UInt32(sequence);
-                            success = true;
-                            break;
-                        }
-                    } catch(Exception e) {
-                        continue;
-                    }
-                } while(times > 0);
-                if(success) {
-                    seqList.put(address, seq);
-                    return seq.value().longValue();
-                } else {
-                    throw new Exception(res);
+                seq = this.getSequence(address, rpcHost);
+                if(seq != null) {
+                    break;
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            throw e;
-        }
+        } while(times > 0);
+        return  seq;
     }
 
     /**
-     * 设置sequence
+     * 向指定节点获取sequence
+     * @param address 钱包地址
+     * @param rpcHost rpc节点服务器
+     * @return sequence
+     * @throws Exception 抛出异常
+     */
+    public UInt32 getSequence(String address, String rpcHost) throws Exception {
+        if(!this.isValidAddress(address)) {
+            throw new Exception("钱包地址不合法");
+        }
+
+        if(rpcHost == null  || rpcHost.isEmpty()) {
+            throw new Exception("RPC节点不能为空，请指定RPC节点");
+        }
+
+        UInt32 seq = null;
+        if(this.enableSequenceCach) {
+            seq= seqList.get(address);
+            if(seq != null) {
+                return seq;
+            }
+        }
+
+        String res  = this.requectSequence(address, rpcHost);
+        String code = JSONObject.parseObject(res).getJSONObject("result").getString("status");
+        if(SUCCESS_CODE.equals(code)) {
+            String sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("account_data").getString("Sequence");
+            seq = new UInt32(sequence);
+            this.addSequence(address,seq);
+        }
+        return seq;
+    }
+
+    /**
+     * 更新sequence缓存值
      * @param address 钱包地址
      * @param pSequence 交易序列号
      * @throws Exception 抛出异常
      */
-    public void setSequence(String address, long pSequence) throws Exception {
-        try {
-            if(!this.isValidAddress(address)) {
-                throw new Exception("钱包地址不合法");
-            }
+    private void addSequence(String address, UInt32 pSequence) throws Exception {
+        if(!this.isValidAddress(address)) {
+            throw new Exception("钱包地址不合法");
+        }
 
-            if(pSequence < 0) {
-                throw new Exception("sequence不合法,sequence不能小于0");
-            }
+        if(this.enableSequenceCach) {
+            seqList.put(address,pSequence);
+        }
+    }
 
-            seqList.put(address,new UInt32(pSequence));
-        } catch (Exception e) {
-            throw e;
+    /**
+     * 移除sequence缓存值
+     * @param address 钱包地址
+     * @throws Exception 抛出异常
+     */
+    private void removeSequence(String address) throws Exception {
+        if(!this.isValidAddress(address)) {
+            throw new Exception("钱包地址不合法");
+        }
+
+        if(this.enableSequenceCach) {
+            seqList.remove(address);
         }
     }
 
     /**
      * 向指定的rpc节点服务器获取获取交易详情
      * @param hash 交易hash
-     * @param rpcNode rpc节点服务器
+     * @param rpcHost rpc节点服务器
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
-    private String requestTx(String hash, String rpcNode) throws Exception {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectNode data = mapper.createObjectNode();
-            ObjectNode object = mapper.createObjectNode();
-            object.put("transaction", hash);
-            object.put("binary", false);
-            ArrayList<ObjectNode> params = new ArrayList();
-            params.add(object);
-            ArrayNode array = (ArrayNode) mapper.valueToTree(params);
-            data.put("method", "tx");
-            data.set("params", array);
-            String res = OkhttpUtil.post(rpcNode, data.toString());
-            return res;
-        }catch (Exception e) {
-            throw e;
+    private String requestTraction(String hash, String rpcHost) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode data = mapper.createObjectNode();
+        ObjectNode object = mapper.createObjectNode();
+        object.put("transaction", hash);
+        object.put("binary", false);
+        ArrayList<ObjectNode> params = new ArrayList<>();
+        params.add(object);
+        ArrayNode array = mapper.valueToTree(params);
+        data.put("method", "tx");
+        data.set("params", array);
+        return OkhttpUtil.post(rpcHost, data.toString());
+    }
+
+    /**
+     * 根据hash向指定节点获取交易详情
+     * @param hash 交易hash
+     * @param rpcHost rpc节点服务器
+     * @return 交易详情 json格式
+     * @throws Exception 抛出异常
+     */
+    public String requestTx(String hash, String rpcHost) throws Exception {
+        if(hash == null || hash.isEmpty()) {
+            throw new Exception("hash不能为空");
         }
+
+        if(rpcHost == null  || rpcHost.isEmpty()) {
+            throw new Exception("RPC节点不能为空，请指定RPC节点");
+        }
+
+        String res = this.requestTraction(hash,rpcHost);
+        String status = JSONObject.parseObject(res).getJSONObject("result").getString("status");
+        Boolean validated = JSONObject.parseObject(res).getJSONObject("result").getBoolean("validated");
+        if (SUCCESS_CODE.equals(status) && validated) {
+            return  res;
+        }
+        return null;
     }
 
     /**
@@ -344,36 +429,26 @@ public class JccJingtum {
      * @throws Exception 抛出异常
      */
     public String requestTx(String hash) throws Exception {
-        int times = this.tryTimes;
-
-        String res = "";
-        Boolean success = false;
-        try {
-            ArrayList<String> list = rpcNode.getUrls();
-            Iterator it = list.iterator();
-            do {
-                times--;
-                String url = rpcNode.randomUrl();
-                res = this.requestTx(hash,url);
-                try {
-                    String status = JSONObject.parseObject(res).getJSONObject("result").getString("status");
-                    Boolean validated = JSONObject.parseObject(res).getJSONObject("result").getBoolean("validated");
-                    if (SUCCESS_CODE.equals(status) && validated) {
-                        success = true;
-                        break;
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            } while(times > 0);
-            if(success) {
-                return res;
-            } else {
-                throw new Exception(res);
-            }
-        }catch (Exception e) {
-            throw e;
+        if(this.rpcNode == null) {
+            throw new Exception("RPC节点为空，请初始化时指定RPC节点");
         }
+
+        int times = this.tryTimes;
+        String res = null;
+        do {
+            times--;
+            String rpcHost = rpcNode.randomUrl();
+            try {
+                res = this.requestTx(hash,rpcHost);
+                if(res != null) {
+                    break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } while(times > 0);
+        return  res;
     }
 
     /**
@@ -400,87 +475,13 @@ public class JccJingtum {
     }
 
     /**
-     *  转账并校验，每笔交易都会校验是否成功，适合普通转账，优点：每笔交易都进行确认，缺点：转账效率低下
-     * @param secret 发送者钱包密钥
-     * @param receiver 接收者钱包地址
-     * @param pToken 转账Token
-     * @param pAmount 转账数量
-     * @param pIssuer 银关地址
-     * @param memos  交易备注(无就传"")
-     * @return 交易详情 json格式
-     * @throws Exception 抛出异常
-     */
-    public String setTokenIssue721(String secret, String receiver, String pToken, String pAmount, String pIssuer,String memos) throws Exception {
-        try {
-            if(!this.isValidSecret(secret)) {
-                throw new Exception("钱包密钥不合法");
-            }
-
-            if(!this.isValidAddress(receiver)) {
-                throw new Exception("钱包地址不合法");
-            }
-
-            if(!this.isValidAddress(pIssuer)) {
-                throw new Exception("银关地址不合法");
-            }
-
-            if(pToken.isEmpty()) {
-                throw new Exception("token名称不合法");
-            }
-
-            if(pAmount.isEmpty()) {
-                throw new Exception("数量不合法");
-            }
-
-            String sender = this.getAddress(secret);
-            long sequence = this.getSequence(sender);
-
-            ObjectMapper mapper = new ObjectMapper();
-            String token = pToken.toUpperCase();
-            Amount amount;
-            Payment payment = new Payment(this.guomi);
-            payment.as(AccountID.Account, sender);
-            payment.as(AccountID.Destination, receiver);
-
-            BigDecimal bigDecimal = new BigDecimal(pAmount);
-            if(bigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(Config.CURRENCY.equals(token)) {
-                amount = new Amount(bigDecimal);
-            } else {
-                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
-            }
-
-
-            payment.as(Amount.Amount, amount);
-            payment.as(Amount.Fee, String.valueOf(Config.FEE));
-            payment.sequence(new UInt32(sequence));
-            payment.flags(new UInt32(0));
-
-            if (memos.length() > 0) {
-                ArrayList<String> memoList = new ArrayList<>(1);
-                memoList.add(memos);
-                payment.addMemo(memoList);
-            }
-
-            SignedTransaction tx = payment.sign(secret);
-            String res = this.submitBlob(tx.tx_blob);
-            return res;
-        } catch (Exception e) {
-            throw new Exception("转账失败");
-        }
-    }
-
-    /**
      * 判断钱包密钥合法性
      * @param secret 钱包密钥
      * @return 有效返回true,无效返回false
      */
     private boolean isValidSecret(String secret) {
         try {
-            if(this.guomi) {
+            if(this.isGuomi) {
                 return WalletSM.isValidSecret(secret, Config.Alphabet);
             } else {
                 return Wallet.isValidSecret(secret, Config.Alphabet);
@@ -497,7 +498,7 @@ public class JccJingtum {
      */
     private boolean isValidAddress(String address) {
         try {
-            if(this.guomi) {
+            if(this.isGuomi) {
                 return WalletSM.isValidAddress(address, Config.Alphabet);
             } else {
                 return Wallet.isValidAddress(address, Config.Alphabet);
@@ -508,60 +509,27 @@ public class JccJingtum {
     }
 
     /**
-     *  构造撤单交易数据(本地签名)
+     *  构造撤单交易数据
      * @param secret 钱包密钥
      * @param pSequence 挂单序列号
      * @param sequence 交易序列号
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
-    public SignedTransaction buildCancleOrder(String secret, long pSequence, long sequence) throws Exception {
-        try {
-            if(!this.isValidSecret(secret)) {
-                throw new Exception("钱包密钥不合法");
-            }
-
-            if(pSequence < 1) {
-                throw new Exception("sequence不能小于等于0");
-            }
-
-            String address = this.getAddress(secret);
-
-            OfferCancel offerCancel = this.buildCancleOrderTx(address, pSequence);
-            offerCancel.sequence(new UInt32(sequence));
-
-            SignedTransaction tx = offerCancel.sign(secret);
-            return tx;
-        } catch (Exception e) {
-            throw e;
+    public String buildCancleOrder(String secret, UInt32 pSequence, UInt32 sequence) throws Exception {
+        if(!this.isValidSecret(secret)) {
+            throw new Exception("钱包密钥不合法");
         }
-    }
 
-    /**
-     *  构造撤单交易数据(非本地签名)
-     * @param secret 钱包密钥
-     * @param pSequence 挂单序列号
-     * @return 交易详情 json格式
-     * @throws Exception 抛出异常
-     */
-    public String buildCancleOrder(String secret, long pSequence) throws Exception {
-        try {
-            if(!this.isValidSecret(secret)) {
-                throw new Exception("钱包密钥不合法");
-            }
+        String address = this.getAddress(secret);
 
-            if(pSequence < 1) {
-                throw new Exception("sequence不能小于等于0");
-            }
-
-            String address = this.getAddress(secret);
-
-            OfferCancel offerCancel = this.buildCancleOrderTx(address, pSequence);
-
-            String txJson = offerCancel.prettyJSON();
-            return txJson;
-        } catch (Exception e) {
-            throw e;
+        OfferCancel offerCancel = this.buildCancleOrderTx(address, pSequence);
+        if(this.isLocalSign) {
+            offerCancel.sequence(sequence);
+            SignedTransaction tx = offerCancel.sign(secret);
+            return  tx.tx_blob;
+        } else {
+            return offerCancel.prettyJSON();
         }
     }
 
@@ -570,23 +538,17 @@ public class JccJingtum {
      * @param address 钱包密钥
      * @param pSequence 挂单序列号
      * @return 交易详情 json格式
-     * @throws Exception 抛出异常
      */
-    private OfferCancel buildCancleOrderTx(String address, long pSequence) throws Exception {
-        try {
-            OfferCancel offerCancel = new OfferCancel(this.guomi);
-            offerCancel.as(AccountID.Account, address);
-            offerCancel.as(UInt32.OfferSequence, pSequence);
-            offerCancel.as(Amount.Fee, String.valueOf(Config.FEE));
-
-            return offerCancel;
-        } catch (Exception e) {
-            throw e;
-        }
+    private OfferCancel buildCancleOrderTx(String address, UInt32 pSequence) {
+        OfferCancel offerCancel = new OfferCancel(this.isGuomi);
+        offerCancel.as(AccountID.Account, address);
+        offerCancel.as(UInt32.OfferSequence, pSequence);
+        offerCancel.as(Amount.Fee, String.valueOf(Config.FEE));
+        return offerCancel;
     }
 
     /**
-     *  构造转账交易数据(本地签名)
+     *  构造转账交易数据
      * @param secret 发送者钱包密钥
      * @param receiver 接收者钱包地址
      * @param pToken 转账Token
@@ -597,99 +559,36 @@ public class JccJingtum {
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
-    public SignedTransaction signWthPayment(String secret, String receiver, String pToken, String pAmount, String pIssuer, long sequence, String memos) throws Exception {
-        try {
-            return buildPayment(secret, receiver, pToken, pAmount, pIssuer, sequence, memos);
-        } catch (Exception e) {
-            throw e;
+    public String buildPayment(String secret, String receiver, String pToken, String pAmount, String pIssuer, UInt32 sequence, String memos) throws Exception {
+        if(!this.isValidSecret(secret)) {
+            throw new Exception("钱包密钥不合法");
         }
-    }
+        if(!this.isValidAddress(receiver)) {
+            throw new Exception("钱包地址不合法");
+        }
 
-    /**
-     *  构造转账交易数据(本地签名)
-     * @param secret 发送者钱包密钥
-     * @param receiver 接收者钱包地址
-     * @param pToken 转账Token
-     * @param pAmount 转账数量
-     * @param pIssuer 银关地址
-     * @param sequence  交易序列号
-     * @param memos  交易备注(无就传"")
-     * @return 交易详情 json格式
-     * @throws Exception 抛出异常
-     */
-    public SignedTransaction buildPayment(String secret, String receiver, String pToken, String pAmount, String pIssuer, long sequence, String memos) throws Exception {
-        try {
-            if(!this.isValidSecret(secret)) {
-                throw new Exception("钱包密钥不合法");
-            }
-            if(!this.isValidAddress(receiver)) {
-                throw new Exception("钱包地址不合法");
-            }
+        if(!this.isValidAddress(pIssuer)) {
+            throw new Exception("银关地址不合法");
+        }
 
-            if(!this.isValidAddress(pIssuer)) {
-                throw new Exception("银关地址不合法");
-            }
+        if(pToken.isEmpty()) {
+            throw new Exception("token名称不合法");
+        }
 
-            if(pToken.isEmpty()) {
-                throw new Exception("token名称不合法");
-            }
+        if(pAmount.isEmpty()) {
+            throw new Exception("数量不合法");
+        }
 
-            if(pAmount.isEmpty()) {
-                throw new Exception("数量不合法");
-            }
+        String sender = this.getAddress(secret);
+        Payment payment = this.buildPaymentTx(sender, receiver, pToken, pAmount, pIssuer, memos);
 
-            String sender = this.getAddress(secret);
-            Payment payment = this.buildPaymentTx(sender, receiver, pToken, pAmount, pIssuer, memos);
-            payment.sequence(new UInt32(sequence));
+        if(this.isLocalSign) {
+            payment.sequence(sequence);
             payment.flags(new UInt32(0));
-
             SignedTransaction tx = payment.sign(secret);
-            return tx;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    /**
-     *  构造转账交易数据(非本地签名)
-     * @param secret 发送者钱包密钥
-     * @param receiver 接收者钱包地址
-     * @param pToken 转账Token
-     * @param pAmount 转账数量
-     * @param pIssuer 银关地址
-     * @param memos  交易备注(无就传"")
-     * @return 交易详情 json格式
-     * @throws Exception 抛出异常
-     */
-    public String buildPayment(String secret, String receiver, String pToken, String pAmount, String pIssuer, String memos) throws Exception {
-        try {
-            if(!this.isValidSecret(secret)) {
-                throw new Exception("钱包密钥不合法");
-            }
-            if(!this.isValidAddress(receiver)) {
-                throw new Exception("钱包地址不合法");
-            }
-
-            if(!this.isValidAddress(pIssuer)) {
-                throw new Exception("银关地址不合法");
-            }
-
-            if(pToken.isEmpty()) {
-                throw new Exception("token名称不合法");
-            }
-
-            if(pAmount.isEmpty()) {
-                throw new Exception("数量不合法");
-            }
-
-            String sender = this.getAddress(secret);
-
-            Payment payment = this.buildPaymentTx(sender, receiver, pToken, pAmount, pIssuer, memos);
-
-            String txJson = payment.prettyJSON();
-            return txJson;
-        } catch (Exception e) {
-            throw e;
+            return  tx.tx_blob;
+        } else {
+            return payment.prettyJSON();
         }
     }
 
@@ -705,37 +604,33 @@ public class JccJingtum {
      * @throws Exception 抛出异常
      */
     private Payment buildPaymentTx(String sender, String receiver, String pToken, String pAmount, String pIssuer, String memos) throws Exception {
-        try {
-            String token = pToken.toUpperCase();
-            Amount amount;
-            Payment payment = new Payment(this.guomi);
-            payment.as(AccountID.Account, sender);
-            payment.as(AccountID.Destination, receiver);
+        String token = pToken.toUpperCase();
+        Amount amount;
+        Payment payment = new Payment(this.isGuomi);
+        payment.as(AccountID.Account, sender);
+        payment.as(AccountID.Destination, receiver);
 
-            BigDecimal bigDecimal = new BigDecimal(pAmount);
-            if(bigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(Config.CURRENCY.equals(token)) {
-                amount = new Amount(bigDecimal);
-            } else {
-                amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
-            }
-
-            payment.as(Amount.Amount, amount);
-            payment.as(Amount.Fee, String.valueOf(Config.FEE));
-
-            if (memos.length() > 0) {
-                ArrayList<String> memoList = new ArrayList<>(1);
-                memoList.add(memos);
-                payment.addMemo(memoList);
-            }
-
-            return payment;
-        } catch (Exception e) {
-            throw e;
+        BigDecimal bigDecimal = new BigDecimal(pAmount);
+        if(bigDecimal.compareTo(new BigDecimal(0)) < 1){
+            throw new Exception("token数量不能小于等于0");
         }
+
+        if(Config.CURRENCY.equals(token)) {
+            amount = new Amount(bigDecimal);
+        } else {
+            amount = new Amount(bigDecimal, Currency.fromString(token), AccountID.fromString(pIssuer));
+        }
+
+        payment.as(Amount.Amount, amount);
+        payment.as(Amount.Fee, String.valueOf(Config.FEE));
+
+        if (memos.length() > 0) {
+            ArrayList<String> memoList = new ArrayList<>(1);
+            memoList.add(memos);
+            payment.addMemo(memoList);
+        }
+
+        return payment;
     }
 
     /**
@@ -752,106 +647,51 @@ public class JccJingtum {
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
-    public SignedTransaction buildCreateOrder(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, long sequence, String memos) throws Exception {
-        try {
-            if(!this.isValidSecret(secret)) {
-                throw new Exception("钱包密钥不合法");
-            }
+    public String buildCreateOrder(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, UInt32 sequence, String memos) throws Exception {
+        if(!this.isValidSecret(secret)) {
+            throw new Exception("钱包密钥不合法");
+        }
 
-            if(!this.isValidAddress(pPayIssuer)) {
-                throw new Exception("银关地址不合法");
-            }
-            if(!this.isValidAddress(pGetIssuer)) {
-                throw new Exception("银关地址不合法");
-            }
+        if(!this.isValidAddress(pPayIssuer)) {
+            throw new Exception("银关地址不合法");
+        }
+        if(!this.isValidAddress(pGetIssuer)) {
+            throw new Exception("银关地址不合法");
+        }
 
-            if(pPayToke.isEmpty() || pGetToken.isEmpty()) {
-                throw new Exception("token名称不合法");
-            }
+        if(pPayToke.isEmpty() || pGetToken.isEmpty()) {
+            throw new Exception("token名称不合法");
+        }
 
-            if(pPayAmount.isEmpty() || pGetAmount.isEmpty()) {
-                throw new Exception("token数量不合法");
-            }
+        if(pPayAmount.isEmpty() || pGetAmount.isEmpty()) {
+            throw new Exception("token数量不合法");
+        }
 
-            String address = this.getAddress(secret);
+        String address = this.getAddress(secret);
 
-            BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
-            BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
+        BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
+        BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
 
-            if(payBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
+        if(payBigDecimal.compareTo(new BigDecimal(0)) < 1){
+            throw new Exception("token数量不能小于等于0");
+        }
 
-            if(getBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
+        if(getBigDecimal.compareTo(new BigDecimal(0)) < 1){
+            throw new Exception("token数量不能小于等于0");
+        }
 
-            OfferCreate offerCreate = this.buildCreateOrderTX(address, pPayToke, pPayAmount, pPayIssuer, pGetToken, pGetAmount, pGetIssuer, memos);
+        OfferCreate offerCreate = this.buildCreateOrderTX(address, pPayToke, pPayAmount, pPayIssuer, pGetToken, pGetAmount, pGetIssuer, memos);
 
-            offerCreate.sequence(new UInt32(sequence));
-
+        if(this.isLocalSign) {
+            offerCreate.sequence(sequence);
+            offerCreate.flags(new UInt32(0));
             SignedTransaction tx = offerCreate.sign(secret);
-            return tx;
-        } catch (Exception e) {
-            throw e;
+            return  tx.tx_blob;
+        } else {
+            return offerCreate.prettyJSON();
         }
     }
 
-    /**
-     * 构造挂单交易数据(非本地签名)
-     * @param secret 挂单方钱包密钥
-     * @param pPayToke  挂单方支付的Token名称
-     * @param pPayAmount 挂单方支付的Token数量
-     * @param pPayIssuer 挂单方支付的Token的银关地址
-     * @param pGetToken  挂单方期望得到的Token名称
-     * @param pGetAmount 挂单方期望得到的Token数量
-     * @param pGetIssuer 挂单方期望得到的Token的银关地址
-     * @param memos 交易备注(无就传"")
-     * @return 交易详情 json格式
-     * @throws Exception 抛出异常
-     */
-    public String buildCreateOrder(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, String memos) throws Exception {
-        try {
-            if(!this.isValidSecret(secret)) {
-                throw new Exception("钱包密钥不合法");
-            }
-
-            if(!this.isValidAddress(pPayIssuer)) {
-                throw new Exception("银关地址不合法");
-            }
-            if(!this.isValidAddress(pGetIssuer)) {
-                throw new Exception("银关地址不合法");
-            }
-
-            if(pPayToke.isEmpty() || pGetToken.isEmpty()) {
-                throw new Exception("token名称不合法");
-            }
-
-            if(pPayAmount.isEmpty() || pGetAmount.isEmpty()) {
-                throw new Exception("token数量不合法");
-            }
-
-            String address = this.getAddress(secret);
-
-            BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
-            BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
-
-            if(payBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            if(getBigDecimal.compareTo(new BigDecimal(0)) < 1){
-                throw new Exception("token数量不能小于等于0");
-            }
-
-            OfferCreate offerCreate = this.buildCreateOrderTX(address, pPayToke, pPayAmount, pPayIssuer, pGetToken, pGetAmount, pGetIssuer, memos);
-
-            String txJson = offerCreate.prettyJSON();
-            return txJson;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
 
     /**
      * 构造挂单交易数据(本地签名)
@@ -864,220 +704,301 @@ public class JccJingtum {
      * @param pGetIssuer 挂单方期望得到的Token的银关地址
      * @param memos 交易备注(无就传"")
      * @return 交易详情 json格式
-     * @throws Exception 抛出异常
      */
-    private OfferCreate buildCreateOrderTX(String address, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, String memos) throws Exception {
-        try {
+    private OfferCreate buildCreateOrderTX(String address, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, String memos) {
 
-            String payToken = pPayToke.toUpperCase();
-            String getToken = pGetToken.toUpperCase();
+        String payToken = pPayToke.toUpperCase();
+        String getToken = pGetToken.toUpperCase();
 
-            OfferCreate offerCreate = new OfferCreate(this.guomi);
-            offerCreate.as(AccountID.Account, address);
-            offerCreate.as(AccountID.Platform, Config.PLATFORM);
+        OfferCreate offerCreate = new OfferCreate(this.isGuomi);
+        offerCreate.as(AccountID.Account, address);
+        offerCreate.as(AccountID.Platform, Config.PLATFORM);
 
-            Amount payAmount;
-            BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
-            BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
+        Amount payAmount;
+        BigDecimal payBigDecimal = new BigDecimal(pPayAmount);
+        BigDecimal getBigDecimal = new BigDecimal(pGetAmount);
 
-            if(Config.CURRENCY.equals(payToken)) {
-                payAmount = new Amount(payBigDecimal);
-            } else {
-                payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(pPayIssuer));
-            }
-
-            Amount getAmount;
-
-            if(Config.CURRENCY.equals(getToken)) {
-                getAmount = new Amount(getBigDecimal);
-            } else {
-                getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(pGetIssuer));
-            }
-            offerCreate.as(Amount.TakerPays, getAmount);
-            offerCreate.as(Amount.TakerGets, payAmount);
-
-            offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
-
-            if (memos.length() > 0) {
-                ArrayList<String> memoList = new ArrayList<>(1);
-                memoList.add(memos);
-                offerCreate.addMemo(memoList);
-            }
-            return offerCreate;
-        } catch (Exception e) {
-            throw e;
+        if(Config.CURRENCY.equals(payToken)) {
+            payAmount = new Amount(payBigDecimal);
+        } else {
+            payAmount = new Amount(payBigDecimal, Currency.fromString(payToken), AccountID.fromString(pPayIssuer));
         }
+
+        Amount getAmount;
+
+        if(Config.CURRENCY.equals(getToken)) {
+            getAmount = new Amount(getBigDecimal);
+        } else {
+            getAmount = new Amount(getBigDecimal, Currency.fromString(getToken), AccountID.fromString(pGetIssuer));
+        }
+        offerCreate.as(Amount.TakerPays, getAmount);
+        offerCreate.as(Amount.TakerGets, payAmount);
+
+        offerCreate.as(Amount.Fee, String.valueOf(Config.FEE));
+
+        if (memos.length() > 0) {
+            ArrayList<String> memoList = new ArrayList<>(1);
+            memoList.add(memos);
+            offerCreate.addMemo(memoList);
+        }
+        return offerCreate;
     }
 
     /**
-     * 向节点发送交易请求
+     * 向指定节点发送交易(签名后的数据)
      * @param txBlob 交易信息
+     * @param rpcHost rpc节点服务器
      * @return 交易信息
      * @throws Exception 抛出异常
      */
-    public String submitNoCheck(String txBlob) throws Exception {
-        try {
-            return submitBlob(txBlob);
-        } catch (Exception e) {
-            throw e;
+    public String submitBlob(String txBlob, String rpcHost) throws Exception {
+        if(txBlob == null || txBlob.isEmpty()) {
+            throw  new Exception("交易内容不能为空");
         }
+
+        if(rpcHost == null  || rpcHost.isEmpty()) {
+            throw new Exception("RPC节点不能为空，请指定RPC节点");
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode data = mapper.createObjectNode();
+        ObjectNode object = mapper.createObjectNode();
+        object.put("tx_blob", txBlob);
+        ArrayList<ObjectNode> params = new ArrayList<>();
+        params.add(object);
+        ArrayNode array = mapper.valueToTree(params);
+
+        data.put("method", "submit");
+        data.set("params", array);
+
+        String res = OkhttpUtil.post(rpcHost, data.toString());
+        String sender = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getString("Account");
+        int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
+        EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+
+        if(EngineResult.isPastSeq(engineResult)) {
+            this.removeSequence(sender);
+        }
+
+        if(EngineResult.isSuccess(engineResult)) {
+            long sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
+            this.addSequence(sender,new UInt32(++sequence));
+        }
+
+        return res;
     }
 
     /**
-     * 向节点发送签名后的内容
+     * 向节点发送交易(签名后的数据)
      * @param txBlob 交易信息
      * @return 交易信息
      * @throws Exception 抛出异常
      */
     public String submitBlob(String txBlob) throws Exception {
-        try {
-            int times = this.tryTimes;
-            String resTx = "";
-            String res = "";
-            String successRes = "";
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectNode data = mapper.createObjectNode();
-            ObjectNode object = mapper.createObjectNode();
-            object.put("tx_blob", txBlob);
-            ArrayList<ObjectNode> params = new ArrayList<>();
-            params.add(object);
-            ArrayNode array = mapper.valueToTree(params);
-
-            data.put("method", "submit");
-            data.set("params", array);
-
-            do{
-                times--;
-                try {
-                    String url = rpcNode.randomUrl();
-                    res = OkhttpUtil.post(url, data.toString());
-                    String sender = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getString("Account");
-                    int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
-                    EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
-
-                    if(EngineResult.isPastSeq(engineResult)) {
-                        seqList.remove(sender);
-                        break;
-                    }
-
-                    if(!EngineResult.isRetry(engineResult)) {
-                        break;
-                    }
-
-                    if(EngineResult.isSuccess(engineResult)) {
-                        long sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
-                        this.setSequence(sender,++sequence);
-                        break;
-                    }
-
-                    //延时50毫秒
-                    Thread.sleep(50);
-                }catch (Exception e) {
-                    continue;
-                }
-            }while(times > 0);
-
-            return res;
-        } catch (Exception e) {
-            throw e;
+        if(this.rpcNode == null) {
+            throw new Exception("RPC节点为空，请初始化时指定RPC节点");
         }
+        int times = this.tryTimes;
+        String res = null;
+        do{
+            times--;
+            try {
+                String rpcHost = rpcNode.randomUrl();
+                res = this.submitBlob(txBlob,rpcHost);
+                int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
+                EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+
+                if(EngineResult.isPastSeq(engineResult)) {
+                    break;
+                }
+
+                if(!EngineResult.isRetry(engineResult)) {
+                    break;
+                }
+
+                if(EngineResult.isSuccess(engineResult)) {
+                    break;
+                }
+
+                //延时50毫秒
+                Thread.sleep(50);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }while(times > 0);
+
+        return res;
     }
 
     /**
-     * 向节点发送交易请求
+     * 向指定节点发送交易请求(非本地签名)
+     * @param secret 钱包密钥
+     * @param txJson 交易信息
+     * @param rpcHost rpc节点服务器
+     * @return 交易信息
+     * @throws Exception 抛出异常
+     */
+    public String submitWithSecret(String secret, String txJson, String rpcHost) throws Exception {
+        if(!this.isValidSecret(secret)) {
+            throw new Exception("钱包密钥不合法");
+        }
+
+        if(txJson == null || txJson.isEmpty()) {
+            throw  new Exception("交易内容不能为空");
+        }
+
+        if(rpcHost == null  || rpcHost.isEmpty()) {
+            throw new Exception("RPC节点不能为空，请指定RPC节点");
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode data = mapper.createObjectNode();
+        ObjectNode object = mapper.createObjectNode();
+        object.put("secret", secret);
+        JSONObject jsonObject = JSONObject.parseObject(txJson);
+        object.putPOJO("tx_json", jsonObject);
+        ArrayList<ObjectNode> params = new ArrayList<>();
+        params.add(object);
+        ArrayNode array = mapper.valueToTree(params);
+
+        data.put("method", "submit");
+        data.set("params", array);
+
+        String res = OkhttpUtil.post(rpcHost, data.toString());
+        String sender = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getString("Account");
+        int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
+        EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+
+        if(EngineResult.isPastSeq(engineResult)) {
+            this.removeSequence(sender);
+        }
+
+        if(EngineResult.isSuccess(engineResult)) {
+            long sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
+            this.addSequence(sender,new UInt32(++sequence));
+        }
+
+        return res;
+    }
+
+    /**
+     * 向节点发送交易请求(非本地签名)
+     * @param secret 钱包密钥
      * @param txJson 交易信息
      * @return 交易信息
      * @throws Exception 抛出异常
      */
     public String submitWithSecret(String secret, String txJson) throws Exception {
-        try {
-            int times = this.tryTimes;
-            String res = "";
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectNode data = mapper.createObjectNode();
-            ObjectNode object = mapper.createObjectNode();
-            object.put("secret", secret);
-            JSONObject jsonObject = JSONObject.parseObject(txJson);
-            object.putPOJO("tx_json", jsonObject);
-            ArrayList<ObjectNode> params = new ArrayList<>();
-            params.add(object);
-            ArrayNode array = mapper.valueToTree(params);
-
-            data.put("method", "submit");
-            data.set("params", array);
-            do{
-                times--;
-                try {
-                    String url = rpcNode.randomUrl();
-                    res = OkhttpUtil.post(url, data.toString());
-                    String sender = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getString("Account");
-                    int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
-                    EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
-
-                    if(EngineResult.isPastSeq(engineResult)) {
-                        seqList.remove(sender);
-                        break;
-                    }
-
-                    if(!EngineResult.isRetry(engineResult)) {
-                        break;
-                    }
-
-                    if(EngineResult.isSuccess(engineResult)) {
-                        long sequence = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("tx_json").getLongValue("Sequence");
-                        this.setSequence(sender,++sequence);
-                        break;
-                    }
-
-                    //延时50毫秒
-                    Thread.sleep(50);
-                }catch (Exception e) {
-                    continue;
-                }
-            }while(times > 0);
-
-            return res;
-        } catch (Exception e) {
-            throw e;
+        if(this.rpcNode == null) {
+            throw new Exception("RPC节点为空，请初始化时指定RPC节点");
         }
+
+        if(!this.isValidSecret(secret)) {
+            throw new Exception("钱包密钥不合法");
+        }
+
+        if(txJson == null || txJson.isEmpty()) {
+            throw  new Exception("交易内容不能为空");
+        }
+
+        int times = this.tryTimes;
+        String res = null;
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode data = mapper.createObjectNode();
+        ObjectNode object = mapper.createObjectNode();
+        object.put("secret", secret);
+        JSONObject jsonObject = JSONObject.parseObject(txJson);
+        object.putPOJO("tx_json", jsonObject);
+        ArrayList<ObjectNode> params = new ArrayList<>();
+        params.add(object);
+        ArrayNode array = mapper.valueToTree(params);
+
+        data.put("method", "submit");
+        data.set("params", array);
+        do{
+            times--;
+            try {
+                String rpcHost = rpcNode.randomUrl();
+                res = this.submitWithSecret(secret, txJson, rpcHost);
+                int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
+                EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+
+                if(EngineResult.isPastSeq(engineResult)) {
+                    break;
+                }
+
+                if(!EngineResult.isRetry(engineResult)) {
+                    break;
+                }
+
+                if(EngineResult.isSuccess(engineResult)) {
+                    break;
+                }
+
+                //延时50毫秒
+                Thread.sleep(50);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }while(times > 0);
+
+        return res;
+    }
+
+    /**
+     * 获取指定节点状态
+     * @param rpcHost rpc节点服务器
+     * @return 节点列表和状态
+     */
+    public ServerInfo getServerState(String rpcHost)  throws Exception {
+        if(rpcHost == null  || rpcHost.isEmpty()) {
+            throw new Exception("RPC节点不能为空，请指定RPC节点");
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode data = mapper.createObjectNode();
+
+        data.put("method", "ledger");
+        ServerInfo serverInfo = null;
+        String res = OkhttpUtil.post(rpcHost, data.toString());
+        if("success".equals(JSONObject.parseObject(res).getJSONObject("result").getString("status"))) {
+            serverInfo = new ServerInfo();
+            serverInfo.host = rpcHost;
+            serverInfo.lastLedgerHash = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("ledger_hash");
+            serverInfo.height = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("seqNum");
+            String closeTime = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("close_time");
+            serverInfo.lastLedgerTime = this.convertTime(Long.valueOf(closeTime));
+        }
+
+        return serverInfo;
     }
 
     /**
      * 获取节点状态
      * @return 节点列表和状态
-     * @throws Exception
      */
     public ArrayList<ServerInfo> getServerState()  throws Exception {
-        try {
-            String res = "";
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectNode data = mapper.createObjectNode();
-
-            data.put("method", "ledger");
-            ArrayList<String> hostList = rpcNode.getUrls();
-            ArrayList<ServerInfo> serverList = new ArrayList<>();;;
-            for(int i=0; i< hostList.size(); i++)
-            {
-                try {
-                    ServerInfo serverInfo = new ServerInfo();
-                    String url = hostList.get(i);
-                    res = OkhttpUtil.post(url, data.toString());
-                    if("success".equals(JSONObject.parseObject(res).getJSONObject("result").getString("status"))) {
-                        serverInfo.host = url;
-                        serverInfo.lastLedgerHash = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("ledger_hash");
-                        serverInfo.height = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("seqNum");
-                        String closeTime = JSONObject.parseObject(res).getJSONObject("result").getJSONObject("closed").getJSONObject("ledger").getString("close_time");
-                        serverInfo.lastLedgerTime = this.convertTime(Long.valueOf(closeTime));
-                        serverList.add(serverInfo);
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-            return serverList;
-        } catch (Exception e) {
-            throw e;
+        if(this.rpcNode == null) {
+            throw new Exception("RPC节点为空，请初始化时指定RPC节点");
         }
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode data = mapper.createObjectNode();
+
+        data.put("method", "ledger");
+        ArrayList<String> hostList = rpcNode.getUrls();
+        ArrayList<ServerInfo> serverList = new ArrayList<>();
+        for (String s : hostList) {
+            try {
+                ServerInfo serverInfo = this.getServerState(s);
+                if (serverInfo != null) {
+                    serverList.add(serverInfo);
+                }
+            } catch (Exception e) {
+                continue;
+            }
+            Thread.sleep(50);
+        }
+        return serverList;
     }
 
 }

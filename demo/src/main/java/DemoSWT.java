@@ -1,6 +1,7 @@
 import com.jccdex.core.client.Wallet;
 import com.jccdex.core.client.WalletSM;
 import com.jccdex.rpc.JccJingtum;
+import com.jccdex.rpc.core.coretypes.uint.UInt32;
 
 import java.util.ArrayList;
 
@@ -11,13 +12,9 @@ public class DemoSWT {
         Wallet wallet2 = Wallet.fromSecret("snLpjnCcbG3QEEiGdvZAg6yBvMKHp");//jsys77BYKczqePgUA2S5oinctLtpd48qVP
         Wallet wallet3 = Wallet.fromSecret("ssjPGEtUY5pJdjLmESmzUHPXJxXbV");//jKmF8eJUm78mugQ2waBBrbS4SXu43F4JYL
         //初始化JccJingtum Lib
-        try {
-            ArrayList<String> rpcNodes = new ArrayList<String>();
-            rpcNodes.add("https://stestswtcrpc.jccdex.cn");
-            jccJingtum = new JccJingtum(false, rpcNodes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ArrayList<String> rpcNodes = new ArrayList<String>();
+        rpcNodes.add("https://stestswtcrpc.jccdex.cn");
+        jccJingtum = new JccJingtum.Builder(Boolean.FALSE, Boolean.TRUE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
 
         //创建钱包
         try {
@@ -28,12 +25,13 @@ public class DemoSWT {
             e.printStackTrace();
         }
 
-        //转账(不校验)
-        System.out.println("转账(不校验)-------------------------------------------------------");
+        //转账
+        System.out.println("转账-------------------------------------------------------");
         long st = System.currentTimeMillis();
         try {
-                String ret = jccJingtum.paymentNoCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
-                System.out.println(ret);
+            UInt32 seq = jccJingtum.getSequence(wallet1.getAddress());
+            String txBlob = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", seq, "");
+            jccJingtum.submitBlob(txBlob);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -41,25 +39,17 @@ public class DemoSWT {
             System.out.println("耗时："+t);
         }
 
-        //转账(校验)
-        System.out.println("转账(校验)-------------------------------------------------------");
-        st = System.currentTimeMillis();
-        try {
-            String ret = jccJingtum.paymentWithCheck(wallet1.getSecret(),wallet2.getAddress(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","test");
-            System.out.println(ret);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            long t = System.currentTimeMillis()-st;
-            System.out.println("耗时："+t);
-        }
 
         //挂单(不校验)
-        System.out.println("挂单(不校验)-------------------------------------------------------");
+        System.out.println("挂单和撤单-------------------------------------------------------");
         st = System.currentTimeMillis();
         try {
-            String ret = jccJingtum.createOrderNoCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jpdP4YhqXxvGroMs26WM8YBcov9bdFeygc","test");
-            System.out.println(ret);
+            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
+            String txBlob = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
+            jccJingtum.submitBlob(txBlob);
+
+            String txBlob2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
+            jccJingtum.submitBlob(txBlob2);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -67,33 +57,6 @@ public class DemoSWT {
             System.out.println("耗时："+t);
         }
 
-        //挂单(校验)
-        System.out.println("挂单(校验)-------------------------------------------------------");
-        st = System.currentTimeMillis();
-        try {
-            String ret = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","1","jpdP4YhqXxvGroMs26WM8YBcov9bdFeygc","test");
-            System.out.println(ret);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            long t = System.currentTimeMillis()-st;
-            System.out.println("耗时："+t);
-        }
-
-        //撤单
-        System.out.println("撤单-------------------------------------------------------");
-        st = System.currentTimeMillis();
-        try {
-            String ret1 = jccJingtum.createOrderWithCheck(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","CNY","100","jpdP4YhqXxvGroMs26WM8YBcov9bdFeygc","test");
-            long sequence = jccJingtum.getSequence(wallet1.getAddress());
-            String ret2 = jccJingtum.cancleOrder(wallet1.getSecret(), sequence-1);
-            System.out.println(ret2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            long t = System.currentTimeMillis()-st;
-            System.out.println("耗时："+t);
-        }
 
         //获取交易详情
         System.out.println("获取交易详情-------------------------------------------------------");
@@ -104,10 +67,10 @@ public class DemoSWT {
             e.printStackTrace();
         }
 
-        //获取交易详情
+        //获取sequence
         System.out.println("获取sequence-------------------------------------------------------");
         try {
-            long sequence = jccJingtum.getSequence(wallet1.getAddress());
+            UInt32 sequence = jccJingtum.getSequence(wallet1.getAddress());
             System.out.println(sequence);
         } catch (Exception e) {
             e.printStackTrace();

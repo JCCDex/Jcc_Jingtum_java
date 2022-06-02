@@ -2,8 +2,9 @@ package com.jccdex.rpc;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jccdex.core.client.Wallet;
+import com.jccdex.rpc.core.coretypes.uint.UInt32;
 import com.jccdex.rpc.core.serialized.enums.EngineResult;
-import com.jccdex.rpc.core.types.known.tx.signed.SignedTransaction;
+import com.jccdex.rpc.res.ServerInfo;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -18,33 +19,36 @@ public class JccJingtumTest extends TestCase {
     Wallet wallet1;
     Wallet wallet2;
 
+    ArrayList<String> rpcNodes ;
+
     public void setUp() throws Exception {
         super.setUp();
-        ArrayList<String> rpcNodes = new ArrayList<String>();
-        rpcNodes.add("https://stestswtcrpc.jccdex.cn");
 
-        jccJingtum = new JccJingtum(false, rpcNodes);
+        rpcNodes = new ArrayList<String>();
+        rpcNodes.add("****");
 
-        wallet1 = Wallet.fromSecret("snJzg27EHUxJj6fiHU1t7nJea5Y3Q");
-        wallet2 = Wallet.fromSecret("snLpjnCcbG3QEEiGdvZAg6yBvMKHp");
+        jccJingtum = new JccJingtum.Builder(Boolean.FALSE,Boolean.TRUE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
+
+        wallet1 = Wallet.fromSecret("****");
+        wallet2 = Wallet.fromSecret("****");
     }
 
 //    @Test
-//    public void testCreateWallet() {
+//    public void testGetAddress() {
 //        System.out.println("in testCreateWallet");
 //            try {
-//                String _address = jccJingtum.getAddress("shTV69r5xGwLc3B1fFA3HuzbyVPZe");
+//                String _address = jccJingtum.getAddress(wallet1.getSecret());
 //                System.out.println(_address);
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
 //    }
-//
+
 //    @Test
 //    public void testSequence() {
 //        System.out.println("in testSequence");
 //        try {
-//            long sequence = jccJingtum.getSequence(wallet3.getAddress());
+//            UInt32 sequence = jccJingtum.getSequence(wallet1.getAddress());
 //            System.out.println(sequence);
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -57,7 +61,7 @@ public class JccJingtumTest extends TestCase {
 //
 //        System.out.println("in testRequestTX");
 //        try {
-//            String res = jccJingtum.requestTx("819B51F9B6B72BB2D7FBC6FBEDC2F3518B03F228B952AD8000F3588E9F905B46");
+//            String res = jccJingtum.requestTx("FB6C0A537C0D71092DF0066533F2BD1F5BE88279C450A4FAFDAB139AFC504AF4");
 //            System.out.println(res);
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -84,12 +88,12 @@ public class JccJingtumTest extends TestCase {
 //        System.out.println("in testCancleOrder");
 //        long st = System.currentTimeMillis();
 //        try {
-//            long seq1 = jccJingtum.getSequence(wallet1.getAddress());
-//            SignedTransaction signedTx1 = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
-//            jccJingtum.submitBlob(signedTx1.tx_blob);
+//            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
+//            String txBlob = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
+//            jccJingtum.submitBlob(txBlob);
 //
-//            SignedTransaction signedTx2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,seq1+1);
-//            jccJingtum.submitBlob(signedTx2.tx_blob);
+//            String txBlob2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
+//            jccJingtum.submitBlob(txBlob2);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        } finally {
@@ -102,18 +106,15 @@ public class JccJingtumTest extends TestCase {
 //    public void testCancleOrderNotLocalSign() {
 //
 //        System.out.println("in testCancleOrder");
+//        jccJingtum = new JccJingtum.Builder(Boolean.FALSE,Boolean.FALSE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
 //        long st = System.currentTimeMillis();
 //        try {
-//            long seq1 = jccJingtum.getSequence(wallet1.getAddress());
-//            String jsonTx1 = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","100","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W","test");
-//            String res1 =  jccJingtum.submitWithSecret(wallet1.getSecret(), jsonTx1);
-//            System.out.println(res1);
+//            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
+//            String txBlob = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
+//            jccJingtum.submitWithSecret(wallet1.getSecret(),txBlob);
 //
-//            Thread.sleep(10);
-//
-//            String jsonTx2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1);
-//            String res2 = jccJingtum.submitWithSecret(wallet1.getSecret(),jsonTx2);
-//            System.out.println(res2);
+//            String txBlob2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
+//            jccJingtum.submitWithSecret(wallet1.getSecret(),txBlob2);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        } finally {
@@ -123,119 +124,118 @@ public class JccJingtumTest extends TestCase {
 //    }
 
 //    @Test
-//    public void testSignWithCreateOrder() {
-//        System.out.println("in testSignWithCreateOrders");
+//    public void testSignWithPayment() {
+//        System.out.println("in testSignWithPayment");
+//        int successCount = 0;
+//        int preSeqCount = 0;
+//        jccJingtum = new JccJingtum.Builder(Boolean.FALSE,Boolean.TRUE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
+//        Queue<String> blobList = new LinkedList<String>();
 //        long st = System.currentTimeMillis();
 //        try {
-//            long seq = jccJingtum.getSequence(wallet1.getAddress());
-//            for (long i=seq; i<seq+1; i++) {
-//                SignedTransaction tx = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", i, "test");
-//                String ret = jccJingtum.submitBlob(tx.tx_blob);
-//                System.out.println(ret);
+//            String add = wallet1.getAddress();
+//            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
+//            for (long i = seq1.value(); i < seq1.value() + 1; i++) {
+//                String memoData = "{\"businessDataId\":\"514832558630895618\",\"businessDataStatus\":\"7\",\"businessDataTime\":\"1637742503733\",\"businessType\":\"1\",\"extraParams\":[{\"propertyName\":\"sysWaybillNum\",\"propertyValue\":\"SYD20211124000328\"}],\"fingerHash\":\"c64fa5fe7ef6dc17ced6be8800182cbc3a9a93c4c5c935f2ed09bddcac28780d\",\"platformId\":\"1\",\"userSequence\":\"1423463737654239233\"}";
+//                JSONObject jsonObject = JSONObject.parseObject(memoData);
+//                String testId = "test" + String.valueOf(i - seq1.value());
+//                jsonObject.put("testid", testId);
+//                String memo = jsonObject.toString();
+//                String txBlob = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", new UInt32(i), "");
+//                blobList.offer(txBlob);
 //            }
+//            int k = 0;
+//            while (true) {
+//                String blob = blobList.element();
+//                String res = jccJingtum.submitBlob(blob);
+//                System.out.println(res);
+//
+//                res = jccJingtum.submitBlob(blob);
+//                System.out.println(res);
+//
+//                int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
+//                EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+//
+//                if (EngineResult.isSuccess(engineResult)) {
+//                    blobList.poll();
+//                    successCount++;
+//                } else if (EngineResult.isPreSeq(engineResult)) {
+//                    preSeqCount++;
+//                }
+//
+//                Thread.sleep(15);
+//                if (blobList.size() == 0) break;
+//                k++;
+//            }
+//
 //        } catch (Exception e) {
 //            e.printStackTrace();
-//        }finally {
-//            long t = System.currentTimeMillis()-st;
-//            System.out.println("耗时："+t);
+//        } finally {
+//            long t = System.currentTimeMillis() - st;
+//            System.out.println("耗时：" + t);
+//            System.out.println("成功：" + successCount);
+//            System.out.println("超前：" + preSeqCount);
 //        }
 //    }
-
-//    @Test
-//    public void testCreateOrderNotLocalSign() {
-//        System.out.println("in testCreateOrderNotLocalSign");
-//        long st = System.currentTimeMillis();
-//        try {
-//            for (long i=0; i<1; i++) {
-//                String tx = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","TEST","1","jHgKXtmDXGJLupHWoeJyisirpZnrvnAA9W",  "test");
-//                String ret = jccJingtum.submitWithSecret(wallet1.getSecret(),tx);
-//                System.out.println(ret);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }finally {
-//            long t = System.currentTimeMillis()-st;
-//            System.out.println("耗时："+t);
-//        }
-//    }
-
-    @Test
-    public void testSignWithPayment() {
-        System.out.println("in testSignWithPayment");
-        int successCount = 0;
-        int preSeqCount = 0;
-        Queue<String> blobList = new LinkedList<String>();
-        long st = System.currentTimeMillis();
-        try {
-            String add = wallet1.getAddress();
-            long seq1 = jccJingtum.getSequence(wallet1.getAddress());
-            for (long i = seq1; i < seq1 + 1; i++) {
-                String memoData = "{\"businessDataId\":\"514832558630895618\",\"businessDataStatus\":\"7\",\"businessDataTime\":\"1637742503733\",\"businessType\":\"1\",\"extraParams\":[{\"propertyName\":\"sysWaybillNum\",\"propertyValue\":\"SYD20211124000328\"}],\"fingerHash\":\"c64fa5fe7ef6dc17ced6be8800182cbc3a9a93c4c5c935f2ed09bddcac28780d\",\"platformId\":\"1\",\"userSequence\":\"1423463737654239233\"}";
-                JSONObject jsonObject = JSONObject.parseObject(memoData);
-                String testId = "test" + String.valueOf(i - seq1);
-                jsonObject.put("testid", testId);
-                String memo = jsonObject.toString();
-                SignedTransaction tx1 = jccJingtum.signWthPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", i, "");
-                blobList.offer(tx1.tx_blob);
-            }
-            int k = 0;
-            while (true) {
-                String blob = blobList.element();
-                String res = jccJingtum.submitBlob(blob);
-                System.out.println(res);
-                int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
-                EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
-
-                if (EngineResult.isSuccess(engineResult)) {
-                    blobList.poll();
-                    successCount++;
-                } else if (EngineResult.isPreSeq(engineResult)) {
-                    preSeqCount++;
-                }
-
-                Thread.sleep(15);
-                if (blobList.size() == 0) break;
-                k++;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            long t = System.currentTimeMillis() - st;
-            System.out.println("耗时：" + t);
-            System.out.println("成功：" + successCount);
-            System.out.println("超前：" + preSeqCount);
-        }
-    }
 
 //    @Test
 //    public void testPaymentNotLocalSign() {
 //        System.out.println("in testPaymentNotLocalSign");
+//        int successCount = 0;
+//        int preSeqCount = 0;
+//        jccJingtum = new JccJingtum.Builder(Boolean.FALSE,Boolean.FALSE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
+//        Queue<String> blobList = new LinkedList<String>();
 //        long st = System.currentTimeMillis();
 //        try {
-//            for (int i=0; i<1; i++) {
-//                String txJson = jccJingtum.buildPayment(wallet1.getSecret(),wallet4.getAddress(),"SWT","0.0001","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", "test");
-////                System.out.println(txJson);
-////                JSONObject jsonObject = JSON.parseObject(txJson);
-////                System.out.println(jsonObject.toString());
-//                String res = jccJingtum.submitWithSecret(wallet1.getSecret(), txJson);
-//                System.out.println(res);
-//                Thread.sleep(10);
+//            String add = wallet1.getAddress();
+//            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
+//            for (long i = seq1.value(); i < seq1.value() + 1; i++) {
+//                String memoData = "{\"businessDataId\":\"514832558630895618\",\"businessDataStatus\":\"7\",\"businessDataTime\":\"1637742503733\",\"businessType\":\"1\",\"extraParams\":[{\"propertyName\":\"sysWaybillNum\",\"propertyValue\":\"SYD20211124000328\"}],\"fingerHash\":\"c64fa5fe7ef6dc17ced6be8800182cbc3a9a93c4c5c935f2ed09bddcac28780d\",\"platformId\":\"1\",\"userSequence\":\"1423463737654239233\"}";
+//                JSONObject jsonObject = JSONObject.parseObject(memoData);
+//                String testId = "test" + String.valueOf(i - seq1.value());
+//                jsonObject.put("testid", testId);
+//                String memo = jsonObject.toString();
+//                String txBlob = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", new UInt32(i), "");
+//                blobList.offer(txBlob);
 //            }
+//            int k = 0;
+//            while (true) {
+//                String blob = blobList.element();
+//                String res = jccJingtum.submitWithSecret(wallet1.getSecret(),blob);
+//                System.out.println(res);
+//
+//                int engine_result_code = JSONObject.parseObject(res).getJSONObject("result").getIntValue("engine_result_code");
+//                EngineResult engineResult = EngineResult.fromNumber(engine_result_code);
+//
+//                if (EngineResult.isSuccess(engineResult)) {
+//                    blobList.poll();
+//                    successCount++;
+//                } else if (EngineResult.isPreSeq(engineResult)) {
+//                    preSeqCount++;
+//                }
+//
+//                Thread.sleep(15);
+//                if (blobList.size() == 0) break;
+//                k++;
+//            }
+//
 //        } catch (Exception e) {
 //            e.printStackTrace();
-//        }finally {
-//            long t = System.currentTimeMillis()-st;
-//            System.out.println("耗时："+t);
+//        } finally {
+//            long t = System.currentTimeMillis() - st;
+//            System.out.println("耗时：" + t);
+//            System.out.println("成功：" + successCount);
+//            System.out.println("超前：" + preSeqCount);
 //        }
 //    }
-//
+
+
 //    @Test
 //    public void testGetServerState() {
 //        System.out.println("in testGetServerState");
 //        long st = System.currentTimeMillis();
+//        jccJingtum = new JccJingtum.Builder(Boolean.FALSE,Boolean.FALSE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
 //        try {
-//            ArrayList<ServerInfo> serverList = jccJingtum.getServerState();
+//            ArrayList<com.jccdex.rpc.res.ServerInfo> serverList = jccJingtum.getServerState();
 //            System.out.println(serverList);
 //            for(int i=0; i<serverList.size();i++) {
 //                ServerInfo serverInfo = serverList.get(i);
