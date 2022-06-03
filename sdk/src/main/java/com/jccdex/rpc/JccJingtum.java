@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jccdex.core.client.Wallet;
 import com.jccdex.core.client.WalletSM;
+import com.jccdex.rpc.client.bean.TransactionInfo;
 import com.jccdex.rpc.config.Config;
 import com.jccdex.rpc.config.RpcNode;
 import com.jccdex.rpc.core.coretypes.AccountID;
@@ -516,7 +517,7 @@ public class JccJingtum {
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
-    public String buildCancleOrder(String secret, UInt32 pSequence, UInt32 sequence) throws Exception {
+    public TransactionInfo buildCancleOrder(String secret, UInt32 pSequence, UInt32 sequence) throws Exception {
         if(!this.isValidSecret(secret)) {
             throw new Exception("钱包密钥不合法");
         }
@@ -524,13 +525,16 @@ public class JccJingtum {
         String address = this.getAddress(secret);
 
         OfferCancel offerCancel = this.buildCancleOrderTx(address, pSequence);
+        TransactionInfo transactionInfo = new TransactionInfo();
         if(this.isLocalSign) {
             offerCancel.sequence(sequence);
             SignedTransaction tx = offerCancel.sign(secret);
-            return  tx.tx_blob;
+            transactionInfo.setTxBlob(tx.tx_blob);
+            transactionInfo.setTxHash(tx.hash.toHex());
         } else {
-            return offerCancel.prettyJSON();
+            transactionInfo.setTxJson(offerCancel.prettyJSON());
         }
+        return transactionInfo;
     }
 
     /**
@@ -559,7 +563,7 @@ public class JccJingtum {
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
-    public String buildPayment(String secret, String receiver, String pToken, String pAmount, String pIssuer, UInt32 sequence, String memos) throws Exception {
+    public TransactionInfo buildPayment(String secret, String receiver, String pToken, String pAmount, String pIssuer, UInt32 sequence, String memos) throws Exception {
         if(!this.isValidSecret(secret)) {
             throw new Exception("钱包密钥不合法");
         }
@@ -581,15 +585,17 @@ public class JccJingtum {
 
         String sender = this.getAddress(secret);
         Payment payment = this.buildPaymentTx(sender, receiver, pToken, pAmount, pIssuer, memos);
-
+        TransactionInfo transactionInfo = new TransactionInfo();
         if(this.isLocalSign) {
             payment.sequence(sequence);
             payment.flags(new UInt32(0));
             SignedTransaction tx = payment.sign(secret);
-            return  tx.tx_blob;
+            transactionInfo.setTxBlob(tx.tx_blob);
+            transactionInfo.setTxHash(tx.hash.toHex());
         } else {
-            return payment.prettyJSON();
+            transactionInfo.setTxJson(payment.prettyJSON());
         }
+        return transactionInfo;
     }
 
     /**
@@ -647,7 +653,7 @@ public class JccJingtum {
      * @return 交易详情 json格式
      * @throws Exception 抛出异常
      */
-    public String buildCreateOrder(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, UInt32 sequence, String memos) throws Exception {
+    public TransactionInfo buildCreateOrder(String secret, String pPayToke, String pPayAmount, String pPayIssuer, String pGetToken, String pGetAmount, String pGetIssuer, UInt32 sequence, String memos) throws Exception {
         if(!this.isValidSecret(secret)) {
             throw new Exception("钱包密钥不合法");
         }
@@ -681,15 +687,18 @@ public class JccJingtum {
         }
 
         OfferCreate offerCreate = this.buildCreateOrderTX(address, pPayToke, pPayAmount, pPayIssuer, pGetToken, pGetAmount, pGetIssuer, memos);
-
+        TransactionInfo transactionInfo = new TransactionInfo();
         if(this.isLocalSign) {
             offerCreate.sequence(sequence);
             offerCreate.flags(new UInt32(0));
             SignedTransaction tx = offerCreate.sign(secret);
-            return  tx.tx_blob;
+            transactionInfo.setTxBlob(tx.tx_blob);
+            transactionInfo.setTxHash(tx.hash.toHex());
         } else {
-            return offerCreate.prettyJSON();
+            transactionInfo.setTxJson(offerCreate.prettyJSON());
+
         }
+        return transactionInfo;
     }
 
 

@@ -1,6 +1,7 @@
 import com.jccdex.core.client.Wallet;
 import com.jccdex.core.client.WalletSM;
 import com.jccdex.rpc.JccJingtum;
+import com.jccdex.rpc.client.bean.TransactionInfo;
 import com.jccdex.rpc.core.coretypes.uint.UInt32;
 
 import java.util.ArrayList;
@@ -26,12 +27,28 @@ public class DemoSWT {
         }
 
         //转账
-        System.out.println("转账-------------------------------------------------------");
+        System.out.println("转账(本地签名)-------------------------------------------------------");
         long st = System.currentTimeMillis();
         try {
+            jccJingtum = new JccJingtum.Builder(Boolean.FALSE, Boolean.TRUE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
             UInt32 seq = jccJingtum.getSequence(wallet1.getAddress());
-            String txBlob = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", seq, "");
-            jccJingtum.submitBlob(txBlob);
+            TransactionInfo transactionInfo = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", seq, "");
+            jccJingtum.submitBlob(transactionInfo.getTxBlob());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            long t = System.currentTimeMillis()-st;
+            System.out.println("耗时："+t);
+        }
+
+        //转账
+        System.out.println("转账(非本地签名)-------------------------------------------------------");
+        st = System.currentTimeMillis();
+        try {
+            jccJingtum = new JccJingtum.Builder(Boolean.FALSE, Boolean.FALSE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
+            UInt32 seq = jccJingtum.getSequence(wallet1.getAddress());
+            TransactionInfo transactionInfo = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", seq, "");
+            jccJingtum.submitWithSecret(wallet1.getSecret(),transactionInfo.getTxJson());
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -41,15 +58,34 @@ public class DemoSWT {
 
 
         //挂单(不校验)
-        System.out.println("挂单和撤单-------------------------------------------------------");
+        System.out.println("挂单和撤单(本地签名)-------------------------------------------------------");
         st = System.currentTimeMillis();
         try {
+            jccJingtum = new JccJingtum.Builder(Boolean.FALSE, Boolean.TRUE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
             UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
-            String txBlob = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
-            jccJingtum.submitBlob(txBlob);
+            TransactionInfo transactionInfo = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
+            jccJingtum.submitBlob(transactionInfo.getTxBlob());
 
-            String txBlob2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
-            jccJingtum.submitBlob(txBlob2);
+            TransactionInfo transactionInf2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
+            jccJingtum.submitBlob(transactionInf2.getTxBlob());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            long t = System.currentTimeMillis()-st;
+            System.out.println("耗时："+t);
+        }
+
+        //挂单(不校验)
+        System.out.println("挂单和撤单(非本地签名)-------------------------------------------------------");
+        st = System.currentTimeMillis();
+        try {
+            jccJingtum = new JccJingtum.Builder(Boolean.FALSE, Boolean.FALSE,Boolean.TRUE).setRpcNodes(rpcNodes).build();
+            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
+            TransactionInfo transactionInfo = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
+            jccJingtum.submitWithSecret(wallet1.getSecret(),transactionInfo.getTxJson());
+
+            TransactionInfo transactionInf2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
+            jccJingtum.submitWithSecret(wallet1.getSecret(),transactionInf2.getTxJson());
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

@@ -2,6 +2,7 @@ package com.jccdex.rpc;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jccdex.core.client.Wallet;
+import com.jccdex.rpc.client.bean.TransactionInfo;
 import com.jccdex.rpc.core.coretypes.uint.UInt32;
 import com.jccdex.rpc.core.serialized.enums.EngineResult;
 import com.jccdex.rpc.res.ServerInfo;
@@ -89,11 +90,13 @@ public class JccJingtumTest extends TestCase {
 //        long st = System.currentTimeMillis();
 //        try {
 //            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
-//            String txBlob = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
-//            jccJingtum.submitBlob(txBlob);
+//            TransactionInfo transactionInfo = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
+//            jccJingtum.submitBlob(transactionInfo.getTxBlob());
+//            System.out.println(transactionInfo.toString());
 //
-//            String txBlob2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
-//            jccJingtum.submitBlob(txBlob2);
+//            TransactionInfo transactionInfo2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
+//            jccJingtum.submitBlob(transactionInfo2.getTxBlob());
+//            System.out.println(transactionInfo2.toString());
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        } finally {
@@ -110,11 +113,11 @@ public class JccJingtumTest extends TestCase {
 //        long st = System.currentTimeMillis();
 //        try {
 //            UInt32 seq1 = jccJingtum.getSequence(wallet1.getAddress());
-//            String txBlob = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
-//            jccJingtum.submitWithSecret(wallet1.getSecret(),txBlob);
+//            TransactionInfo transactionInfo = jccJingtum.buildCreateOrder(wallet1.getSecret(),"SWT","1","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or","JJCC","100","jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or",seq1,"test");
+//            jccJingtum.submitWithSecret(wallet1.getSecret(),transactionInfo.getTxJson());
 //
-//            String txBlob2 = jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
-//            jccJingtum.submitWithSecret(wallet1.getSecret(),txBlob2);
+//            TransactionInfo transactionInfo2= jccJingtum.buildCancleOrder(wallet1.getSecret(),seq1,new UInt32(seq1.value()+1));
+//            jccJingtum.submitWithSecret(wallet1.getSecret(),transactionInfo2.getTxJson());
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        } finally {
@@ -140,8 +143,8 @@ public class JccJingtumTest extends TestCase {
 //                String testId = "test" + String.valueOf(i - seq1.value());
 //                jsonObject.put("testid", testId);
 //                String memo = jsonObject.toString();
-//                String txBlob = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", new UInt32(i), "");
-//                blobList.offer(txBlob);
+//                TransactionInfo transactionInfo = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", new UInt32(i), "");
+//                blobList.offer(transactionInfo.getTxBlob());
 //            }
 //            int k = 0;
 //            while (true) {
@@ -194,8 +197,8 @@ public class JccJingtumTest extends TestCase {
 //                String testId = "test" + String.valueOf(i - seq1.value());
 //                jsonObject.put("testid", testId);
 //                String memo = jsonObject.toString();
-//                String txBlob = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", new UInt32(i), "");
-//                blobList.offer(txBlob);
+//                TransactionInfo transactionInfo = jccJingtum.buildPayment(wallet1.getSecret(), wallet2.getAddress(), "SWT", "1", "jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or", new UInt32(i), "");
+//                blobList.offer(transactionInfo.getTxJson());
 //            }
 //            int k = 0;
 //            while (true) {

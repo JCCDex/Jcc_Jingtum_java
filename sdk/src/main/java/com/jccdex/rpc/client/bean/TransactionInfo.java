@@ -12,10 +12,12 @@ public class TransactionInfo {
 	private String engineResultCode;
 	// 请求结果message信息 
 	private String engineResultMessage;
-	// 16进制签名后的交易 
+	// 交易内容(签名后的bolb，本地签名内容)
 	private String txBlob;
-	// 交易内容
-	private TxJson txJson;
+	// 交易内容(交易数据，非本地签名内容)
+	private String txJson;
+	// 交易Hash
+	private String txHash;
 	
 	public String getEngineResult() {
 		return engineResult;
@@ -41,10 +43,30 @@ public class TransactionInfo {
 	public void setTxBlob(String txBlob) {
 		this.txBlob = txBlob;
 	}
-	public TxJson getTxJson() {
+	public String getTxJson() {
 		return txJson;
 	}
-	public void setTxJson(TxJson txJson) {
+	public void setTxJson(String txJson) {
 		this.txJson = txJson;
 	}
+	public String getTxHash() {
+		return txHash;
+	}
+	public void setTxHash(String txHash) {
+		this.txHash = txHash;
+	}
+
+
+	@Override
+	public String toString() {
+		return "TransactionInfo{" +
+				"engineResult='" + engineResult + '\'' +
+				", engineResultCode='" + engineResultCode + '\'' +
+				", engineResultMessage='" + engineResultMessage + '\'' +
+				", txBlob='" + txBlob + '\'' +
+				", txJson='" + txJson + '\'' +
+				", txHash='" + txHash + '\'' +
+				'}';
+	}
 }
+
