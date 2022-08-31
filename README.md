@@ -6,12 +6,12 @@ Jcc_Jingtum_java是java版本的井通联盟链开发包,支持公链和联盟�
 <dependency>
     <groupId>io.github.jccdex</groupId>
     <artifactId>JccWallet</artifactId>
-    <version>1.1.2</version>
+    <version>1.2.1</version>
 </dependency>
 <dependency>
     <groupId>io.github.jccdex</groupId>
     <artifactId>JccJingtum</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ````
 ## 开发手册
